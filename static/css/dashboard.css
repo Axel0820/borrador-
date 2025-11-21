@@ -1,0 +1,131 @@
+:root {
+    --primary-color: blueviolet; /* blueviolet oscuro */
+    --accent-color: gold; /* gold */
+    --bg-light: #eee; /* Fondo base muy claro */
+    --bg-white: #fff;
+    --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.05); /* Sombra suave para el look limpio */
+    --shadow-base: 0 4px 15px rgba(0, 0, 0, 0.05); 
+    --shadow-hover: 0 12px 25px rgba(138, 43, 226, 0.15);
+}
+.container{
+    max-width: 1500px;
+    margin: 0 auto;
+    padding-top: 30px; 
+    padding-bottom: 30px; 
+}
+/* --- Saludo --- */
+.saludo-header{
+    background-color: var(--bg-white);
+    border-left: 6px solid var(--primary-color); 
+    box-shadow: var(--shadow-base);
+    border-radius: 12px var(--bg-light);
+}
+.saludo-header .h4{
+    color: var(--primary-color);
+    font-weight: 2rem;
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+}
+.saludo-header .text-muted{
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--primary-dark) ;
+}
+/* --- Cards --- */
+.card{
+    border: none;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border-radius: 12px;
+    background-color: var(--bg-white);
+    box-shadow: var(--shadow-base);
+}
+.card:hover{
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+.card-title{    /* --- Títulos de los Graficos --- */
+    font-weight: 600;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--accent-color);  /*Detalle inferior en dorado, aun no se si dejarlo*/
+    display: inline-block;
+    padding-bottom: 5px;
+    margin-bottom: 8px;
+    font-size: 1.5rem;
+}
+.icon{ /* --- Icono de Graficos --- */
+    margin-right: 10px;
+    font-size: 1.5rem;
+    color: var(--accent-color);
+}
+/* --- Card Informativas --- */
+.card-metric{  /*Las que contienen Ingreso, TUrnos, Clientes, Stock*/
+    border-left: 6px solid var(--primary-color); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Sombra más sutil en KPIs */
+    height: 100%;
+}
+.card-metric:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(138, 43, 226, 0.1);
+}
+.metric-label{    /* --- Títulos de las Card Informativas --- */
+    font-size: 0.85rem;
+    color: #6c757d;
+    letter-spacing: 0.5px;
+}
+.metric-value{    /* --- Valor de Card Informativas --- */
+    font-size: 2rem;
+    font-weight: 800;
+    color: #212529;
+    margin-bottom: 0.25rem;
+}
+.metric-icon{    /* --- Iconos de las Card Informaticas --- */
+    float: right;
+    font-size: 1.5rem;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: rgba(138, 43, 226, 0.1);
+}
+/* --- Alert de las Card Informativas --- */
+.card-metric .text-info{ /* Ingreso */
+    background-color: rgba(0, 123, 255, 0.1);
+    color: #007bff;
+}
+.card-metric .text-warning{ /* Turnos */
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+}
+.card-metric .text-success{ /* Clientes */
+    background-color: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+}
+.card-metric .text-danger{ /* Stock */
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+/* --- Contenido Interno de Gráficos --- */
+.p-2.border.rounded.text-center{
+    background-color: var(--bg-light);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+/* --- Productos más vendidos --- */
+.top-selling-products{
+    white-space: nowrap; 
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+.top-selling-products::-webkit-scrollbar{
+    height: 6px;
+}
+.top-selling-products::-webkit-scrollbar-thumb{
+    background: #ced4da;
+    border-radius: 10px;
+}
+.top-selling-products .text-center{
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+.top-selling-products .text-center:hover{
+    background-color: var(--bg-light);
+}

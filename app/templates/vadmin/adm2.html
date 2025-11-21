@@ -1,0 +1,244 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Link Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!--Link Bootstrap Icons-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!--DataTables CSS-->
+    <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <!--Link CSS personalizados-->
+    <link rel="stylesheet" href="{% static 'css/vistaadmin/adm2.css' %}">
+    
+    <title>Alma Canina - Administracion</title>
+</head>
+<body> 
+    <!--Nav y sidebar-->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <img src="{% static 'img/logo_de_alma_canina[1].png' %}" class="logo">
+            <a class="navbar-brand me-auto titulo-emp" href="#">Alma Canina</a>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <img src="{% static 'img/logo_de_alma_canina[1].png' %}" class="logo">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Alma Canina</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link mx-lg-2 active" aria-current="page" href="#">
+                                <i class="bi bi-shop-window me-2 sidebar-icon"></i>
+                                Inicio
+                            </a>
+                        </li>
+                        <!-- CAJA - Solo Gerente, Cajero, Vendedor y Superadmin (NO Peluquero) -->
+                        {% if request.user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" id="btnCaja" href="{% url 'caja:principal' %}">
+                                    <i class="bi bi-cash-coin me-2 sidebar-icon"></i>
+                                    Caja
+                                </a>
+                            </li>
+                        {% else %}
+                            {% for group in request.user.groups.all %}
+                                {% if group.name == "Gerente" or group.name == "Cajero" or group.name == "Vendedor" %}
+                                    <li class="nav-item">
+                                        <a class="nav-link mx-lg-2" id="btnCaja" href="{% url 'caja:principal' %}">
+                                            <i class="bi bi-cash-coin me-2 sidebar-icon"></i>
+                                            Caja
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link mx-lg-2" id="btnVentas" href="{% url 'ventas:nueva_venta' %}">
+                                            <i class="bi bi-receipt me-2 sidebar-icon"></i>
+                                            Ventas
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <!-- TURNOS - Solo Peluquero, Gerente y Superadmin -->
+                        {% if request.user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" id="btnTurnos" href="{% url 'turnosadm' %}">
+                                    <i class="bi bi-calendar-check me-2 sidebar-icon"></i>
+                                    Turnos
+                                </a>
+                            </li>
+                        {% else %}
+                            {% for group in request.user.groups.all %}
+                                {% if group.name == "Peluquero" or group.name == "Gerente" %}
+                                    <li class="nav-item">
+                                        <a class="nav-link mx-lg-2" id="btnTurnos" href="{% url 'turnosadm' %}">
+                                            <i class="bi bi-calendar-check me-2 sidebar-icon"></i>
+                                            Turnos
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <!-- MÓDULOS ADMINISTRATIVOS - Solo Gerente y Superadmin -->
+                        {% if request.user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" id="btnEmpleados" href="{% url 'empleados:listar' %}">
+                                    <i class="bi bi-people me-2 sidebar-icon"></i>
+                                    Empleados
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" id="btnInventario" href="{% url 'listarProductos' %}">
+                                    <i class="bi bi-boxes me-2 sidebar-icon"></i>
+                                    Inventario
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" id="btnProveedores" href="{% url 'proveedores:listar' %}">
+                                    <i class="bi bi-truck me-2 sidebar-icon"></i>
+                                    Proveedores
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" id="btnClientes" href="{% url 'clientes:listar' %}">
+                                    <i class="bi bi-person-badge me-2 sidebar-icon"></i>
+                                    Clientes
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" id="btnVentas" href="{% url 'ventas:nueva_venta' %}">
+                                    <i class="bi bi-receipt me-2 sidebar-icon"></i>
+                                    Ventas
+                                </a>
+                            </li>
+                        {% else %}
+                            {% for group in request.user.groups.all %}
+                                {% if group.name == "Gerente" %}
+                                    <li class="nav-item">
+                                        <a class="nav-link mx-lg-2" id="btnEmpleados" href="{% url 'empleados:listar' %}">
+                                            <i class="bi bi-people me-2 sidebar-icon"></i>
+                                            Empleados
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link mx-lg-2" id="btnInventario" href="{% url 'listarProductos' %}">
+                                            <i class="bi bi-boxes me-2 sidebar-icon"></i>
+                                            Inventario
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link mx-lg-2" id="btnProveedores" href="{% url 'proveedores:listar' %}">
+                                            <i class="bi bi-truck me-2 sidebar-icon"></i>
+                                            Proveedores
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link mx-lg-2" id="btnClientes" href="{% url 'clientes:listar' %}">
+                                            <i class="bi bi-person-badge me-2 sidebar-icon"></i>
+                                            Clientes
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <!-- PERFIL - Solo si tiene empleados -->
+                        {% if request.user.empleados %}
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" id="btnPerfil" href="{% url 'perfil_empleado' %}">
+                                    <i class="bi bi-person-circle me-2 sidebar-icon"></i>
+                                    Perfil
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            {% if request.user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="login-button">
+                        <i class="bi bi-box-arrow-right logout-icon"></i>
+                        <span class="logout-text">Cerrar Sesión</span>
+                    </button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="login-button">Iniciar Sesión</a>
+            {% endif %}
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+    <!--Nav y sidebar-->
+
+    <!-- Contenido principal -->
+    <div id="contenidoDinamico" style="margin-top: 80px;">
+        
+    </div>
+    <!-- Contenido principal -->
+
+    <!-- jQuery (debe cargarse PRIMERO) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Bootstrap (después de jQuery) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <!-- DataTables (después de jQuery) -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    
+    <!-- DataTables Bootstrap5 Plugin (después de DataTables) -->
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!--Chartjs-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <!--JS Dashboard-->
+    <!-- <script src="{% static 'js/carrusel-dashboard.js' %}"></script>
+    <script src="{% static 'js/dashboard.js' %}"></script> -->
+
+    <!-- JS de caja para funcionalidades AJAX internas -->
+    <script src="{% static 'js/caja.js' %}"></script>
+    <script src="{% static 'js/pos.js' %}"></script>
+
+    <!-- JS de productos para funcionalidades AJAX internas -->
+    <script src="{% static 'js/productos.js' %}"></script>
+
+    <!-- JS de proveedores para funcionalidades AJAX internas -->
+    <script src="{% static 'js/proveedores.js' %}"></script>
+
+    <!-- JS de clientes para funcionalidades AJAX internas -->
+    <script src="{% static 'js/clientes.js' %}"></script>
+
+    <!-- JS de empleados para funcionalidades AJAX internas -->
+    <script src="{% static 'empleados/js/empleados.js' %}"></script>
+    
+    <!-- JS de perfil personal -->
+    <script src="{% static 'js/profile/validaciones_input.js' %}"></script>
+
+    <!-- JS de adm2 para navegación AJAX -->
+    <!-- <script src="{% static 'js/adm2.js' %}"></script> -->
+    
+    <!-- JS de adm2 -->
+    <script src="{% static 'js/adm2.js' %}"></script>
+
+</body>
+</html>
+    <!-- <script src="{% static 'js/proveedores.js' %}"></script>
+
+    <script src="{% static 'js/clientes.js' %}"></script>
+
+
+    <script src="{% static 'empleados/js/empleados.js' %}"></script>
+
+
+    <script src="{% static 'js/adm2.js' %}"></script>
+</body>
+</html> -->

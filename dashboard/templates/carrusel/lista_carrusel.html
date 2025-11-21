@@ -1,0 +1,89 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/dashboard/carrusel.css' %}">
+
+<!-- <div class="contenedor-carrusel">  -->
+    <div class="encabezado">
+        <h3 class="h5"><i class="bi bi-images me-2"></i> Administración de Carrusel de Imágenes</h3>
+        <a href="{% url 'dashboard:agregar_carrusel' %}" class="btn btn-primary btn-sm shadow-sm carousel-modal-link">
+            <i class="bi bi-plus-circle me-1"></i> Agregar
+        </a>
+        <button type="button" class="btn-close x" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    {% if imagenes %}
+    <div class="cuerpo">
+        <div class="table-content-scroll">
+            <table class="table align-middle">
+                <thead> 
+                    <tr>
+                        <th scope="col" class="id">ID</th>
+                        <th scope="col" class="img">Imagen</th>
+                        <th scope="col" class="titulo">Título</th>
+                        <th scope="col" class="estado">Estado</th> 
+                        <th scope="col" class="accion">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for imagen in imagenes %}
+                    <tr>
+                        <td class="small text-muted">{{ imagen.id }}</td>
+                        <td>
+                            {% if imagen.imagen %}
+                            <img src="/media/{{ imagen.imagen }}" alt="{{ imagen.titulo }}" 
+                                class="img-fluid rounded shadow-sm border" style="width: 100px; height: 60px; object-fit: cover;">
+                            {% else %}
+                            <span class="text-muted small">N/A</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-truncate fw-medium" style="max-width: 180px;" title="{{ imagen.titulo }}">
+                            {{ imagen.titulo|truncatechars:50 }}
+                        </td>
+                        <td>
+                            {% if imagen.activo %}
+                            <span class="badge bg-success">
+                                <i class="bi bi-check-circle-fill "></i> Activo
+                            </span>
+                            {% else %}
+                            <span class="badge bg-danger">
+                                <i class="bi bi-x-circle-fill "></i> Inactivo
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'dashboard:editar_carrusel' pk=imagen.pk %}" class="btn btn-sm btn-outline-info me-1 carousel-modal-link" title="Editar">
+                                <i class="bi bi-pencil"></i> Editar
+                            </a>
+                            <a href="{% url 'dashboard:eliminar_carrusel' pk=imagen.pk %}" class="btn btn-sm btn-outline-danger carousel-modal-link" title="Eliminar">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-lateral">
+            <div class="card p-3 shadow-sm">
+                <h4 class="fw-bold text-tip mb-2">
+                    <i class="bi bi-lightbulb me-1"></i> Tip rápido
+                </h4>
+                <p class="small text-muted mb-3">
+                    <div class="card p-3 shadow-sm tip">
+                        Puedes agregar nuevas imágenes para destacar promociones o novedades.
+                    </div>
+                    <div class="card p-3 shadow-sm tip">
+                        Puedes mantener activas solo las que desees mostrar en el carrusel público.
+                    </div>
+                </p>
+                <a href="{% url 'dashboard:agregar_carrusel' %}" class="btn btn-sm btn-primary carousel-modal-link">
+                    <i class="bi bi-plus-circle me-1"></i> Nueva Imagen
+                </a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center shadow-sm border-0 bg-info-subtle text-info" role="alert">
+        <h4 class="alert-heading"><i class="bi bi-info-circle me-2"></i> ¡No hay contenido aún!</h4>
+        No se han encontrado imágenes en el carrusel. Usa el botón <strong>"Agregar Nueva Imagen"</strong> para empezar.
+    </div>
+    {% endif %}
+<!--</div>-->

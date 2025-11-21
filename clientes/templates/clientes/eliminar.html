@@ -1,0 +1,48 @@
+{% load static %}
+
+   
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-header bg-danger text-white text-center">
+                        <h4 class="mb-0">
+                            <i class="bi bi-exclamation-triangle-fill"></i> Confirmar Eliminación
+                        </h4>
+                    </div>
+                    <div class="card-body text-center">
+                        <i class="bi bi-person-x-fill display-1 text-danger mb-3"></i>
+                        <h5>¿Estás seguro que deseas desactivar a este cliente?</h5>
+                        <p class="text-muted mb-4">
+                            <strong>{{ cliente.nombre_cliente }} {{ cliente.apellido_cliente }}</strong><br>
+                            DNI: {{ cliente.dni_cliente }}
+                        </p>
+                        
+                        <div class="alert alert-warning" role="alert">
+                            <i class="bi bi-info-circle-fill"></i> 
+                            El cliente será desactivado pero no se eliminará permanentemente.
+                        </div>
+
+                        <form method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger me-2">
+                                <i class="bi bi-check-circle"></i> Sí, desactivar
+                            </button>
+                            <a href="{% url 'clientes:listar' %}" class="btn btn-secondary">
+                                <i class="bi bi-x-circle"></i> Cancelar
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

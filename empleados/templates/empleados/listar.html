@@ -1,0 +1,266 @@
+{% load static %}
+
+<!-- CSS específico del módulo (las bibliotecas ya están en adm2.html) -->
+<link rel="stylesheet" href="{% static 'empleados/css/listar.css' %}">
+
+<div class="container mt-4">
+    <!-- CSRF Token -->
+    {% csrf_token %}
+    
+    <h2 class="mb-4">Gestión de Empleados</h2>
+
+    <!-- Modal para AGREGAR empleado -->
+    <div class="modal fade" id="modalAgregarEmpleado" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Agregar Empleado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modal-body-content">
+                    <!-- Aquí se cargará form.html -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para EDITAR empleado -->
+    <div class="modal fade" id="modalEditarEmpleado" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Empleado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modal-body-editar-content">
+                    <!-- Aquí se cargará editar.html -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="row mb-4 g-3">
+        <div class="col-md-4">
+            <div class="card shadow-lg border-0 text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-people-fill display-5 text-primary"></i>
+                    <h3 class="fw-bold mt-2">{{ total }}</h3>
+                    <p class="text-muted mb-0">Total <strong>Empleados</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-lg border-0 text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-check-circle-fill display-5 text-success"></i>
+                    <h3 class="fw-bold mt-2">{{ activos }}</h3>
+                    <p class="text-muted mb-0">Empleados <strong>Activos</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-lg border-0 text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-x-circle-fill display-5 text-danger"></i>
+                    <h3 class="fw-bold mt-2">{{ inactivos }}</h3>
+                    <p class="text-muted mb-0">Empleados <strong>Inactivos</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="d-flex justify-content-between mb-3">
+        <div class="btn-group">
+            <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-file-earmark-pdf me-1"></i> Exportar a PDF
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" href="{% url 'empleados:exportar_pdf' %}?estado=1">
+                        <i class="bi bi-check-circle text-success"></i> Empleados Activos
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{% url 'empleados:exportar_pdf' %}?estado=0">
+                        <i class="bi bi-x-circle text-danger"></i> Empleados Inactivos
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <a class="dropdown-item" href="{% url 'empleados:exportar_pdf' %}?estado=todos">
+                        <i class="bi bi-list-ul text-primary"></i> Todos los Empleados
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarEmpleado">
+            <i class="bi bi-plus-circle me-1"></i> Agregar Empleado
+        </a>
+    </div>
+
+    <!-- Tabla con buscador y filtros -->
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <!-- Buscador y filtros -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="input-group buscador-morado" style="width: 300px;">
+                        <span class="input-group-text">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" id="buscarInput" class="form-control" placeholder="Buscar empleado...">
+                    </div>
+
+                    <!-- Botón filtro -->
+                    <button class="btn btn-purple-custom rounded-pill shadow-sm" 
+                            type="button" id="filtroDropdown" data-bs-toggle="dropdown" 
+                            aria-expanded="false">
+                        <i class="bi bi-funnel-fill"></i> Filtros
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end p-4 shadow-lg rounded-3" style="min-width: 300px;">
+                        <form method="get" action="{% url 'empleados:listar' %}" id="filtroForm">
+                            <input type="hidden" name="buscar" value="{{ request.GET.buscar }}">
+
+                            <!-- Estado -->
+                            <div class="mb-3">
+                                <label for="estado" class="form-label fw-bold">
+                                    <i class="bi bi-toggle-on text-success"></i> Estado
+                                </label>
+                                <select name="estado" id="estado" class="form-select rounded-pill">
+                                    <option value="">Todos</option>
+                                    <option value="1" {% if request.GET.estado == "1" %}selected{% endif %}>Activos</option>
+                                    <option value="0" {% if request.GET.estado == "0" %}selected{% endif %}>Inactivos</option>
+                                </select>
+                            </div>
+
+                            <!-- Cargo -->
+                            <div class="mb-3">
+                                <label for="cargo" class="form-label fw-bold">
+                                    <i class="bi bi-briefcase-fill text-primary"></i> Cargo
+                                </label>
+                                <select name="cargo" id="cargo" class="form-select rounded-pill">
+                                    <option value="">Todos los cargos</option>
+                                    <option value="gerente" {% if request.GET.cargo == "gerente" %}selected{% endif %}>Gerente</option>
+                                    <option value="vendedor" {% if request.GET.cargo == "vendedor" %}selected{% endif %}>Vendedor</option>
+                                    <option value="cajero" {% if request.GET.cargo == "cajero" %}selected{% endif %}>Cajero</option>
+                                    <option value="peluquero" {% if request.GET.cargo == "peluquero" %}selected{% endif %}>Peluquero</option>
+                                </select>
+                            </div>
+
+                            <!-- Botones -->
+                            <div class="d-flex justify-content-between">
+                                <button type="button" id="btnLimpiarFiltro" class="btn btn-outline-secondary btn-sm rounded-pill">Limpiar</button>
+                                <button type="submit" class="btn btn-primary btn-sm rounded-pill">
+                                    <i class="bi bi-check2-circle"></i> Aplicar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <table id="tablaEmpleados" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>DNI</th>
+                            <th>Cargo</th>
+                            <th>Teléfono</th>
+                            <th>Email</th>
+                            <th>Dirección</th>
+                            <th>Sueldo</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for empleado in empleados %}
+                        <tr>
+                            <td>{{ empleado.nombre_emp }}</td>
+                            <td>{{ empleado.apellido_emp }}</td>
+                            <td>{{ empleado.dni_emp }}</td>
+                            <td>{{ empleado.cargo }}</td>
+                            <td>{{ empleado.telefono|default:"N/A" }}</td>
+                            <td>
+                                {% if empleado.email %}
+                                    <span class="text-truncate d-inline-block" style="max-width: 150px;" 
+                                          data-bs-toggle="tooltip" data-bs-placement="top" title="{{ empleado.email }}">
+                                        {{ empleado.email }}
+                                    </span>
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if empleado.direccion %}
+                                    <span class="text-truncate d-inline-block" style="max-width: 150px;" 
+                                          data-bs-toggle="tooltip" data-bs-placement="top" title="{{ empleado.direccion }}">
+                                        {{ empleado.direccion }}
+                                    </span>
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if empleado.sueldo %}
+                                    ${{ empleado.sueldo|floatformat:2 }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if empleado.activo %}
+                                    <span class="badge bg-success">Activo</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Inactivo</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="d-flex flex-nowrap gap-1">
+                                    <a href="{% url 'empleados:detalle' empleado.id_emp %}" 
+                                       class="btn btn-sm btn-info nav-ajax" 
+                                       title="Ver detalle">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </a>
+                                    <a href="#" 
+                                       class="btn btn-sm btn-success" 
+                                       data-bs-toggle="modal" 
+                                       data-bs-target="#modalEditarEmpleado"
+                                       data-url="{% url 'empleados:editar' empleado.id_emp %}"
+                                       title="Editar">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    {% if empleado.activo %}
+                                        <a href="{% url 'empleados:eliminar' empleado.id_emp %}" 
+                                           class="btn btn-sm btn-warning btn-eliminar"
+                                           data-nombre="{{ empleado.nombre_emp }} {{ empleado.apellido_emp }}"
+                                           data-estado="activo"
+                                           title="Desactivar">
+                                            <i class="bi bi-x-circle-fill"></i>
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'empleados:eliminar' empleado.id_emp %}" 
+                                           class="btn btn-sm btn-danger btn-eliminar"
+                                           data-nombre="{{ empleado.nombre_emp }} {{ empleado.apellido_emp }}"
+                                           data-estado="inactivo"
+                                           title="Eliminar permanentemente">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="11" class="text-center">No hay empleados registrados</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

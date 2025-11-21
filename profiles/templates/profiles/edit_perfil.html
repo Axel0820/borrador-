@@ -1,0 +1,83 @@
+{% load static %}
+{% load widget_tweaks %}
+    <!--Link CSS-->
+    <link rel="stylesheet" href="{% static 'css/profiles/perfil.css' %}">
+
+<form method="post" id="profile-edit-form" action="{% if object.cargo %}{% url 'perfil_empleado' %}{% else %}{% url 'perfil_cliente' %}{% endif %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="modal-body">
+        <div class="content-grid">
+            <div class="info-personal-block">
+                <h6 class="titulo-seccion"><i class="bi bi-person-fill"></i> Información Personal</h6>
+                <div class="form-group">
+                    <label for="{{ form.nombre.id_for_label }}" class="form-label">Nombre</label>
+                    {{ form.nombre }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.apellido.id_for_label }}" class="form-label">Apellido</label>
+                    {{ form.apellido }}
+                </div>
+                <div class="form-group">
+                    {% if not object.cargo %}
+                        <label for="{{ form.dni_cliente.id_for_label }}" class="form-label">DNI</label>
+                        {{ form.dni_cliente }}
+                    {% endif %}
+                </div>
+                <!-- {% if object.cargo %} NO DEJA VER LAS OPCIONES
+                <div class="form-group">
+                    <label for="{{ form.sexo_emp.id_for_label }}" class="form-label">Sexo</label>
+                    {{ form.sexo_emp }}
+                </div>
+                {% endif %} -->
+            </div>
+            <div class="contacto-direccion-block">
+                <h6 class="titulo-seccion"><i class="bi bi-geo-alt-fill"></i> Dirección (Opcional)</h6>
+                <div class="form-group">
+                    <label for="{{ form.direccion.id_for_label }}" class="form-label">Dirección</label>
+                    {{ form.direccion }}
+                </div>
+                <h6 class="titulo-seccion"><i class="bi bi-envelope-fill"></i> Información de Contacto</h6>
+                <div class="form-group">
+                    <label for="{{ form.telefono.id_for_label }}" class="form-label">Teléfono</label>
+                    {{ form.telefono }}
+                </div>
+                <input type="hidden" name="{{ form.username.name }}" value="{{ form.username.value|default:object.user.username }}">
+                {% if object.cargo %}
+                    <input type="hidden" name="{{ form.email.name }}" value="{{ form.email.value|default:form.email.initial|default:object.user.email }}">
+                {% else %}
+                    <input type="hidden" name="{{ form.correo.name }}" value="{{ form.correo.value|default:form.correo.initial|default:object.user.email }}">
+                {% endif %}
+            </div>
+            <div class="photo-section">
+                <h6 class="titulo-seccion"><i class="bi bi-camera-fill"></i>Foto de tu Mascota</h6>
+                <div class="photo-preview">
+                    <img id="profile-img-preview" src="{% if object.foto and object.foto.name %}{{ object.foto.url }}{% else %}https://placehold.co/120x120/6a0dad/ffffff?text=U{% endif %}" alt="Foto de Perfil Actual">
+                    {% if object.foto and object.foto.name %}
+                        <a href="{{ object.foto.url }}" target="_blank"></a>
+                    {% endif %}
+                </div>
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <div class="file-upload-wrapper">
+                        <label for="{{ form.foto.id_for_label }}" class="file-upload-button">Cambiar Imagen</label>
+                        {{ form.foto }} 
+                    </div>
+                </div>
+                {% if object.foto and object.foto.name %}
+                    <small class="photo-info" id="current-photo-info">
+                        <span class="foto-actual text-start">Foto actual:</span> 
+                        <a href="{{ object.foto.url }}" target="_blank" class="foto-ver">
+                            <button type="button" class="edit-button-form edit">Ver Imagen</button>
+                        </a>
+                        <span class="foto-men text-start">Sube una nueva imagen para reemplazarla.</span>
+                    </small>
+                    {% else %}
+                    <small>Sube una foto para tu perfil.</small>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="edit-button-form edit" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="edit-button-form">Guardar Cambios</button>
+    </div>
+</form>

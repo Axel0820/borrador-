@@ -1,0 +1,113 @@
+{% load static %}
+{% load humanize %}
+
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Catálogo de Productos</h1>
+
+    <!-- Filtros -->
+    <div class="row mb-4">
+        <!-- buscador-->
+        <div class="col-md-4">
+            <div class="input-group buscador-morado" style="width: 250px;">
+                <span class="input-group-text">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input type="text" id="buscarInput" class="form-control" placeholder="Buscar producto...">
+            </div>
+        </div>
+        <!-- categoria-->
+        <div class="col-md-4">
+            <select class="form-select" id="filtroCategoria">
+                <option value="">Todas las categorías</option>
+                {% for cat in categorias %}
+                <option value="{{ cat }}">{{ cat }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <select class="form-select" id="ordenarProductos">
+                <option value="categoria">Ordenar por categoría</option>
+                <option value="nombre">Ordenar por nombre</option>
+                <option value="precio_asc">Precio: menor a mayor</option>
+                <option value="precio_desc">Precio: mayor a menor</option>
+            </select>
+        </div>
+    </div>
+
+
+
+    <!-- Productos agrupados por categoría -->
+    {% for categoria, productos_categoria in productos_por_categoria.items %}
+    <div class="categoria-section mb-5">
+        <h2 class="text-start mb-4" style="color: blueviolet; font-weight: bold;">
+            Mundo {{ categoria }}
+        </h2>
+        <div class="row categoria-container" id="productosContainer-{{ categoria|lower }}">
+            {% for producto in productos_categoria %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 producto-card"
+                 data-categoria="{{ producto.categoria_prod }}"
+                 data-nombre="{{ producto.nombre_prod|lower }}"
+                 data-precio="{{ producto.precio_prod }}">
+                <div class="card h-100">
+                    {% if producto.imagen_prod %}
+                    <img src="{{ producto.imagen_prod.url }}" class="card-img-top" alt="{{ producto.nombre_prod }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                    <img src="{% static 'img/no-image.png' %}" class="card-img-top" alt="Sin imagen" style="height: 200px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ producto.nombre_prod }}</h5>
+                        <p class="card-text flex-grow-1">
+                            <strong>Categoría:</strong> {{ producto.categoria_prod }}<br>
+                            <strong>Unidad:</strong> {{ producto.get_unidad_completa }}<br>
+                            {% if producto.proveedor_prod %}
+                            <strong>Proveedor:</strong> {{ producto.proveedor_prod }}<br>
+                            {% endif %}
+                            <strong>Stock disponible:</strong> {{ producto.stock_prod }}
+                        </p>
+                        <div class="mt-auto">
+                            <h4 class="text-success">${{ producto.precio_prod|floatformat:3|intcomma }}</h4>
+                            <!--button class="btn btn-primary w-100" onclick="mostrarDetalle({{ producto.id_prod  }})">
+                                Ver Detalles
+                            </button-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <h4>No hay productos disponibles en esta categoría</h4>
+                    <p>Actualmente no tenemos productos para {{ categoria }}. ¡Vuelve pronto!</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <h4>No hay productos disponibles</h4>
+            <p>Actualmente no tenemos productos en catálogo. ¡Vuelve pronto!</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Modal para detalles del producto -->
+<div class="modal fade" id="productoModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productoModalTitle">Detalles del Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="productoModalBody">
+                <!-- Los detalles se cargarán aquí -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/catalogoprod.js' %}"></script>

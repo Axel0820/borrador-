@@ -1,0 +1,403 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Link de Boostrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!--Link Icons de Bootstrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!--Link de CSS-->
+    <link rel="stylesheet" href="{% static 'css/productoscli/catalogo.css' %}">
+    <title>Alma Canina</title>
+</head>
+<body>
+    <!--Alimentos-->
+    <section class="categories containers pro">
+        <h3 class="section__title h3">
+            <a href="{% url 'catalogo' %}"> Alimentos
+                <i class="bi bi-chevron-left" id="icono2"></i>
+                <i class="bi bi-shop-window" id="icono3"></i>
+            </a>
+        </h3>
+        <div class="grid-container">
+            <div class="card">
+                <img src="{% static 'img/procli/alimento/ali1.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Push Pedigree</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Alimento humedo para cachorros. <br>
+                    Sabor: Carne.
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/alimento/ali3.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Sustituto Lacteo</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Sustituto lacteo en polvo para gatos.
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/alimento/ali4.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Sustituto Lacteo</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Sustituto lacteo en polvo para perros.
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/alimento/ali5.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Push Whiskas</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Alimento humedo para gatos. <br>
+                    Sabor: Pollo.
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/alimento/ali6.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Push Whiskas</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Alimento humedo para gatos. <br>
+                    Sabor: Carne Souffle.
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/alimento/ali7.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Push Whiskas</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Alimento humedo para gatos. <br>
+                    Sabor: Sardina.
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/alimento/ali8.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Push Whiskas</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Alimento humedo para gatos. <br>
+                    Sabor: Salmon.
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/alimento/ali9.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Push Whiskas</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Alimento humedo para gatos. <br>
+                    Sabor: Pescado.
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/alimento/ali10.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Push Pedigree</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Alimento humedo para perro adulto. <br>
+                    Sabor: Carne.
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/alimento/ali2.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Catnid Deshidratado</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Para gatos.
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/alimento/ali11.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Push Whiskas</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Alimento humedo para gatos. <br>
+                    Sabor: Pavo.
+                    </p> 
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/alimento/ali12.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Push Whiskas</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Alimento humedo para gatos de entre 2 a 12 meses. <br>
+                    Sabor: Carne.
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/alimento/ali13.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Push Pedigree</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Alimento humedo para perros adultos. <br>
+                    Sabor: Pollo.
+                    </p>    
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/alimento/ali14.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Push Pedigree</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Alimento humedo para perros raza pequeña. <br>
+                    Sabor: Pollo.
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/alimento/ali15.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Push Pedigree</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Alimento humedo para perros senior. <br>
+                    Sabor: Carne.
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section> 
+    <!--Alimentos-->
+    <!--Link de Js-->
+    <script src="{% static 'js/productoscli/carrito.js' %}"></script>
+</body>
+</html>

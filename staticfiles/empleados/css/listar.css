@@ -1,0 +1,226 @@
+/* Estilos generales para clientes */
+body {
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+/* Título */
+h2 {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Botón agregar cliente */
+.btn-primary {
+    background-color: #6f00b5;
+    border: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #840dd4;
+}
+
+.btn-primary:active {
+    background-color: #741c6a !important; 
+    border-color: #761e74 !important;
+}
+
+/* Botón morado personalizado */
+.btn-purple-custom {
+    background-color: #6f00b5;
+    border: none;
+    color: white;
+    transition: 0.3s;
+}
+
+.btn-purple-custom:hover {
+    background-color: #840dd4;
+    color: white;
+}
+
+/* Cards de estadísticas */
+.card {
+    border-radius: 12px;
+    background-color: #ffffff;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Tabla */
+.table th {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+    background-color: #343a40;
+    color: white;
+}
+
+.table td {
+    font-size: 0.95rem;
+    vertical-align: middle;
+}
+
+/* Desactivar hover en las filas de la tabla */
+.table-hover tbody tr:hover {
+    background-color: transparent !important;
+}
+
+/* Desactivar todos los efectos hover de DataTables */
+table.dataTable tbody tr:hover {
+    background-color: transparent !important;
+}
+
+/* Botones de acción */
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    color: #000;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #bb2d3b;
+}
+
+.btn-info {
+    background-color: #0dcaf0;
+    border: none;
+}
+
+.btn-info:hover {
+    background-color: #0bb5d4;
+}
+
+.btn-success {
+    background-color: #198754;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #146c43;
+}
+
+/* Buscador con estilo morado */
+.buscador-morado .input-group-text {
+    background-color: #6f00b5; 
+    color: white;
+    border: none;
+}
+
+.buscador-morado .form-control {
+    border: 2px solid #6f00b5;
+    box-shadow: none;
+}
+
+.buscador-morado .form-control:focus {
+    border-color: #4b0082;
+    box-shadow: 0 0 0 0.2rem rgba(111, 0, 181, 0.25);
+}
+
+/* Badges */
+.badge {
+    font-size: 0.85rem;
+    padding: 0.5em 0.75em;
+}
+
+/* Dropdown de filtros */
+.dropdown-menu {
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Iconos */
+i {
+    font-size: 1.1rem;
+}
+
+/* Modales */
+.modal-content {
+    border-radius: 12px;
+}
+
+.modal-header {
+    background-color: #6f00b5;
+    color: white;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.modal-header .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+/* Spinner de carga */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Estilos para fotos en tabla */
+.table td {
+    vertical-align: middle;
+}
+
+.table img.rounded-circle {
+    border: 2px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.table img.foto-empleado-thumbnail {
+    cursor: zoom-in;
+}
+
+.table img.foto-empleado-thumbnail:hover {
+    transform: scale(1.15);
+    border-color: #6f00b5;
+    box-shadow: 0 0 10px rgba(111, 0, 181, 0.3);
+}
+
+/* Estilos para texto truncado con tooltip */
+.table .text-truncate {
+    cursor: help;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table .text-truncate:hover {
+    color: #6f00b5;
+}
+
+/* Placeholder para sin foto */
+.table .rounded-circle.bg-secondary {
+    border: 2px solid #e0e0e0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .table {
+        font-size: 0.85rem;
+    }
+    
+    .btn {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .table img.rounded-circle,
+    .table .rounded-circle.bg-secondary {
+        width: 35px !important;
+        height: 35px !important;
+    }
+}

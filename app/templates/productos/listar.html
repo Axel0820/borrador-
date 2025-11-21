@@ -1,0 +1,238 @@
+{% load static %}
+{% load humanize %}
+
+{% if not request.headers.get|default:'X-Requested-With' == 'XMLHttpRequest' %}
+    <!-- Bootstrap CSS -->
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/productos/listar.css' %}">
+
+{% endif %}
+    <div class="container mt-4">
+        <h2 class="mb-4">Listado de Productos</h2>
+    <!-- modal para agregar producto -->
+    <div class="modal fade" id="modalAgregarProducto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Agregar Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modal-body-content">
+                    <!-- Aquí se cargará el contenido de form.html -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal de edi-->
+    <div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-body-editar-content">
+                </div>
+        </div>
+    </div>
+</div>
+        <!-- op 2 -->
+        <div class="row mb-4 g-3">
+            <!-- Total Productos -->
+            <div class="col-md-4">
+                <div class="card shadow-lg border-0 text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-box-seam display-5 text-primary"></i>
+                    <h3 class="fw-bold mt-2">{{ total_productos }}</h3>
+                    <p class="text-muted mb-0">Total <strong>Productos</strong></p>
+                </div>
+                </div>
+            </div>
+            <!-- Valor Inventario -->
+            <div class="col-md-4">
+                <div class="card shadow-lg border-0 text-center h-100">
+                <div class="card-body">
+                    <i class="bi bi-currency-dollar display-5 text-success"></i>
+                    <h3 class="fw-bold mt-2">${{ valor_inventario|floatformat:2|intcomma }}</h3>
+                    <p class="text-muted mb-0">Valor <strong>Inventario</strong></p>
+                </div>
+                </div>
+            </div>
+            <!-- Stock Bajo -->
+            <div class="col-md-4">
+                <div class="card shadow-lg border-0 text-center h-100">
+                    <div class="card-body">
+                        <i class="bi bi-exclamation-triangle-fill display-5 text-danger"></i>
+                        <h3 class="fw-bold mt-2">{{ stock_bajo|length }}</h3>
+                        <p class="text-muted mb-2">Productos con <strong>Stock Bajo</strong></p>
+                        
+                        <!-- Mostrar productos en badges -->
+                        <div class="d-flex flex-wrap justify-content-center gap-1">
+                        {% for p in stock_bajo %}
+                            <span class="badge bg-danger">{{ p.nombre_prod }} ({{ p.stock_prod }})</span>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Botones Exportar PDF y Agregar Producto -->
+        <div class="d-flex justify-content-between mb-3">
+            <a href="{% url 'exportarProductosPDF' %}?buscar={{ request.GET.buscar }}&categoria={{ request.GET.categoria }}&estado={{ request.GET.estado }}&stock_bajo={{ request.GET.stock_bajo }}&orden={{ request.GET.orden }}"
+                class="btn btn-danger">
+                <i class="bi bi-file-earmark-pdf-fill"></i> Exportar PDF
+            </a>
+            <a href="#" id="btnAgregarProducto" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-1"></i> Agregar producto
+            </a>
+        </div>
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="input-group buscador-morado" style="width: 250px;">
+                            <span class="input-group-text">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" id="buscarInput" class="form-control" placeholder="Buscar producto...">
+                        </div>
+                        <!-- Botón filtro -->
+                        <button class="btn btn-purple-custom rounded-pill shadow-sm"
+                                type="button" id="filtroDropdown" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            <i class="bi bi-funnel-fill"></i> <!--Filtros-->
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end p-4 shadow-lg rounded-3" style="min-width: 300px;">
+                            <form method="get" action="{% url 'listarProductos' %}" id="filtroFormProductos">
+                            <input type="hidden" name="buscar" value="{{ request.GET.buscar }}">
+                            <!-- Categoría -->
+                            <div class="mb-3">
+                                <label for="categoria" class="form-label fw-bold">
+                                <i class="bi bi-tags-fill text-primary"></i> Categoría
+                                </label>
+                                <select name="categoria" id="categoria" class="form-select rounded-pill">
+                                <option value="">Todas</option>
+                                <option value="Gato" {% if request.GET.categoria == "Gato" %}selected{% endif %}>🐱 Gato</option>
+                                <option value="Perro" {% if request.GET.categoria == "Perro" %}selected{% endif %}>🐶 Perro</option>
+                                <option value="Pez" {% if request.GET.categoria == "Pez" %}selected{% endif %}>🐟 Pez</option>
+                                </select>
+                            </div>
+                            <!-- Estado -->
+                            <div class="mb-3">
+                                <label for="estado" class="form-label fw-bold">
+                                <i class="bi bi-toggle-on text-success"></i> Estado
+                                </label>
+                                <select name="estado" id="estado" class="form-select rounded-pill">
+                                    <option value="">Todos</option>
+                                    <option value="1" {% if request.GET.estado == "1" %}selected{% endif %}>Activo</option>
+                                    <option value="0" {% if request.GET.estado == "0" %}selected{% endif %}>Inactivo</option>
+                                </select>
+                            <!-- stok bajo -->
+                            </div><div class="mb-2">
+                                <div class="form-check d-flex align-items-center">
+                                    <input type="checkbox" class="form-check-input me-2" id="stockBajo" name="stock_bajo" value="1"
+                                            autocomplete="off" {% if request.GET.stock_bajo == "1" %}checked{% endif %}>
+                                    <label class="form-check-label d-flex align-items-center" for="stockBajo">
+                                        <i class="bi bi-box-seam me-2 text-danger"></i>
+                                        <span>Stock bajo</span>
+                                        <span class="badge bg-danger ms-2">{{ stock_bajo|length }}</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Orden -->
+                            <div class="mb-3">
+                                <label for="orden" class="form-label fw-bold">
+                                <i class="bi bi-sort-alpha-down text-warning"></i> Ordenar
+                                </label>
+                                <select name="orden" id="orden" class="form-select rounded-pill">
+                                <option value="asc" {% if request.GET.orden == "asc" %}selected{% endif %}>Nombre A-Z</option>
+                                <option value="desc" {% if request.GET.orden == "desc" %}selected{% endif %}>Nombre Z-A</option>
+                                </select>
+                            </div>
+                            <!-- Botones -->
+                            <div class="d-flex justify-content-between">
+                                <button type="button" id="btnLimpiarProductos" class="btn btn-outline-secondary btn-sm rounded-pill">Limpiar</button>
+                                <button type="submit" class="btn btn-primary btn-sm rounded-pill">
+                                <i class="bi bi-check2-circle"></i> Aplicar
+                                </button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="table-scroll-container">
+                        <table id="example" class="table table-striped align-middle text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <!--th>ID</th-->
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Categoria</th>
+                                <th>Unidad</th>
+                                <th>Proveedor</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in productos %}
+                            <tr>
+                                <!--td>{{ p.id_prod }}</td-->
+                                <td>{{ p.nombre_prod }}</td>
+                                <td>${{ p.precio_prod |floatformat:3|intcomma }}</td>
+                                <!--td>{{ p.stock_prod }}</td-->
+                                <td class="stock" data-nombre="{{ p.nombre_prod }}" data-stock="{{ p.stock_prod }}">
+                                    {% with stock_actual=p.stock_prod|default:0 stock_minimo=p.stock_minimo|default:10 %}
+                                        {% if stock_actual <= stock_minimo %}
+                                            <span class="badge bg-danger">{{ stock_actual }} (¡Stock bajo!)</span>
+                                        {% else %}
+                                            {{ stock_actual }}
+                                        {% endif %}
+                                    {% endwith %}
+                                </td>
+                                <td>
+                                    {{ p.categoria_prod }}
+                                </td>
+                                <td>
+                                    {% if p.unidad %}
+                                        <span class="badge bg-primary">{{ p.get_unidad_completa }}</span>
+                                    {% else %}
+                                        <span class="text-muted">Sin unidad</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if p.proveedor_prod %}
+                                        <span class="proveedor">{{ p.proveedor_prod }}</span>
+                                    {% else %}
+                                        <span class="text-muted">Sin proveedor</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if p.estado_prod == 1 %}
+                                        <span class="badge bg-success">Activo</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Inactivo</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <!--a href="{% url 'editarProducto' p.id_prod %}" class="btn btn-success btn-sm">
+                                        <i class="bi bi-pencil-square"></i> Editar
+                                    </a-->
+                                    <a href="#" class="btn btn-success btn-sm btn-editar"
+                                        data-url="{% url 'editarProducto' p.id_prod %}">
+                                        <i class="bi bi-pencil-square"></i> Editar
+                                    </a>
+                                        <a href="{% url 'eliminarProducto' p.id_prod %}" class="btn btn-danger btn-sm btn-eliminar">
+                                        <i class="bi bi-trash"></i>Eliminar
+                                        </a>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>

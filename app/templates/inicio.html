@@ -1,0 +1,46 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+    <!--Carrusel-->
+    <div id="carrusel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            {% for imagen in carrusel_imagenes %}
+                <button type="button" data-bs-target="#carrusel" data-bs-slide-to="{{ forloop.counter0 }}" 
+                        class="{% if forloop.first %}active{% endif %}" aria-current="true" 
+                        aria-label="Slide {{ forloop.counter }}"></button>
+            {% endfor %}
+        </div>
+        <div class="carousel-inner">
+            {% for imagen in carrusel_imagenes %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="3000" style="transition: 0.8s;">
+                <img src="{{ imagen.imagen.url }}" class="d-block w-100 img-fluid" alt="{{ imagen.titulo|default:'Imagen de Carrusel' }}">
+            </div>
+            {% empty %}
+            <div class="carousel-item active">
+                <div class="d-block w-100 bg-secondary text-white text-center py-5" style="height: 400px; line-height: 400px;">
+                    <h4>No hay imágenes en el carrusel. Por favor, agregue imágenes desde el Dashboard.</h4>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% if carrusel_imagenes %}
+        <button class="carousel-control-prev" type="button" data-bs-target="#carrusel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carrusel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
+        {% endif %}
+    </div>
+
+    <div class="barra-right">
+        <i class="bi bi-bell"></i> <span>Aviso importante:</span> 
+        La página web muestra el catálogo de productos activos y que están en venta actualmente.
+        <a href="#">Ver</a>
+    </div>
+    <!--Carrusel-->
+{% endblock content %}
+    

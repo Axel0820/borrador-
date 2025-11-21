@@ -1,0 +1,111 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/dashboard/carrusel.css' %}">
+
+<!-- <div class="contenedor-carrusel-form"> -->
+    <div class="encabezado">
+        <h3 class="h5"><i class="bi bi-image me-2"></i> {{ accion }}</h3>
+        <button type="button" class="btn-close x" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <form method="post" enctype="multipart/form-data" class="carousel-ajax-form">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="formulario-carrusel">
+            <div class="columna-izquierda">
+                <div class="form-group mb-4">
+                    <label for="{{ form.titulo.id_for_label }}" class="form-label fw-bold text-blueviolet">
+                        <i class="bi bi-tag-fill me-1"></i> {{ form.titulo.label }}
+                    </label>
+                    <div class="campo">
+                        {{ form.titulo }}
+                    </div>
+                    {% if form.titulo.help_text %}
+                        <div class="form-text text-muted small">{{ form.titulo.help_text }}</div>
+                    {% endif %}
+                    {% if form.titulo.errors %}
+                        <div class="alert alert-danger small mt-1">{{ form.titulo.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group mb-4">
+                    <label for="id_descripcion_corta" class="form-label fw-bold text-blueviolet">
+                        <i class="bi bi-fonts me-1"></i> Subtítulo del Carrusel
+                    </label>
+                    <div class="campo">
+                        <textarea name="descripcion_corta" id="id_descripcion_corta" class="form-control" rows="3" placeholder="Texto corto que se verá superpuesto en la imagen."></textarea>
+                    </div>
+                    <div class="form-text text-muted small">Texto opcional que aparecerá encima de la imagen en el carrusel.</div>
+                </div>
+                <div class="form-group activo-group">
+                    <label for="id_estado_select" class="form-label fw-bold text-blueviolet">
+                        <i class="bi bi-toggle-on me-1"></i> Estado
+                    </label>
+                    <div class="campo">
+                        <select name="activo" id="id_estado_select" class="form-select">
+                            <option value="true" {% if form.activo.value %}selected{% endif %}>Activo</option>
+                            <option value="false" {% if not form.activo.value %}selected{% endif %}>Inactivo</option>
+                        </select>
+                    </div>
+                    <div class="form-text text-muted small">Controla si la imagen se muestra en el carrusel público.</div>
+                    {% if form.activo.errors %}
+                        <div class="alert alert-danger small mt-1">{{ form.activo.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="photo-section">
+                <h6 class="titulo-seccion"><i class="bi bi-camera-fill"></i> Imagen del Carrusel</h6>
+                <div class="photo-preview">
+                    <img id="carousel-img-preview" src="https://placehold.co/100x100/6a0dad/ffffff?text=Promo" alt="Vista previa de la imagen">
+                </div>
+                <div class="image-status-section">
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <div class="file-upload-wrapper">
+                            <label for="{{ form.imagen.id_for_label }}" class="file-upload-button">Seleccionar Imagen</label>
+                            {{ form.imagen }}
+                        </div>
+                    {% if form.imagen.value %} 
+                        <p class="current-image-info">
+                            Imagen actual: <a href="{{ form.imagen.url }} "target="_blank">{{ form.imagen.name }}</a>
+                        </p>
+                        <p class="change-image-info">Cambiar: (selecciona un nuevo archivo o imagen.)</p>
+                    {% else %}
+                        <p class="current-image-info">No hay imagen seleccionada.</p>
+                    {% endif %}
+                    </div>
+                </div>
+                {% if form.imagen.help_text %}
+                    <small class="photo-info">{{ form.imagen.help_text }}</small>
+                {% endif %}
+                {% if form.imagen.errors %}
+                    <div class="alert alert-danger small mt-1">{{ form.imagen.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="botones-form-grid">
+                <a href="{% url 'dashboard:lista_carrusel' %}" class="btn btn-outline-danger danger me-2">
+                    <i class="bi bi-x-circle me-1"></i> Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary primary">
+                    <i class="bi bi-check-circle me-1"></i> Guardar
+                </button>
+            </div>
+        </div>
+    </form>
+<!-- </div> -->
+
+<script>
+document.getElementById('id_imagen').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    const preview = document.getElementById('carousel-img-preview');
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+            preview.src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>

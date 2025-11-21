@@ -1,0 +1,72 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/proveedores/form.css' %}">
+
+<form method="POST" class="form-registro-proveedor" id="formEditarProveedor" action="{% url 'proveedores:editar' proveedor.id_prov %}">
+    {% csrf_token %}
+    
+    <div class="seccion-formulario">
+        <h6 class="titulo-seccion"><i class="bi bi-building-fill"></i> Información del Proveedor</h6>
+        
+        <div class="mb-3">
+            <label for="id_nombre_prov" class="form-label">Nombre *</label>
+            {{ form.nombre_prov }}
+            <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_cuit_prov" class="form-label">CUIT *</label>
+            {{ form.cuit_prov }}
+            <small class="form-text">Formato: 20-12345678-9 (11 dígitos)</small>
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+
+    <div class="seccion-formulario">
+        <h6 class="titulo-seccion"><i class="bi bi-envelope-fill"></i> Información de Contacto</h6>
+        
+        <div class="mb-3">
+            <label for="id_correo_prov" class="form-label">Correo Electrónico *</label>
+            {{ form.correo_prov }}
+            <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_telefono_prov" class="form-label">Teléfono *</label>
+            {{ form.telefono_prov }}
+            <small class="form-text">Ej: 011-4567-8900 o 1145678900</small>
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+
+    <div class="seccion-formulario">
+        <h6 class="titulo-seccion"><i class="bi bi-card-text"></i> Descripción</h6>
+        
+        <div class="mb-3">
+            <label for="id_descripcion_prov" class="form-label">Descripción</label>
+            {{ form.descripcion_prov }}
+            <small class="form-text">Información adicional sobre el proveedor</small>
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+
+    <div class="seccion-formulario">
+        <h6 class="titulo-seccion"><i class="bi bi-toggle-on"></i> Estado</h6>
+        
+        <div class="mb-3">
+            <label for="id_estado_prov" class="form-label">Estado del Proveedor *</label>
+            {{ form.estado_prov }}
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle"></i> Cancelar
+        </button>
+        <button type="submit" class="btn btn-guardar">
+            <i class="bi bi-save"></i> Actualizar Proveedor
+        </button>
+    </div>
+</form>

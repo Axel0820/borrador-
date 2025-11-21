@@ -1,0 +1,1 @@
+# App de autenticación y gestión de usuarios para Alma Canina

@@ -1,0 +1,303 @@
+/* ===================== FUENTES ===================== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* ===================== RESET ===================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+}
+
+body {
+  font-family: 'PT Serif', serif;
+  background-color: #fff;
+  color: #222;
+  text-transform: capitalize;
+  overflow-x: hidden;
+}
+
+/* ===================== NAVBAR ===================== */
+.navbar {
+  background-color: #fff;
+  padding: 0.5rem 1rem;
+  border-bottom: 2px solid blueviolet;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  color: blueviolet;
+  font-size: 1rem;
+  padding-left: 5px;
+  transition: color 0.3s ease;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+}
+
+/* ===================== BOTÓN SESIÓN ===================== */
+.login-button,
+#btnLogout {
+  background: none;
+  border: none;
+  color: blueviolet;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0;
+  margin: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#btnLogout:hover {
+  color: #5e1ab9;
+  text-decoration: none;
+}
+
+
+/* ===================== OFFCANVAS ===================== */
+.navbar-toggler {
+  border: none;
+  font-size: 1.2rem;
+}
+
+.navbar-toggler:focus,
+.btn-close:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.nav-link {
+  color: #666777;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: blueviolet;
+}
+
+@media (min-width: 993px) {
+  .nav-link::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background-color: blueviolet;
+    visibility: hidden;
+    transition: 0.3s ease-in-out;
+  }
+
+  .nav-link:hover::before,
+  .nav-link.active::before {
+    width: 100%;
+    visibility: visible;
+  }
+}
+
+/* ===================== CONTENIDO PRINCIPAL ===================== */
+#contenido-principal {
+  margin-top: 80px;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: #f8f9fa;
+}
+
+#bienvenida-admin {
+  max-width: 800px;
+  width: 100%;
+  padding: 40px;
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  animation: fadeInY 1s ease-in-out;
+}
+
+#bienvenida-admin h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #007bff;
+}
+
+#bienvenida-admin p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+/* ===================== DASHBOARD CARDS ===================== */
+.dashboard-cards {
+  width: 100%;
+}
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-link:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.dashboard-card {
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  height: 120px;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-card .card-body {
+  padding: 1rem;
+}
+
+.dashboard-card .card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.dashboard-card .card-text {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0;
+}
+
+/* ===================== RESPONSIVE DASHBOARD ===================== */
+@media (max-width: 768px) {
+  #contenido-principal {
+    padding: 1rem;
+  }
+  
+  #bienvenida-admin {
+    padding: 20px;
+  }
+  
+  .dashboard-card {
+    height: 100px;
+  }
+  
+  .dashboard-card .card-title {
+    font-size: 0.9rem;
+  }
+  
+  .dashboard-card .card-text {
+    font-size: 0.8rem;
+  }
+}
+
+/* ===================== ANIMACIONES ===================== */
+@keyframes fadeInY {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===================== FOOTER ===================== */
+.footer {
+  background: #242628;
+  padding: 80px 0;
+  color: #fff;
+}
+
+.footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.footer-links {
+  width: 25%;
+  padding: 0 15px;
+}
+
+.footer-links h4 {
+  font-size: 20px;
+  margin-bottom: 25px;
+  font-weight: 500;
+  border-bottom: 2px solid #00c3FF;
+  padding-bottom: 10px;
+  display: inline-block;
+}
+
+.footer-links ul li {
+  font-size: 18px;
+  color: #f9f8f8;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.footer-links ul li:hover {
+  color: #ffffff;
+  padding-left: 6px;
+}
+
+.footer-links ul li a {
+  color: #fff !important;
+  text-decoration: none;
+}
+
+.social-links a {
+  display: inline-block;
+  min-height: 40px;
+  width: 40px;
+  background-color: rgba(255, 255, 255, 0.2);
+  text-align: center;
+  line-height: 40px;
+  border-radius: 50%;
+  color: #ffffff;
+  transition: all 0.5s ease;
+}
+
+.social-links a:hover {
+  background-color: #00c3FF;
+}
+
+@media (max-width: 991px) {
+  .footer-row {
+    text-align: center;
+  }
+
+  .footer-links {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+}
+
+
+.login-button.small {
+  background: none;
+  border: none;
+  color: blueviolet;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0;
+  margin: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.login-button.small:hover {
+  color: #5e1ab9;
+  text-decoration: none;
+}

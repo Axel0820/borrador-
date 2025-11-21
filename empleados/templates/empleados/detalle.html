@@ -1,0 +1,173 @@
+{% load static %}
+
+    <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- CSS personalizado -->
+<link rel="stylesheet" href="{% static 'empleados/css/detalle.css' %}">
+
+<div class="container-detalle">
+    <!-- Botones superiores -->
+    <div class="mb-3 d-flex justify-content-between">
+        <a href="{% url 'empleados:listar' %}" class="btn btn-outline-secondary nav-ajax">
+            <i class="bi bi-arrow-left"></i> Volver a la lista
+        </a>
+        <a href="{% url 'empleados:exportar_empleado_pdf' empleado.id_emp %}" class="btn btn-danger">
+            <i class="bi bi-file-earmark-pdf"></i> Exportar a PDF
+        </a>
+    </div>
+
+    <!-- Card principal -->
+    <div class="card card-detalle">
+        <!-- Header del card -->
+        <div class="card-header-custom">
+            <h2><i class="bi bi-person-circle"></i> {{ empleado.nombre_emp }} {{ empleado.apellido_emp }}</h2>
+            {% if empleado.activo %}
+                <span class="badge bg-success badge-status">
+                    <i class="bi bi-check-circle-fill"></i> Activo
+                </span>
+            {% else %}
+                <span class="badge bg-danger badge-status">
+                    <i class="bi bi-x-circle-fill"></i> Inactivo
+                </span>
+            {% endif %}
+        </div>
+
+        <!-- Cuerpo del card -->
+        <div class="card-body p-4">
+            <!-- Foto del empleado -->
+            {% if empleado.foto %}
+            <div class="text-center mb-4">
+                <img src="{{ empleado.foto.url }}" alt="Foto de {{ empleado.nombre_emp }}" class="img-thumbnail" style="max-width: 200px;">
+            </div>
+            {% endif %}
+
+            <!-- Sección: Información Personal -->
+            <div class="mb-4">
+                <h4 class="section-title">
+                    <i class="bi bi-person-vcard icon-info"></i>
+                    Información Personal
+                </h4>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Nombre Completo:</span>
+                            <span class="info-value">{{ empleado.nombre_emp }} {{ empleado.apellido_emp }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">DNI:</span>
+                            <span class="info-value">{{ empleado.dni_emp }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Sexo:</span>
+                            <span class="info-value">{{ empleado.sexo_emp|default:"N/A" }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Información de Contacto -->
+            <div class="mb-4">
+                <h4 class="section-title">
+                    <i class="bi bi-envelope-fill icon-contacto"></i>
+                    Información de Contacto
+                </h4>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Email:</span>
+                            <span class="info-value">{{ empleado.email|default:"N/A" }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Teléfono:</span>
+                            <span class="info-value">{{ empleado.telefono|default:"N/A" }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="info-item">
+                            <span class="info-label">Dirección:</span>
+                            <span class="info-value">{{ empleado.direccion|default:"N/A" }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Información Laboral -->
+            <div class="mb-4">
+                <h4 class="section-title">
+                    <i class="bi bi-briefcase-fill icon-laboral"></i>
+                    Información Laboral
+                </h4>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Cargo:</span>
+                            <span class="info-value">{{ empleado.cargo }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Fecha de Ingreso:</span>
+                            <span class="info-value">{% if empleado.fecha_ingreso %}{{ empleado.fecha_ingreso|date:"d/m/Y" }}{% else %}N/A{% endif %}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Sueldo:</span>
+                            <span class="info-value">{% if empleado.sueldo %}${{ empleado.sueldo }}{% else %}N/A{% endif %}</span>
+                        </div>
+                    </div>
+                    {% if empleado.user %}
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Usuario del Sistema:</span>
+                            <span class="info-value">{{ empleado.user.username }}</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="d-flex gap-2 justify-content-end mt-4 pt-3 border-top">
+                <a href="{% url 'empleados:listar' %}" class="btn btn-secondary btn-action nav-ajax">
+                    <i class="bi bi-arrow-left"></i> Volver
+                </a>
+                <button type="button" class="btn btn-primary btn-action" id="btnEditarEmpleado" 
+                        data-empleado-id="{{ empleado.id_emp }}">
+                    <i class="bi bi-pencil"></i> Editar Empleado
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para EDITAR empleado -->
+    <div class="modal fade" id="modalEditarEmpleado" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Empleado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modal-body-editar-content">
+                    <!-- Aquí se cargará el contenido de editar.html -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery (debe cargarse primero) -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+

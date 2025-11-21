@@ -1,0 +1,41 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/dashboard/carrusel.css' %}">
+
+<!-- <div class="contenedor-carrusel-delete p-3"> -->
+    <div class="encabezado-delete">
+        <h3><i class="bi bi-trash3-fill"></i> {{ accion }}</h3>
+        <button type="button" class="btn-close x" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="card card-eliminar">
+        <h4 class="text-danger mb-3 h4">
+            <i class="bi bi-exclamation-octagon-fill me-2"></i> Confirmación Requerida
+        </h4>
+        <p class="lead">
+            ¿Estás seguro de que deseas <strong>eliminar</strong> la siguiente imagen del carrusel?
+        </p>
+        <div class="preview-eliminar mt-3">
+            <div class="d-flex align-items-center">
+                {% if imagen.imagen %}
+                <img src="/media/{{ imagen.imagen }}" alt="{{ imagen.titulo }}" class="img-thumbnail me-3 img-eliminar">
+                {% endif %}
+                <div class="eliminar-info">
+                    <p class="fw-bold text-blueviolet mb-1">Título: {{ imagen.titulo }}</p>
+                    <p class="small text-muted mb-0">ID: {{ imagen.pk }}</p>
+                </div>
+            </div>
+        </div>
+        <p class="text-danger fw-bold mt-4">¡Esta acción es irreversible!</p>
+    </div>    
+        <form method="post" class="carousel-ajax-form mt-4">
+            {% csrf_token %}
+            <div class="footer-card">
+                <button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle me-1"></i> Cancelar
+                </button>
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash3 me-1"></i> Sí, eliminar
+                </button>
+            </div>
+        </form>
+    
+<!-- </div> -->

@@ -1,0 +1,177 @@
+{% load static %}
+{% load widget_tweaks %}
+    <!--Link CSS-->
+    <link rel="stylesheet" href="{% static 'css/profiles/perfil.css' %}">
+
+<!-- Vista Perfil-->
+<div class="contenador-perfil container">
+    <!-- <h1>Mi Perfil</h1> -->
+    <section class="profile-header-card">
+        <div class="profile-summary">
+            <img class="profile-picture" src="{% if object.foto and object.foto.name %}{{ object.foto.url }}{% else %}{% url 'generate_avatar' initial=object.nombre|default:' '|slice:'1' %}{% endif %}" alt="Imagen de Perfil">
+            <div class="profile-info">
+                <h2>{{ object.nombre }} {{ object.apellido }}</h2>
+                <p class="role">{% if object.cargo %} Empleado {% else %} Cliente {% endif%}</p>
+                <p class="location">{{ object.direccion }}</p>
+            </div>
+            <!-- <div class="profile-notification btn-group-perfil ms-auto"> 
+                <button type="button" class="edit-button" data-bs-toggle="modal" data-bs-target="#notification">
+                    <span class="d-none d-sm-inline">Notificaciones</span> <i class="bi bi-bell icon"></i>
+                </button>
+            </div> -->
+        </div>
+    </section>
+    <section class="info-card">
+        <div class="card-header">
+            <h3>Información Personal</h3>
+            {% if not object.cargo %}
+            <button type="button" class="btn-cargar-modal edit-button" data-url="{% url 'load_edit_profile_form' %}" data-bs-target="#editProfileModal">
+                <span class="d-none d-sm-inline">Editar Perfil</span> <i class="bi bi-pencil-square icon"></i>
+            </button>
+            {% endif %}
+        </div>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="label">Nombre</span>
+                <span class="value">{{ object.nombre }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Apellido</span>
+                <span class="value">{{ object.apellido }}</span>
+            </div>
+            <!-- {% if object.cargo %} SOLO MUESTRA EL TITULO, NO EL DATO, SINO APARECE PARA INGRESAR DATOS COSA QUE NO DEBE
+            <div class="form-group">
+                <label for="{{ form.sexo_emp.id_for_label }}" class="form-label">Sexo</label>
+                {{ object.sexo_emp }}
+            </div>
+            {% endif %} -->
+            <div class="info-item">
+                <span class="label">DNI</span>
+                <span class="value">{{ object.dni }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Dirección</span>
+                <span class="value">{{ object.direccion }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Telefono</span>
+                <span class="value">{{ object.telefono }}</span>
+            </div>
+        </div>
+    </section>
+    <section class="info-card">
+        <div class="card-header">
+            <h3>Información de Perfil</h3>
+            <div class="btn-group-perfil">
+                <button type="button" class="btn-cargar-modal edit-button" data-url="{% url 'password_change' %}" data-bs-target="#passwordChangeModal">
+                    <span class="d-none d-sm-inline">Cambiar Contraseña </span><i class="bi bi-lock icon"></i>
+                </button>
+                <button type="button" class="btn-cargar-modal edit-button" data-url="{% url 'load_edit_user_form' %}" data-bs-target="#user-edit-form">
+                    <span class="d-none d-sm-inline">Editar Perfil</span> <i class="bi bi-pencil-square icon"></i>
+                </button>
+            </div>
+        </div>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="label">Usuario</span>
+                <span class="value">{{ user.username }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Email</span>
+                <span class="value">{{ object.correo }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Rol de Usuario</span>
+                <span class="value">{% if object.cargo %} Empleado {% else %} Cliente {% endif%}</span>
+            </div>
+        </div>
+    </section>
+    {% if object.cargo %}
+    <section class="info-card">
+        <div class="card-header">
+            <h3>Información de Empleado</h3>
+        </div>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="label">Trabajo</span>
+                <span class="value">{{ object.cargo}}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Sueldo</span>
+                <span class="value">${{ object.sueldo }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Fecha de Contratacion</span>
+                <span class="value">{{ object.fecha_ingreso }}</span>
+            </div>
+        </div>
+    </section>
+    {% endif%}
+</div>
+<!--Vista Perfil-->
+
+<!-- Modal Editar Perfil -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProfileModalLabel">Editar Información Personal</h5>
+                <button type="button" class="btn-close x" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="profile-edit-content">
+                <!--Contenido del Modal Editar Perfil-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Editar Perfil -->
+
+<!--Modal Editar Usuario-->
+<div class="modal fade" id="user-edit-form" tabindex="-1" aria-labelledby="editPerfilModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPerfilModalLabel">Editar Perfil</h5>
+                <button type="button" class="btn-close x" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="user-edit-content">
+                <!--Contenido de Modal Editar Usuario-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal Editar Usuario-->
+
+<!-- Modal Notificaciones -->
+<div class="modal fade" id="notification" tabindex="-1" aria-labelledby="profile-notification" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-start modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="profile-notification">Notificaciones</h5>
+                <button type="button" class="btn-close x" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="notification-content">
+                <!--Contenido del Modal Notificaciones-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Notificaciones -->
+
+<!--Modal Cambio de Contraseña-->
+<div class="modal fade" id="passwordChangeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog  modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="passwordChangeModalLabel">Cambiar Contraseña</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="password-change-content">
+                <!--Contenido de Modal Cambio Contraseña-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal Cambio de Contraseña-->
+<!-- Js personalizado -->
+<!-- <script src="{% static 'js/profile/validaciones_input.js' %}"></script> -->

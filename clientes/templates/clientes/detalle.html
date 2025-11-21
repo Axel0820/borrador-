@@ -1,0 +1,273 @@
+{% load static %}
+
+    <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- CSS personalizado -->
+<link rel="stylesheet" href="{% static 'css/clientes/detalle.css' %}">
+
+<div class="container-detalle">
+    <!-- Botones superiores -->
+    <div class="mb-3 d-flex justify-content-between">
+        <a href="{% url 'clientes:listar' %}" class="btn btn-outline-secondary nav-ajax">
+            <i class="bi bi-arrow-left"></i> Volver a la lista
+        </a>
+        <a href="{% url 'clientes:exportar_cliente_pdf' cliente.id_cliente %}" class="btn btn-danger">
+            <i class="bi bi-file-earmark-pdf"></i> Exportar a PDF
+        </a>
+    </div>
+
+    <!-- Card principal -->
+    <div class="card card-detalle">
+        <!-- Header del card -->
+        <div class="card-header-custom">
+            <h2><i class="bi bi-person-circle"></i> {{ cliente.nombre_cliente }} {{ cliente.apellido_cliente }}</h2>
+            {% if cliente.estado_cliente %}
+                <span class="badge bg-success badge-status">
+                    <i class="bi bi-check-circle-fill"></i> Activo
+                </span>
+            {% else %}
+                <span class="badge bg-danger badge-status">
+                    <i class="bi bi-x-circle-fill"></i> Inactivo
+                </span>
+            {% endif %}
+        </div>
+
+        <!-- Cuerpo del card -->
+        <div class="card-body p-4">
+            <!-- Sección: Información Personal -->
+            <div class="mb-4">
+                <h4 class="section-title">
+                    <i class="bi bi-person-vcard icon-info"></i>
+                    Información Personal
+                </h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Nombre</span>
+                            <div class="info-value">{{ cliente.nombre_cliente }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Apellido</span>
+                            <div class="info-value">{{ cliente.apellido_cliente }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">DNI</span>
+                            <div class="info-value">{{ cliente.dni_cliente }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Estado</span>
+                            <div class="info-value">
+                                {% if cliente.estado_cliente %}
+                                    <span class="badge bg-success">Activo</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Inactivo</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Información de Contacto -->
+            <div class="mb-4">
+                <h4 class="section-title">
+                    <i class="bi bi-telephone icon-info"></i>
+                    Información de Contacto
+                </h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Correo Electrónico</span>
+                            <div class="info-value">
+                                {% if cliente.correo_clientes %}
+                                    <a href="mailto:{{ cliente.correo_clientes }}">
+                                        <i class="bi bi-envelope"></i> {{ cliente.correo_clientes }}
+                                    </a>
+                                {% else %}
+                                    <span class="text-muted">No especificado</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Teléfono</span>
+                            <div class="info-value">
+                                {% if cliente.telefono_cliente %}
+                                    <i class="bi bi-phone"></i> {{ cliente.telefono_cliente }}
+                                {% else %}
+                                    <span class="text-muted">No especificado</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="info-item">
+                            <span class="info-label">Dirección</span>
+                            <div class="info-value">
+                                {% if cliente.direccion_cliente %}
+                                    <i class="bi bi-geo-alt"></i> {{ cliente.direccion_cliente }}
+                                {% else %}
+                                    <span class="text-muted">No especificada</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Información del Sistema -->
+            <div class="mb-4">
+                <h4 class="section-title">
+                    <i class="bi bi-info-circle icon-info"></i>
+                    Información del Sistema
+                </h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">ID de Cliente</span>
+                            <div class="info-value">#{{ cliente.id_cliente }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <span class="info-label">Fecha de Registro</span>
+                            <div class="info-value">
+                                {% if cliente.fecha_registro_cliente %}
+                                    <i class="bi bi-calendar-event"></i> 
+                                    {{ cliente.fecha_registro_cliente|date:"d/m/Y H:i" }}
+                                {% else %}
+                                    <span class="text-muted">No disponible</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="d-flex gap-2 justify-content-end mt-4 pt-3 border-top">
+                <a href="{% url 'clientes:listar' %}" class="btn btn-secondary btn-action nav-ajax">
+                    <i class="bi bi-arrow-left"></i> Volver
+                </a>
+                <button type="button" class="btn btn-primary btn-action" id="btnEditarCliente" 
+                        data-cliente-id="{{ cliente.id_cliente }}">
+                    <i class="bi bi-pencil"></i> Editar Cliente
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para EDITAR cliente -->
+    <div class="modal fade" id="modalEditarCliente" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modal-body-editar-content">
+                    <!-- Aquí se cargará el contenido de editar.html -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    console.log('Script de detalle cargado');
+    
+    $(document).ready(function() {
+        console.log('DOM cargado con jQuery');
+        
+        var btnEditar = $('#btnEditarCliente');
+        console.log('Botón encontrado:', btnEditar.length);
+        
+        btnEditar.click(function() {
+            console.log('Click en botón editar');
+            var clienteId = $(this).data('cliente-id');
+            console.log('Cliente ID:', clienteId);
+            
+            // Cargar el formulario de edición mediante AJAX
+            $.ajax({
+                url: '/clientes/editar/' + clienteId + '/',
+                type: 'GET',
+                success: function(response) {
+                    // Insertar el formulario en el modal
+                    $('#modal-body-editar-content').html(response);
+                    // Mostrar el modal
+                    var modal = new bootstrap.Modal(document.getElementById('modalEditarCliente'));
+                    modal.show();
+                    
+                    // Configurar el evento de submit del formulario dentro del modal
+                    $('#modal-body-editar-content form').on('submit', function(e) {
+                        e.preventDefault();
+                        var form = $(this);
+                        
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: 'POST',
+                            data: form.serialize(),
+                            success: function(response) {
+                                if (response.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '¡Éxito!',
+                                        text: response.message,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then(function() {
+                                        // Recargar la página para mostrar los cambios
+                                        location.reload();
+                                    });
+                                } else {
+                                    // Mostrar errores en el formulario
+                                    if (response.errors) {
+                                        Object.keys(response.errors).forEach(function(field) {
+                                            var input = form.find('[name="' + field + '"]');
+                                            input.addClass('is-invalid');
+                                            
+                                            var feedback = input.siblings('.invalid-feedback');
+                                            if (feedback.length === 0) {
+                                                input.after('<div class="invalid-feedback">' + response.errors[field] + '</div>');
+                                            } else {
+                                                feedback.text(response.errors[field]);
+                                            }
+                                        });
+                                    }
+                                }
+                            },
+                            error: function(xhr) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Ocurrió un error al guardar los cambios'
+                                });
+                            }
+                        });
+                    });
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se pudo cargar el formulario de edición'
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+

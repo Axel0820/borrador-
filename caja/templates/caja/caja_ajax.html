@@ -1,0 +1,297 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/caja/caja.css' %}">
+<div class="caja-container">
+    <h2>Sistema de Caja</h2>
+    
+    {% if caja_activa %}
+        <!-- CAJA ABIERTA -->
+        <div class="card mb-3">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0"><i class="bi bi-cash-coin"></i> Caja Abierta</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><strong>Fecha Apertura:</strong> {{ caja_activa.fecha_apertura|date:"d/m/Y H:i" }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>Saldo Inicial:</strong> ${{ caja_activa.saldo_inicial|floatformat:2 }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>Saldo Actual:</strong> <span class="text-success fw-bold">${{ caja_activa.saldo_actual|floatformat:2 }}</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN DE MOVIMIENTOS -->
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-list-ul"></i> Movimientos de Caja</h5>
+            </div>
+            <div class="card-body">
+                <!-- Formulario para registrar movimiento -->
+                <div class="mb-4">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#formMovimiento">
+                        <i class="bi bi-plus-circle"></i> Registrar Movimiento
+                    </button>
+                </div>
+
+                <div class="collapse" id="formMovimiento">
+                    <form id="formRegistrarMovimiento" class="border p-3 rounded mb-4">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                {{ form_movimiento.tipo_movimiento.label_tag }}
+                                {{ form_movimiento.tipo_movimiento }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_movimiento.categoria.label_tag }}
+                                {{ form_movimiento.categoria }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_movimiento.monto.label_tag }}
+                                {{ form_movimiento.monto }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_movimiento.descripcion.label_tag }}
+                                {{ form_movimiento.descripcion }}
+                            </div>
+                            <div class="col-12">
+                                {{ form_movimiento.observaciones.label_tag }}
+                                {{ form_movimiento.observaciones }}
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-check-circle"></i> Guardar Movimiento
+                                </button>
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#formMovimiento">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Banner superior con fecha -->
+                <div class="header-fecha-caja">
+                    <p><i class="bi bi-calendar3"></i> {{ fecha_hoy|date:"l, d \d\e F \d\e Y" }}</p>
+                </div>
+
+                <!-- TABS o Secciones separadas -->
+                <ul class="nav nav-tabs mb-3" id="tabsMovimientos" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="tab-ventas" data-bs-toggle="tab" data-bs-target="#contenido-ventas" type="button">
+                            <i class="bi bi-cart-check"></i> Ventas del Día
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="tab-movimientos" data-bs-toggle="tab" data-bs-target="#contenido-movimientos" type="button">
+                            <i class="bi bi-cash-stack"></i> Otros Movimientos
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Mensaje inicial -->
+                <div id="mensaje-inicial" class="text-center py-5">
+                    <i class="bi bi-arrow-up-circle" style="font-size: 3rem; color: #6c757d;"></i>
+                    <p class="mt-3 text-muted">Seleccione una opción para ver los movimientos</p>
+                </div>
+
+                <div class="tab-content" id="contenidoTabsMovimientos">
+                    <!-- TAB 1: VENTAS -->
+                    <div class="tab-pane fade" id="contenido-ventas" role="tabpanel">
+                        <h6 class="mb-3">Ventas de Hoy</h6>
+                        {% if ventas_hoy %}
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover">
+                                    <thead class="table-success">
+                                        <tr>
+                                            <th>Hora</th>
+                                            <th>Descripción</th>
+                                            <th>Método de Pago</th>
+                                            <th class="text-end">Monto</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for venta in ventas_hoy %}
+                                        <tr>
+                                            <td>{{ venta.fecha_movimiento|date:"H:i" }}</td>
+                                            <td>{{ venta.descripcion }}</td>
+                                            <td>
+                                                {% if venta.id_compra_fk.metodo_pago %}
+                                                    <span class="badge bg-secondary">
+                                                        {{ venta.id_compra_fk.get_metodo_pago_display }}
+                                                    </span>
+                                                {% else %}
+                                                    <span class="text-muted">Efectivo</span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="text-end text-success fw-bold">+${{ venta.monto|floatformat:2 }}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-info btn-ver-detalle-movimiento" 
+                                                        data-movimiento-id="{{ venta.id_movimiento }}"
+                                                        data-tipo="{{ venta.tipo_movimiento }}"
+                                                        data-categoria="{{ venta.get_categoria_display }}"
+                                                        data-monto="{{ venta.monto }}"
+                                                        data-descripcion="{{ venta.descripcion }}"
+                                                        data-observaciones="{{ venta.observaciones|default:'' }}"
+                                                        data-fecha="{{ venta.fecha_movimiento|date:'d/m/Y H:i' }}"
+                                                        data-empleado="{{ venta.id_empleado_fk.nombre_emp }} {{ venta.id_empleado_fk.apellido_emp }}"
+                                                        data-es-automatico="True"
+                                                        data-id-compra="{{ venta.id_compra_fk.id_compra }}"
+                                                        title="Ver detalle">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                <span class="badge bg-success ms-2">Auto</span>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot class="table-light">
+                                        <tr>
+                                            <td colspan="3" class="text-end"><strong>Total Ventas:</strong></td>
+                                            <td class="text-end text-success"><strong>+${{ total_ventas|floatformat:2 }}</strong></td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-muted">No hay ventas registradas hoy.</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- TAB 2: OTROS MOVIMIENTOS -->
+                    <div class="tab-pane fade" id="contenido-movimientos" role="tabpanel">
+                        <h6 class="mb-3">Ingresos y Egresos Manuales</h6>
+                        {% if otros_movimientos %}
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Hora</th>
+                                            <th>Tipo</th>
+                                            <th>Categoría</th>
+                                            <th>Descripción</th>
+                                            <th class="text-end">Monto</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabla-movimientos">
+                                        {% for mov in otros_movimientos %}
+                                        <tr data-movimiento-id="{{ mov.id_movimiento }}">
+                                            <td>{{ mov.fecha_movimiento|date:"H:i" }}</td>
+                                            <td>
+                                                {% if mov.tipo_movimiento == 'ingreso' %}
+                                                    <span class="badge bg-success">Ingreso</span>
+                                                {% else %}
+                                                    <span class="badge bg-danger">Egreso</span>
+                                                {% endif %}
+                                            </td>
+                                            <td><small>{{ mov.get_categoria_display }}</small></td>
+                                            <td>{{ mov.descripcion }}</td>
+                                            <td class="text-end {% if mov.tipo_movimiento == 'ingreso' %}text-success{% else %}text-danger{% endif %}">
+                                                {% if mov.tipo_movimiento == 'ingreso' %}+{% else %}-{% endif %}${{ mov.monto|floatformat:2 }}
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-info btn-ver-detalle-movimiento me-1" 
+                                                        data-movimiento-id="{{ mov.id_movimiento }}"
+                                                        data-tipo="{{ mov.tipo_movimiento }}"
+                                                        data-categoria="{{ mov.get_categoria_display }}"
+                                                        data-monto="{{ mov.monto }}"
+                                                        data-descripcion="{{ mov.descripcion }}"
+                                                        data-observaciones="{{ mov.observaciones|default:'' }}"
+                                                        data-fecha="{{ mov.fecha_movimiento|date:'d/m/Y H:i' }}"
+                                                        data-empleado="{{ mov.id_empleado_fk.nombre_emp }} {{ mov.id_empleado_fk.apellido_emp }}"
+                                                        data-es-automatico="False"
+                                                        title="Ver detalle">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                {% if es_gerente %}
+                                                <button type="button" class="btn btn-sm btn-outline-danger btn-anular-movimiento" 
+                                                        data-movimiento-id="{{ mov.id_movimiento }}"
+                                                        title="Anular movimiento">
+                                                    <i class="bi bi-x-circle"></i>
+                                                </button>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot class="table-light">
+                                        <tr>
+                                            <td colspan="4" class="text-end"><strong>Subtotal:</strong></td>
+                                            <td class="text-end">
+                                                <span class="text-success">+${{ total_otros_ingresos|floatformat:2 }}</span><br>
+                                                <span class="text-danger">-${{ total_otros_egresos|floatformat:2 }}</span>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-muted">No hay otros movimientos registrados hoy.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FORMULARIO DE CIERRE -->
+        <div class="card">
+            <div class="card-header bg-warning">
+                <h5 class="mb-0"><i class="bi bi-lock"></i> Cerrar Caja</h5>
+            </div>
+            <div class="card-body">
+                <form id="formCierre">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_saldo_final" class="form-label">Saldo Final (contado):</label>
+                        {{ form_cierre.saldo_final }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_observaciones" class="form-label">Observaciones:</label>
+                        {{ form_cierre.observaciones }}
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-lock-fill"></i> Cerrar Caja
+                        </button>
+                    </div>
+                    <p class="mt-2"><small class="text-muted">Saldo calculado por sistema: ${{ caja_activa.saldo_actual|floatformat:2 }}</small></p>
+                </form>
+            </div>
+        </div>
+        
+    {% else %}
+        {% include 'caja/includes/apertura_caja.html' %}
+    {% endif %}
+    
+</div>
+
+<!-- Modal Ver Detalle de Movimiento -->
+<div class="modal fade" id="modalDetalleMovimiento" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tituloDetalleMovimiento"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="contenidoDetalleMovimiento">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script específico de caja -->
+<!-- Script ya cargado en adm2.html -->

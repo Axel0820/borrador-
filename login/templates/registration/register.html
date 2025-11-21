@@ -1,0 +1,148 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Link Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!--Link Iconos de Bootstrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!--Link CSS-->
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <title>Registrarse</title>
+</head>
+<body>
+    <div class="contenedor">
+        <div class="form-contenedor sing-up">
+            <form action="" class="for" method="POST">
+                {% csrf_token %}
+                <h2>Crear Usuario</h2>
+                <div class="contenedor-input">
+                    <div class="icon-wrapper">
+                        <i class="bi bi-person-vcard"></i>
+                    </div>
+                    {{ form.first_name|add_class:"form"|attr:"placeholder=Nombre"|attr:"required"|attr:"autocomplete=given_name" }}
+                    <!--mensaje error-->
+                    <div class="mensaje-error">
+                        {% for error in form.first_name.errors %}
+                            <div class="alert alert-danger mt-1 py-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>    
+                    <!--mensaje error-->
+                </div>
+                <div class="contenedor-input">
+                    <div class="icon-wrapper">
+                        <i class="bi bi-person-vcard"></i>
+                    </div>   
+                    {{ form.last_name|add_class:"form"|attr:"placeholder=Apellido"|attr:"required"|attr:"autocomplete=family_name" }}
+                    <!--mensaje error-->
+                    <div class="mensaje-error">
+                        {% for error in form.last_name.errors %}
+                            <div class="alert alert-danger mt-1 py-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <!--mensaje error-->
+                </div>
+                <div class="contenedor-input">
+                    <div class="icon-wrapper">
+                        <i class="bi bi-envelope-at"></i>
+                    </div>
+                    {{ form.email|add_class:"form"|attr:"placeholder=Email"|attr:"required"|attr:"autocomplete=email" }}
+                    <!--mensaje error-->
+                    <div class="mensaje-error">
+                        {% for error in form.email.errors %}
+                            <div class="alert alert-danger mt-1 py-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <!--mensaje error-->
+                </div>
+                <div class="contenedor-input">
+                    <div class="icon-wrapper">
+                        <i class="bi bi-person"></i>
+                    </div>    
+                    {{ form.username|add_class:"form"|attr:"placeholder=Usuario"|attr:"required"|attr:"autocomplete=username" }}
+                    <!--mensaje error-->
+                    <div class="mensaje-error">
+                        {% for error in form.username.errors %}
+                            <div class="alert alert-danger mt-1 py-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <!--mensaje error-->
+                </div>
+                <div class="contenedor-input"> <!--Input contraseña-->
+                    <span class="icon-wrapper">
+                        <i class="bi bi-lock toggle-lock " data-target="id_password1" style="cursor: pointer;"></i>
+                        <i class="bi bi-unlock toggle-unlock d-none" data-target="id_password1" style="cursor:pointer;"></i>
+                    </span>
+                    {{ form.password1|add_class:"form"|attr:"placeholder=Contraseña"|attr:"required"|attr:"autocomplete=new-password" }}
+                    <!--mensaje error-->
+                    <div class="mensaje-error">
+                        {% for error in form.password1.errors %}
+                            <div class="alert alert-danger mt-1 py-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <!--mensaje error-->
+                </div> <!--Input contraseña-->
+                <div class="contenedor-input"> <!--Input repetir contraseña-->
+                    <span class="icon-wrapper">
+                        <i class="bi bi-lock toggle-lock " data-target="id_password2"></i>
+                        <i class="bi bi-unlock toggle-unlock d-none" data-target="id_password2"></i>
+                    </span>
+                    {{ form.password2|add_class:"form"|attr:"placeholder=Confirmar contraseña"|attr:"required"|attr:"autocomplete=new-password" }}
+                    <!--mensaje error-->
+                    <div class="mensaje-error">
+                        {% for error in form.password2.errors %}
+                            <div class="alert alert-danger mt-1 py-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <!--mensaje error-->
+                </div> <!--Input repetir contraseña-->
+                <button> Registrarse </button>
+            </form>
+        </div>
+        <div class="cambiar-contenedor"> <!--Contenedor de color-->
+            <div class="cambiar">
+                <div class="cambiar-panel cambiar-left">
+                    <h2>¡Bienvenido!</h2>
+                    <p>Introduzca su usuario y contraseña para utilizar todas las funciones del sitio.</p>
+                    <button class="hidden" id="login">
+                        <a href="{% url 'login' %}">Iniciar Sesion</a>
+                    </button>
+                </div>
+            </div>
+        </div> <!--Contenedor de color-->
+    </div>
+    <!--Link Js de Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".toggle-lock, .toggle-unlock").forEach(icon => {
+        icon.addEventListener("click", () => {
+            const targetId = icon.getAttribute("data-target");
+            const input = document.getElementById(targetId);
+
+            if (!input) return; // si no encuentra el input, salir
+
+            const iconWrapper = icon.closest(".icon-wrapper");
+            const lockIcon = iconWrapper.querySelector(".toggle-lock");
+            const unlockIcon = iconWrapper.querySelector(".toggle-unlock");
+
+            if (input.type === "password") {
+                input.type = "text";
+                lockIcon.classList.add("d-none");
+                unlockIcon.classList.remove("d-none");
+            } else {
+                input.type = "password";
+                unlockIcon.classList.add("d-none");
+                lockIcon.classList.remove("d-none");
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+/* Contenido Principal*/
+.contenido-principal{
+    margin-top: 80px;
+}
+/* Contenido Principal*/
+
+/*Carrusel*/
+#carrusel{
+    max-height: 100%;
+    max-width: 100%;
+    overflow: auto;
+}
+/*Carrusel*/
+
+/* seguridad */
+.barra {
+    background-color: #982eca; /* verde */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 14px;
+}
+.barra-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.barra-left span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.barra-right {
+    background: #f5f5f5;
+    color: #000a00;
+    padding: 12px 20px;
+    font-size: 14px;
+    width: 100%;
+}
+.barra-right span {
+    font-weight: bold;
+}
+.barra-right a {
+    margin-left: 10px;
+    color: #000800;
+    text-decoration: none;
+    font-weight: bold;
+}
+.barra-right a:hover {
+    text-decoration: underline;
+}
+/*fin de seguridad*/
+
+/*Footer*/
+.footer{
+    background: blueviolet;
+    padding: 50px 0;
+    width: 100%;
+}
+.container{
+    max-width: calc(100% - 20px);
+} 
+.footer-row{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 50px 0 50px;
+} 
+.footer-links{ /*Contenedor de la lista de enlaces, ul/li*/
+    width: 25%;
+    padding: 0 10px;
+    width: auto;
+}
+.footer-links h4{ /*Titulos de los contenedores de enlace*/
+    color: #fff;
+    margin-bottom: 25px;
+    font-weight: 500;
+    border-bottom: 2px solid gold;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+.footer-links ul li a{ /*Color y decoracion para enlaces y lista*/
+    color: #eee;
+    text-decoration: none;
+}
+.footer-links ul li{
+    font-size: 18px;
+    display: block;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+.footer-links ul li:hover{
+    padding-left: 6px;
+}
+.social-links a{
+    display: inline-block;
+    text-align: center;
+    transition: all .5s ease;
+}
+.footer-links a:hover{
+    color: gold;
+}
+
+/*Medias Query*/
+@media screen and (max-width: 500px){
+    .footer-row{
+        text-align: start;
+    }
+    .footer-links{
+        width: 100%;
+        margin-bottom: 30px;
+    }
+}
+/*Footer*/

@@ -1,0 +1,117 @@
+/* Contenedor de todas las tarjetas */
+.contenedor-turnos {
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    margin-bottom: 25px;
+}
+
+/* Forzar que todo quede alineado a la izquierda */
+.contenedor-turnos .row {
+    justify-content: flex-start !important;
+}
+
+/* Tamaño más pequeño de cartas */
+.card-turno {
+    transform: scale(0.92);
+    transform-origin: top left;
+    transition: 0.2s ease;
+}
+
+.card-turno:hover {
+    transform: scale(0.95);
+}
+
+/* Encabezado más fino */
+.card-turno .card-header {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+}
+
+/* Cuerpo compacto */
+.card-turno .card-body {
+    padding: 12px;
+}
+
+/* Footer pequeño */
+.card-turno .card-footer {
+    padding: 8px 12px;
+}
+
+/* Estilos para el calendario de administración */
+#calendarAdm {
+    max-width: 100%;
+    margin: 0 auto;
+    background: white;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Estilos para los eventos del calendario */
+#calendarAdm .fc-event {
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    padding: 2px 4px;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+#calendarAdm .fc-event:hover {
+    opacity: 0.8;
+    transform: scale(1.02);
+}
+
+/* Tooltips para eventos */
+#calendarAdm .fc-event[title] {
+    position: relative;
+}
+
+#calendarAdm .fc-event[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: pre-line;
+    z-index: 1000;
+    pointer-events: none;
+    max-width: 200px;
+    text-align: center;
+}
+
+/* Botones de alternancia de vista */
+.btn-group .btn {
+    border-radius: 6px !important;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-group .btn.active {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    #calendarAdm {
+        font-size: 0.8rem;
+    }
+
+    #calendarAdm .fc-header-toolbar {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #calendarAdm .fc-toolbar-chunk {
+        display: flex;
+        justify-content: center;
+    }
+}

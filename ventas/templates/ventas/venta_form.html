@@ -1,0 +1,290 @@
+{% load static %}
+
+<!-- Estilos específicos del POS -->
+<link rel="stylesheet" href="{% static 'css/caja/venta.css' %}">
+
+<div class="pos-container">
+    <!-- Header del POS -->
+    <div class="pos-header">
+        <div class="pos-info">
+            <div class="pos-title">
+                <!-- <i class="bi bi-shop"></i> -->
+                <h3>Sistema de ventas</h3>
+            </div>
+            <div class="pos-session-info">
+                <small class="text-muted">
+                    <strong>Empleado:</strong> {{ empleado_defecto.nombre_emp }} {{ empleado_defecto.apellido_emp }} |
+                    <strong>Caja:</strong> #{{ caja_activa.id_caja }} |
+                    <strong>Saldo:</strong> ${{ caja_activa.saldo_actual|floatformat:2 }}
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal del POS -->
+    <div class="pos-main">
+        <!-- Panel izquierdo: Productos -->
+        <div class="pos-productos-panel">
+            <!-- Barra de búsqueda y filtros -->
+            <div class="pos-search-bar">
+                <div class="search-input-container">
+                    <i class="bi bi-search"></i>
+                    <input type="text" id="pos-search" class="form-control" 
+                           placeholder="Buscar productos...">
+                </div>
+                
+                <!-- Filtros por categoría -->
+                <div class="pos-filters">
+                    <button type="button" class="filter-btn active" data-categoria="todas">
+                        <i class="bi bi-grid"></i> Todos
+                    </button>
+                    {% for categoria in productos_por_categoria.keys %}
+                    <button type="button" class="filter-btn" data-categoria="{{ categoria }}">
+                        {% if categoria == 'Perros' %}
+                            <!-- <i class="bi bi-heart-fill"></i> -->
+                        {% elif categoria == 'Gatos' %}
+                            <!-- <i class="bi bi-heart"></i> -->
+                        {% elif categoria == 'Peces' %}
+                            <!-- <i class="bi bi-droplet"></i> -->
+                        {% else %}
+                            <!-- <i class="bi bi-box"></i> -->
+                        {% endif %}
+                        {{ categoria }}
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Contador de productos -->
+            <div class="pos-products-counter">
+                <small class="text-muted">
+                    <span id="productos-mostrados">{{ total_productos }}</span> productos disponibles
+                </small>
+            </div>
+
+            <!-- Contenedor de scroll para productos -->
+            <div class="pos-products-scroll-container">
+                <!-- Grilla de productos -->
+                <div class="pos-products-grid" id="productos-grid">
+                    {% for producto in productos_disponibles %}
+                    <div class="product-card" 
+                         data-id="{{ producto.id_prod }}"
+                         data-nombre="{{ producto.nombre_prod }}"
+                         data-precio="{{ producto.precio_prod|floatformat:2 }}"
+                         data-stock="{{ producto.stock_prod }}"
+                         data-categoria="{{ producto.categoria_prod|default:'Sin categoría' }}">
+                        
+                        <div class="product-image">
+                            {% if producto.imagen_prod %}
+                                <img src="{{ producto.imagen_prod.url }}" alt="{{ producto.nombre_prod }}">
+                            {% else %}
+                                <div class="product-no-image">
+                                    <i class="bi bi-image"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="product-info">
+                            <h6 class="product-name">{{ producto.nombre_prod }}</h6>
+                            <div class="product-price">${{ producto.precio_prod|floatformat:2 }}</div>
+                            <div class="product-stock">Stock: {{ producto.stock_prod }}</div>
+                            <div class="product-category">{{ producto.categoria_prod|default:'Sin categoría' }}</div>
+                        </div>
+                        
+                        <div class="product-actions">
+                            <button type="button" class="btn-add-to-cart" 
+                                    data-producto-id="{{ producto.id_prod }}">
+                                <i class="bi bi-cart-plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="no-products">
+                        <i class="bi bi-box-seam"></i>
+                        <p>No hay productos disponibles</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Indicador de scroll
+                <div class="scroll-indicator">
+                    <small class="text-muted">
+                        <i class="bi bi-mouse"></i> Desplázate para ver más productos
+                    </small>
+                </div> -->
+            </div>
+        </div>
+
+        <!-- Panel derecho: Carrito -->
+        <div class="pos-carrito-panel">
+            <div class="carrito-header">
+                <h5>
+                    <i class="bi bi-cart3"></i>
+                    Agregar productos
+                </h5>
+                <button type="button" class="btn-clear-cart" id="btn-limpiar-carrito">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+
+            <!-- Items del carrito -->
+            <div class="carrito-items" id="carrito-items">
+                <div class="carrito-empty">
+                    <i class="bi bi-cart-x"></i>
+                    <p>El carrito está vacío</p>
+                    <small>Agrega productos para comenzar</small>
+                </div>
+            </div>
+
+            <!-- Resumen de la venta -->
+            <div class="carrito-summary">
+                <div class="summary-line">
+                    <span>Subtotal:</span>
+                    <span id="carrito-subtotal">$0.00</span>
+                </div>
+                <div class="summary-line">
+                    <span>Descuento:</span>
+                    <span id="carrito-descuento">$0.00</span>
+                </div>
+                <div class="summary-line total-line">
+                    <span><strong>Total:</strong></span>
+                    <span id="carrito-total"><strong>$0.00</strong></span>
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="carrito-actions">
+                <button type="button" class="pos-metodo-pago-btn" id="btn-seleccionar-metodo">
+                    <i class="bi bi-credit-card-2-front"></i>
+                    <span class="metodo-texto">Método de Pago:</span>
+                    <span class="pos-metodo-actual" id="metodo-actual">Efectivo</span>
+                </button>
+                
+                <button type="button" class="btn-process-sale" 
+                        id="btn-procesar-venta" 
+                        disabled>
+                    <i class="bi bi-credit-card"></i>
+                    Procesar Venta
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmación de venta -->
+<div class="modal fade modal-cv" id="modalConfirmacionVenta" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-check-circle"></i>
+                    Confirmar Venta
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="confirmacion-detalles">
+                    <!-- Se llena con JavaScript -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-success" id="btn-confirmar-venta">
+                    <i class="bi bi-check2"></i>
+                    Confirmar Venta
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de cantidad personalizada -->
+<div class="modal fade" id="modalCantidad" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Seleccionar Cantidad</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Producto: <span id="modal-producto-nombre"></span></label>
+                    <label class="form-label">Stock disponible: <span id="modal-producto-stock"></span></label>
+                </div>
+                <div class="mb-3">
+                    <label for="modal-cantidad-input" class="form-label">Cantidad:</label>
+                    <input type="number" class="form-control" id="modal-cantidad-input" 
+                           min="1" value="1">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" id="btn-confirmar-cantidad">
+                    Agregar al Carrito
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Seleccionar Método de Pago -->
+<div class="modal fade pos-modal-metodo" id="modalSeleccionarMetodo" tabindex="-1">
+    <div class="modal-dialog modal-sm pos-modal-dialogo">
+        <div class="modal-content pos-modal-contenido">
+            <div class="modal-header pos-modal-cabecera">
+                <h5 class="modal-title pos-modal-titulo">Seleccionar Método de Pago</h5>
+                <button type="button" class="btn-close pos-modal-cerrar" data-bs-dismiss="modal"></button>
+            </div>
+            
+            <div class="modal-body pos-modal-cuerpo">
+                <div class="metodos-disponibles pos-opciones-lista">
+                    <div class="metodo-item pos-opcion-item">
+                        <input type="radio" id="metodo-efectivo" name="metodo_seleccion" value="efectivo" checked class="pos-radio-input">
+                        <label for="metodo-efectivo" class="metodo-label pos-opcion-tarjeta">
+                            <i class="bi bi-cash pos-opcion-icono"></i>
+                            <span class="metodo-text pos-opcion-texto">Efectivo</span>
+                        </label>
+                    </div>
+                    
+                    <div class="metodo-item pos-opcion-item">
+                        <input type="radio" id="metodo-transferencia" name="metodo_seleccion" value="transferencia" class="pos-radio-input">
+                        <label for="metodo-transferencia" class="metodo-label pos-opcion-tarjeta">
+                            <i class="bi bi-bank pos-opcion-icono"></i>
+                            <span class="metodo-text pos-opcion-texto">Transferencia</span>
+                        </label>
+                    </div>
+                    
+                    <div class="metodo-item pos-opcion-item">
+                        <input type="radio" id="metodo-tarjeta" name="metodo_seleccion" value="tarjeta" class="pos-radio-input">
+                        <label for="metodo-tarjeta" class="metodo-label pos-opcion-tarjeta">
+                            <i class="bi bi-credit-card pos-opcion-icono"></i>
+                            <span class="metodo-text pos-opcion-texto">Tarjeta</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer pos-modal-footer justify-content-center">
+                <button type="button" class="btn pos-boton-confirmar" id="btn-confirmar-metodo-seleccion">
+                    <i class="bi bi-check2"></i> Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Configuración JavaScript del POS -->
+<script>
+    // Configuración global del POS
+    window.POS_CONFIG = {
+        procesarVentaUrl: "{% url 'ventas:procesar_venta_pos' %}",
+        csrfToken: "{{ csrf_token }}"
+    };
+    
+    console.log('POS_CONFIG definido:', window.POS_CONFIG);
+</script>

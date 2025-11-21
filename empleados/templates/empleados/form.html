@@ -1,0 +1,106 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'empleados/css/form.css' %}">
+
+<form method="POST" class="form-registro-empleado" id="formAgregarEmpleado" action="{% url 'empleados:crear' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <!-- Sección: Información Personal -->
+    <div class="seccion-formulario">
+        <h6 class="titulo-seccion"><i class="bi bi-person-fill"></i> Información Personal</h6>
+        
+        <div class="mb-3">
+            <label for="id_nombre_emp" class="form-label">Nombre</label>
+            {{ form.nombre_emp }}
+            <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_apellido_emp" class="form-label">Apellido</label>
+            {{ form.apellido_emp }}
+            <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_dni_emp" class="form-label">DNI</label>
+            {{ form.dni_emp }}
+            <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_sexo_emp" class="form-label">Género <span style="color: #dc3545;">*</span></label>
+            {{ form.sexo_emp }}
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+
+    <!-- Sección: Información de Contacto -->
+    <div class="seccion-formulario">
+        <h6 class="titulo-seccion"><i class="bi bi-envelope-fill"></i> Información de Contacto</h6>
+        
+        <div class="mb-3">
+            <label for="id_email" class="form-label">Email <span style="color: #dc3545;">*</span></label>
+            {{ form.email }}
+            <small class="form-text">Se enviarán las credenciales a este correo</small>
+            <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_telefono" class="form-label">Teléfono</label>
+            {{ form.telefono }}
+            
+            <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_direccion" class="form-label">Dirección <span style="color: #dc3545;">*</span></label>
+            {{ form.direccion }}
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+
+    <!-- Sección: Información Laboral -->
+    <div class="seccion-formulario">
+        <h6 class="titulo-seccion"><i class="bi bi-briefcase-fill"></i> Información Laboral</h6>
+        
+        <div class="mb-3">
+            <label for="id_cargo" class="form-label">Cargo <span style="color: #dc3545;">*</span></label>
+            {{ form.cargo }}
+            <small class="form-text">Se creará usuario según el cargo seleccionado</small>
+            <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_fecha_ingreso" class="form-label">Fecha de Ingreso <span style="color: #dc3545;">*</span></label>
+            {{ form.fecha_ingreso }}
+            <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_sueldo" class="form-label">Sueldo</label>
+            {{ form.sueldo }}
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+
+    <!-- Sección: Estado -->
+    <div class="seccion-formulario">
+        <h6 class="titulo-seccion"><i class="bi bi-toggle-on"></i> Estado</h6>
+        
+        <div class="mb-3">
+            <label for="id_activo" class="form-label">Estado del Empleado</label>
+            {{ form.activo }}
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle"></i> Cancelar
+        </button>
+        <button type="submit" class="btn btn-guardar">
+            <i class="bi bi-check-circle"></i> Guardar Empleado
+        </button>
+    </div>
+</form>

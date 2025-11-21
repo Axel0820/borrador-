@@ -1,0 +1,134 @@
+
+body {
+    background-color: #eeeeeeff;
+    
+    
+}
+
+/* Título */
+h1 {
+    font-weight: bold;
+    color: #000000;
+}
+
+/* Botón agregar */
+.btn-primary {
+    background-color: #6f00b5;
+    border: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #840dd4;
+}
+
+.btn-primary:active {
+    background-color: #741c6a !important; 
+    border-color: #761e74 !important;
+}
+
+
+/* Card */
+.card {
+    border-radius: 12px;
+    background-color: #ffffff;
+
+    
+
+}
+
+/* Tabla */
+.table th {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+    
+}
+
+
+.table td {
+    font-size: 0.95rem;
+}
+
+/* Botones de acción */
+.btn-success {
+    background-color: #198754;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #146c43;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #bb2d3b;
+}
+
+
+.table {
+    background-color: #f70804; /* beige suave */
+}
+
+/* Contenedor de scroll para la tabla */
+.table-scroll-container {
+    max-height: 400px; /* Altura máxima para mostrar 10 filas aproximadamente */
+    overflow-y: auto; /* Scroll vertical */
+    border: 1px solid #dee2e6; /* Borde para el contenedor */
+    border-radius: 0.375rem; /* Bordes redondeados */
+}
+ 
+/* bonton de guardar */
+
+.btn-primary:active {
+    background-color: #9340a8 !important; /* Verde oscuro al presionarlo */
+
+}
+
+/* buscador */
+.buscador-morado .input-group-text {
+    background-color: #6f00b5; 
+    color: white;
+    border: none;
+     
+}
+
+.buscador-morado .form-control {
+    border: 2px solid #6f00b5; /* borde  */
+    box-shadow: none;
+}
+
+.buscador-morado .form-control:focus {
+    border-color: #4b0082; /* morado más oscuro al enfocar */
+    box-shadow: 0 0 5px rgba(111, 0, 181, 0.5);
+}
+
+
+/* botón de filtro */
+.btn-purple-custom {
+    color: white;
+    background-color: #6f00b5; /* Morado base */
+    border-color: #6f00b5;
+}
+
+/* Estilos para el efecto al pasar el cursor (hover) */
+.btn-purple-custom:hover {
+    color: white;
+    background-color: #840dd4; 
+    border-color: #840dd4;
+}
+
+
+.btn-purple-custom:active,
+.btn-purple-custom:focus {
+    background-color: #5a369e;
+    border-color: #5a369e;
+    box-shadow: 0 0 0 0.25rem rgba(111, 66, 193, 0.5); /* Sombra de enfoque de Bootstrap */
+}
+
+

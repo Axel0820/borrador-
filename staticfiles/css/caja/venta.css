@@ -1,0 +1,1060 @@
+/* ========================================
+   SISTEMA POS - ALMACANINA
+   Estilos para la interfaz Point of Sale
+======================================== */
+
+/* Variables CSS */
+:root {
+    --pos-primary: gold;
+    --pos-secondary: rgb(174, 65, 228);
+    --pos-success: #27ae60;
+    --pos-warning: #f39c12;
+    --pos-danger: #e74c3c;
+    --pos-light: #ecf0f1;
+    --pos-dark: #34495e;
+    --pos-white: #ffffff;
+    --pos-gray-100: #f8f9fa;
+    --pos-gray-200: #e9ecef;
+    --pos-gray-300: #dee2e6;
+    --pos-gray-400: #ced4da;
+    --pos-gray-500: #adb5bd;
+    --pos-gray-600: #6c757d;
+    --pos-gray-700: #495057;
+    --pos-gray-800: #343a40;
+    --pos-gray-900: #212529;
+    
+    --pos-border-radius: 8px;
+    --pos-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --pos-shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.15);
+    --pos-transition: all 0.3s ease;
+}
+
+/* Contenedor principal del POS */
+.pos-container {
+    min-height: 100vh;
+    background: var(--pos-gray-100);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Header del POS */
+.pos-header {
+    background: var(--pos-white);
+    border-bottom: 1px solid var(--pos-gray-300);
+    padding: 1rem 1.5rem;
+    box-shadow: var(--pos-shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.pos-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.pos-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.pos-title i {
+    font-size: 1.5rem;
+    color: var(--pos-secondary);
+}
+
+.pos-title h3 {
+    margin: 0;
+    color: black;
+    font-weight: 600;
+}
+
+.pos-session-info {
+    text-align: right;
+}
+
+/* Contenido principal */
+.pos-main {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: calc(100vh - 100px);
+}
+
+/* Panel de productos (izquierda) */
+.pos-productos-panel {
+    background: var(--pos-white);
+    border-radius: var(--pos-border-radius);
+    box-shadow: var(--pos-shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Barra de búsqueda */
+.pos-search-bar {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--pos-gray-200);
+    background: var(--pos-gray-50);
+}
+
+.search-input-container {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.search-input-container i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--pos-gray-500);
+    z-index: 2;
+}
+
+.search-input-container input {
+    padding-left: 40px;
+    border: 2px solid var(--pos-gray-300);
+    border-radius: var(--pos-border-radius);
+    font-size: 1rem;
+    transition: var(--pos-transition);
+}
+
+.search-input-container input:focus {
+    border-color: var(--pos-secondary);
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+/* Filtros de categoría */
+.pos-filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: var(--pos-white);
+    border: 2px solid var(--pos-gray-300);
+    border-radius: var(--pos-border-radius);
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--pos-gray-700);
+    cursor: pointer;
+    transition: var(--pos-transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-btn:hover {
+    background: var(--pos-gray-100);
+    border-color: var(--pos-gray-400);
+}
+
+.filter-btn.active {
+    background: var(--pos-secondary);
+    border-color: var(--pos-secondary);
+    color: var(--pos-white);
+}
+
+.filter-btn i {
+    font-size: 1rem;
+}
+
+/* Contador de productos */
+.pos-products-counter {
+    padding: 0.75rem 1.5rem;
+    background: var(--pos-gray-50);
+    border-bottom: 1px solid var(--pos-gray-200);
+}
+
+/* Grilla de productos */
+.pos-products-grid {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    max-height: 600px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    align-content: start;
+    
+    /* Scroll suave */
+    scroll-behavior: smooth;
+}
+
+/* Tarjeta de producto */
+.product-card {
+    background: var(--pos-white);
+    border: 2px solid var(--pos-gray-200);
+    border-radius: var(--pos-border-radius);
+    overflow: hidden;
+    transition: var(--pos-transition);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    border-color: var(--pos-secondary);
+    transform: translateY(-2px);
+    box-shadow: var(--pos-shadow-lg);
+}
+
+.product-image {
+    height: 120px;
+    overflow: hidden;
+    background: var(--pos-gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-no-image {
+    color: var(--pos-gray-400);
+    font-size: 2rem;
+}
+
+.product-info {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: black;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+}
+
+.product-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--pos-success);
+    margin-bottom: 0.25rem;
+}
+
+.product-stock {
+    font-size: 0.75rem;
+    color: var(--pos-gray-600);
+    margin-bottom: 0.25rem;
+}
+
+.product-category {
+    font-size: 0.75rem;
+    color: var(--pos-gray-500);
+    background: var(--pos-gray-100);
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    text-align: center;
+    margin-top: auto;
+}
+
+.product-actions {
+    padding: 0.75rem;
+    border-top: 1px solid var(--pos-gray-200);
+}
+
+.btn-add-to-cart {
+    width: 100%;
+    background: var(--pos-secondary);
+    color: var(--pos-white);
+    border: none;
+    border-radius: var(--pos-border-radius);
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--pos-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+/*BOTON PARA AGREGAR AL CARRITO*/
+.btn-add-to-cart:hover {
+    background: blueviolet;
+    transform: translateY(-1px);
+}
+
+/* Estado sin productos */
+.no-products {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    color: var(--pos-gray-500);
+}
+
+.no-products i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+/* Panel del carrito (derecha) */
+.pos-carrito-panel {
+    background: var(--pos-white);
+    border-radius: var(--pos-border-radius);
+    box-shadow: var(--pos-shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Header del carrito */
+.carrito-header {
+    padding: 1.5rem;
+    background: var(--pos-primary);
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.carrito-header h5 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-clear-cart {
+    background: transparent;
+    border: 2px solid #8F08AA;
+    color: #8F08AA;
+    border-radius: var(--pos-border-radius);
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: var(--pos-transition);
+}
+
+.btn-clear-cart:hover {
+    background: #8F08AA;
+    color: var(--pos-primary);
+}
+
+/* Items del carrito */
+.carrito-items {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.carrito-empty {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: var(--pos-gray-500);
+}
+
+.carrito-empty i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+/* Item individual del carrito */
+.carrito-item {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--pos-gray-200);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.carrito-item-image {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--pos-border-radius);
+    overflow: hidden;
+    background: var(--pos-gray-100);
+    flex-shrink: 0;
+}
+
+.carrito-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carrito-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.carrito-item-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: black;
+    margin: 0 0 0.25rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.carrito-item-price {
+    font-size: 0.75rem;
+    color: var(--pos-gray-600);
+}
+
+.carrito-item-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.quantity-btn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--pos-gray-300);
+    background: var(--pos-white);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    transition: var(--pos-transition);
+}
+
+.quantity-btn:hover {
+    background: var(--pos-gray-100);
+}
+
+.quantity-display {
+    min-width: 40px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.btn-remove-item {
+    color: var(--pos-danger);
+    background: transparent;
+    border: none;
+    padding: 0.25rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: var(--pos-transition);
+}
+
+.btn-remove-item:hover {
+    color: var(--pos-white);
+    background: var(--pos-danger);
+    border-radius: 4px;
+}
+
+/* Resumen del carrito */
+.carrito-summary {
+    padding: 1.5rem;
+    background: var(--pos-gray-50);
+    border-top: 1px solid var(--pos-gray-200);
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.summary-line.total-line {
+    font-size: 1.1rem;
+    border-top: 2px solid var(--pos-gray-300);
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+    margin-bottom: 0;
+}
+
+/* Acciones del carrito */
+.carrito-actions {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.btn-process-sale {
+    background: var(--pos-success);
+    color: var(--pos-white);
+    border: none;
+    border-radius: var(--pos-border-radius);
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--pos-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-process-sale:hover:not(:disabled) {
+    background: #229954;
+    transform: translateY(-1px);
+    box-shadow: var(--pos-shadow);
+}
+
+.btn-process-sale:disabled {
+    background: var(--pos-gray-400);
+    cursor: not-allowed;
+}
+
+.btn-cancel-sale {
+    background: transparent;
+    color: var(--pos-danger);
+    border: 2px solid var(--pos-danger);
+    border-radius: var(--pos-border-radius);
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--pos-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-cancel-sale:hover {
+    background: var(--pos-danger);
+    color: var(--pos-white);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .pos-main {
+        grid-template-columns: 1fr 350px;
+    }
+    
+    .pos-products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .pos-main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+    }
+    
+    .pos-carrito-panel {
+        order: -1;
+        max-height: 300px;
+    }
+    
+    .carrito-items {
+        max-height: 150px;
+    }
+    
+    .pos-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+/* Mobile: aplicar layout de UNA FILA + carrito expandido solo para pantallas pequeñas */
+@media (max-width: 768px) {
+    .pos-main {
+        /* Productos arriba, carrito abajo */
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .pos-header {
+        padding: 1rem;
+    }
+
+    .pos-filters {
+        justify-content: center;
+    }
+
+    .filter-btn {
+        font-size: 0.75rem;
+        padding: 0.375rem 0.75rem;
+    }
+
+    /* Grilla de productos: una fila horizontal con scroll-x */
+    .pos-products-grid {
+        padding: 0.75rem 1rem;
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 160px; /* ancho fijo por card en móvil */
+        grid-template-rows: 1fr; /* solo una fila */
+        gap: 0.75rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        align-items: start;
+        scroll-behavior: smooth;
+    }
+
+    .product-card {
+        width: 160px;
+        min-width: 160px;
+        height: 280px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Asegurar que el panel carrito quede debajo y ocupe el resto */
+    .pos-carrito-panel {
+        order: 2;
+        flex: 1;
+        max-height: none;
+    }
+
+    .carrito-items {
+        max-height: 350px;
+        overflow-y: auto;
+    }
+
+    /* Botones en columna para móviles */
+    .carrito-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    .pos-metodo-pago-btn,
+    .btn-process-sale {
+        flex: none;
+        font-size: 0.9rem;
+        padding: 0.75rem;
+    }
+
+    /* Scrollbar horizontal para WebKit (móvil) */
+    .pos-products-grid::-webkit-scrollbar {
+        height: 8px;
+    }
+    .pos-products-grid::-webkit-scrollbar-track {
+        background: var(--pos-gray-100);
+        border-radius: 4px;
+    }
+    .pos-products-grid::-webkit-scrollbar-thumb {
+        background: var(--pos-gray-400);
+        border-radius: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pos-products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.5rem;
+        padding: 0.5rem;
+    }
+    
+    .product-card {
+        font-size: 0.875rem;
+    }
+    
+    .product-image {
+        height: 100px;
+    }
+    
+    .product-info {
+        padding: 0.75rem;
+    }
+    
+    .carrito-item {
+        padding: 0.75rem 1rem;
+    }
+    
+    .carrito-actions {
+        padding: 1rem;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.product-card.adding {
+    animation: pulse 0.3s ease;
+}
+
+.carrito-item {
+    animation: fadeInUp 0.3s ease;
+}
+
+/* Estados de carga */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--pos-gray-300);
+    border-radius: 50%;
+    border-top-color: var(--pos-secondary);
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Mejoras de accesibilidad */
+.filter-btn:focus,
+.btn-add-to-cart:focus,
+.quantity-btn:focus,
+.btn-process-sale:focus,
+.btn-cancel-sale:focus {
+    outline: 2px solid var(--pos-secondary);
+    outline-offset: 2px;
+}
+
+/* Scrollbars personalizados (Webkit) */
+.pos-products-grid::-webkit-scrollbar,
+.carrito-items::-webkit-scrollbar {
+    width: 8px;
+}
+
+.pos-products-grid::-webkit-scrollbar-track,
+.carrito-items::-webkit-scrollbar-track {
+    background: var(--pos-gray-100);
+    border-radius: 4px;
+}
+
+.pos-products-grid::-webkit-scrollbar-thumb,
+.carrito-items::-webkit-scrollbar-thumb {
+    background: var(--pos-gray-400);
+    border-radius: 4px;
+}
+
+.pos-products-grid::-webkit-scrollbar-thumb:hover,
+.carrito-items::-webkit-scrollbar-thumb:hover {
+    background: var(--pos-gray-500);
+}
+
+/* ========================================
+   BOTONES DE ACCIÓN DEL CARRITO
+======================================== */
+
+/* Botón procesar venta */
+.btn-process-sale {
+    background: var(--pos-success);
+    color: var(--pos-white);
+    border: none;
+    border-radius: var(--pos-border-radius);
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--pos-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-process-sale:hover:not(:disabled) {
+    background: #229954;
+    transform: translateY(-1px);
+    box-shadow: var(--pos-shadow);
+}
+
+/* Botón método de pago - Diseño moderno---------------------------------- */
+.pos-metodo-pago-btn {
+    /* Base */
+    /* background: linear-gradient(135deg, var(--pos-primary), var(--pos-secondary)); */
+    background: #8F08AA;
+    color: var(--pos-white);
+    border: none;
+    border-radius: var(--pos-border-radius);
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    
+    /* Layout */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    
+    /* Efectos */
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(174, 65, 228, 0.2);
+}
+
+.pos-metodo-pago-btn:hover {
+    /* background: linear-gradient(135deg, #ffd700, #9333ea); */
+    background: #8F08AA;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(174, 65, 228, 0.4);
+}
+
+.pos-metodo-pago-btn:active {
+    transform: translateY(0);
+}
+
+/* Efecto shimmer para el botón de método de pago */
+.pos-metodo-pago-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.3), 
+        transparent
+    );
+    transition: left 0.6s ease;
+}
+
+.pos-metodo-pago-btn:hover::before {
+    left: 100%;
+}
+
+/* Elementos internos del botón de método de pago */
+.pos-metodo-pago-btn i {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.pos-metodo-pago-btn .pos-metodo-actual {
+    background: rgba(255, 255, 255, 0.25);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   MODAL MÉTODO DE PAGO - DISEÑO MODERNO
+======================================== */
+.modal-cv{
+    backdrop-filter: blur(5px);
+}
+/* Modal principal */
+.pos-modal-metodo {
+    backdrop-filter: blur(5px);
+}
+
+.pos-modal-dialogo {
+    margin: 1.75rem auto;
+}
+
+.pos-modal-contenido {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    background: var(--pos-white);
+}
+
+/* Header del modal */
+.pos-modal-cabecera {
+    /* background: linear-gradient(135deg, var(--pos-primary), var(--pos-secondary)); */
+    background: gold;
+    /* color: var(--pos-white); */
+    color: black;
+    border: none;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.pos-modal-titulo {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.pos-modal-cerrar {
+    color: var(--pos-white);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.pos-modal-cerrar:hover {
+    opacity: 1;
+    color: var(--pos-white);
+}
+
+/* Cuerpo del modal */
+.pos-modal-cuerpo {
+    padding: 2rem 1.5rem;
+    background: var(--pos-gray-50);
+}
+
+/* Lista de opciones */
+.pos-opciones-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Item individual de método */
+.pos-opcion-item {
+    position: relative;
+}
+
+.pos-radio-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.pos-opcion-tarjeta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--pos-white);
+    border: 2px solid var(--pos-gray-200);
+    border-radius: var(--pos-border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.pos-opcion-tarjeta:hover {
+    border-color: var(--pos-secondary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(174, 65, 228, 0.15);
+}
+
+/* Estado seleccionado */
+.pos-radio-input:checked + .pos-opcion-tarjeta {
+    /* background: linear-gradient(135deg, var(--pos-primary), var(--pos-secondary)); */
+    background: #8F08AA;
+    border-color: var(--pos-secondary);
+    color: var(--pos-white);
+    box-shadow: 0 8px 20px rgba(174, 65, 228, 0.3);
+}
+
+.pos-radio-input:checked + .pos-opcion-tarjeta::before {
+    content: '✓';
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    background: rgba(255, 255, 255, 0.2);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* Iconos */
+.pos-opcion-icono {
+    font-size: 1.5rem;
+    color: var(--pos-secondary);
+    transition: color 0.3s ease;
+}
+
+.pos-radio-input:checked + .pos-opcion-tarjeta .pos-opcion-icono {
+    color: var(--pos-white);
+}
+
+/* Texto */
+.pos-opcion-texto {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--pos-gray-700);
+    transition: color 0.3s ease;
+}
+
+.pos-radio-input:checked + .pos-opcion-tarjeta .pos-opcion-texto {
+    color: var(--pos-white);
+    font-weight: 600;
+}
+
+/* Footer del modal */
+.pos-modal-footer {
+    padding: 1.5rem;
+    background: var(--pos-white);
+    border-top: 1px solid var(--pos-gray-200);
+}
+
+.pos-boton-confirmar {
+    background: linear-gradient(135deg, var(--pos-success), #229954);
+    color: var(--pos-white);
+    border: none;
+    border-radius: var(--pos-border-radius);
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 150px;
+    justify-content: center;
+}
+
+.pos-boton-confirmar:hover {
+    background: linear-gradient(135deg, #229954, #1e7e34);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3);
+}
+
+/* PRUEBA DE SINCRONIZACIÓN - ESTA LÍNEA DEBE APARECER AL FINAL */

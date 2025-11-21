@@ -1,0 +1,286 @@
+{% load static %}
+
+<!-- CSS específico del módulo (las bibliotecas ya están en adm2.html) -->
+<link rel="stylesheet" href="{% static 'css/clientes/listar.css' %}">
+
+    <div class="container mt-4">
+        <h2 class="mb-4">Gestión de Clientes</h2>
+
+        <!-- Modal para AGREGAR cliente -->
+        <div class="modal fade" id="modalAgregarCliente" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Agregar Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body-content">
+                        <!-- Aquí se cargará el contenido de form.html -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para EDITAR cliente -->
+        <div class="modal fade" id="modalEditarCliente" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body-editar-content">
+                        <!-- Aquí se cargará el contenido de editar.html -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjetas de estadísticas -->
+        <div class="row mb-4 g-3">
+            <!-- Total Clientes -->
+            <div class="col-md-4">
+                <div class="card shadow-lg border-0 text-center h-100">
+                    <div class="card-body">
+                        <i class="bi bi-people-fill display-5 text-primary"></i>
+                        <h3 class="fw-bold mt-2">{{ total_clientes }}</h3>
+                        <p class="text-muted mb-0">Total <strong>Clientes</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clientes Activos -->
+            <div class="col-md-4">
+                <div class="card shadow-lg border-0 text-center h-100">
+                    <div class="card-body">
+                        <i class="bi bi-person-check-fill display-5 text-success"></i>
+                        <h3 class="fw-bold mt-2">{{ clientes_activos }}</h3>
+                        <p class="text-muted mb-0">Clientes <strong>Activos</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clientes Inactivos -->
+            <div class="col-md-4">
+                <div class="card shadow-lg border-0 text-center h-100">
+                    <div class="card-body">
+                        <i class="bi bi-person-x-fill display-5 text-danger"></i>
+                        <h3 class="fw-bold mt-2">{{ clientes_inactivos }}</h3>
+                        <p class="text-muted mb-0">Clientes <strong>Inactivos</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="d-flex justify-content-between mb-3">
+            <div class="btn-group">
+                <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-file-earmark-pdf me-1"></i> Exportar a PDF
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="{% url 'clientes:exportar_pdf' %}?estado=1">
+                            <i class="bi bi-check-circle text-success"></i> Clientes Activos
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'clientes:exportar_pdf' %}?estado=0">
+                            <i class="bi bi-x-circle text-danger"></i> Clientes Inactivos
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="{% url 'clientes:exportar_pdf' %}?estado=todos">
+                            <i class="bi bi-list-ul text-primary"></i> Todos los Clientes
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarCliente">
+                <i class="bi bi-plus-circle me-1"></i> Agregar Cliente
+            </a>
+        </div>
+
+        <!-- Tabla de clientes -->
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <!-- Buscador y filtros -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="input-group buscador-morado" style="width: 300px;">
+                            <span class="input-group-text">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" id="buscarInput" class="form-control" placeholder="Buscar cliente...">
+                        </div>
+
+                        <!-- Botón filtro -->
+                        <button class="btn btn-purple-custom rounded-pill shadow-sm" 
+                                type="button" id="filtroDropdown" data-bs-toggle="dropdown" 
+                                aria-expanded="false">
+                            <i class="bi bi-funnel-fill"></i> Filtros
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end p-4 shadow-lg rounded-3" style="min-width: 300px;">
+                            <form method="get" action="{% url 'clientes:listar' %}" id="filtroFormClientes">
+                                <input type="hidden" name="buscar" value="{{ request.GET.buscar }}">
+
+                                <!-- Estado -->
+                                <div class="mb-3">
+                                    <label for="estado" class="form-label fw-bold">
+                                        <i class="bi bi-toggle-on text-success"></i> Estado
+                                    </label>
+                                    <select name="estado" id="estado" class="form-select rounded-pill">
+                                        <option value="">Todos</option>
+                                        <option value="1" {% if request.GET.estado == "1" %}selected{% endif %}>Activos</option>
+                                        <option value="0" {% if request.GET.estado == "0" %}selected{% endif %}>Inactivos</option>
+                                    </select>
+                                </div>
+
+                                <!-- Botones -->
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" id="btnLimpiarClientes" class="btn btn-outline-secondary btn-sm rounded-pill">Limpiar</button>
+                                    <button type="submit" class="btn btn-primary btn-sm rounded-pill">
+                                        <i class="bi bi-check2-circle"></i> Aplicar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Tabla -->
+                    <table id="tablaClientes" class="table table-striped align-middle text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>DNI</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cliente in clientes %}
+                            <tr>
+                                <td>{{ cliente.nombre_cliente }}</td>
+                                <td>{{ cliente.apellido_cliente }}</td>
+                                <td>{{ cliente.dni_cliente }}</td>
+                                <td>{{ cliente.correo_clientes }}</td>
+                                <td>{{ cliente.telefono_cliente }}</td>
+                                <td>
+                                    {% if cliente.estado_cliente == 1 %}
+                                        <span class="badge bg-success">Activo</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Inactivo</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-nowrap gap-1">
+                                        <a href="{% url 'clientes:detalle' cliente.id_cliente %}" 
+                                           class="btn btn-sm btn-info nav-ajax" 
+                                           title="Ver detalle">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                        <a href="#" 
+                                           class="btn btn-sm btn-success" 
+                                           data-bs-toggle="modal" 
+                                           data-bs-target="#modalEditarCliente"
+                                           data-url="{% url 'clientes:editar' cliente.id_cliente %}"
+                                           title="Editar">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        {% if cliente.estado_cliente == 1 %}
+                                            <a href="{% url 'clientes:eliminar' cliente.id_cliente %}" 
+                                               class="btn btn-sm btn-warning btn-eliminar"
+                                               data-nombre="{{ cliente.nombre_cliente }} {{ cliente.apellido_cliente }}"
+                                               data-estado="activo"
+                                               title="Desactivar">
+                                                <i class="bi bi-x-circle-fill"></i>
+                                            </a>
+                                        {% else %}
+                                            <a href="{% url 'clientes:eliminar' cliente.id_cliente %}" 
+                                               class="btn btn-sm btn-danger btn-eliminar"
+                                               data-nombre="{{ cliente.nombre_cliente }} {{ cliente.apellido_cliente }}"
+                                               data-estado="inactivo"
+                                               title="Eliminar permanentemente">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center">No hay clientes registrados</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CSRF Token para AJAX -->
+    {% csrf_token %}
+
+<!-- Inicializar DataTables (las bibliotecas ya están en adm2.html) -->
+<script>
+(function() {
+    function initClientesDataTable() {
+        // Validar que jQuery y DataTables estén disponibles
+        if (typeof $ === 'undefined' || 
+            typeof $.fn === 'undefined' || 
+            typeof $.fn.DataTable === 'undefined') {
+            console.warn('DataTables no está cargado todavía, reintentando...');
+            setTimeout(initClientesDataTable, 100);
+            return;
+        }
+
+        // Destruir DataTable existente si ya fue inicializado
+        if ($.fn.DataTable.isDataTable('#tablaClientes')) {
+            $('#tablaClientes').DataTable().destroy();
+        }
+        
+        $('#tablaClientes').DataTable({
+            language: {
+                "decimal": "",
+                "emptyTable": "No hay información",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            order: [[1, 'asc']], // Ordenar por Apellido (columna 1) de forma ascendente
+            pageLength: 10,
+            lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]],
+            columnDefs: [
+                { orderable: false, targets: 6 } // Desactivar ordenamiento en columna "Acciones"
+            ],
+            searching: false, // Desactivar el buscador de DataTables
+            dom: 'lrtip', // Eliminar el campo de búsqueda de la interfaz
+            // Quitar animaciones
+            fnDrawCallback: null,
+            bSort: true,
+            bProcessing: false,
+            bServerSide: false
+        });
+    }
+    
+    initClientesDataTable();
+})();
+</script>

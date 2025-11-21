@@ -1,0 +1,118 @@
+<!-- CAJA CERRADA -->
+<div class="card mb-3">
+    <div class="card-header bg-danger text-white">
+        <h4 class="mb-0"><i class="bi bi-x-circle"></i> Caja Cerrada</h4>
+    </div>
+    <div class="card-body">
+        <p>Debe abrir la caja para comenzar a operar</p>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0"><i class="bi bi-unlock"></i> Abrir Caja</h5>
+    </div>
+    <div class="card-body">
+        <form id="formApertura">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_saldo_inicial" class="form-label">{{ form_apertura.saldo_inicial.label }}:</label>
+                {{ form_apertura.saldo_inicial }}
+                {% if form_apertura.saldo_inicial.help_text %}
+                    <small class="form-text text-muted">{{ form_apertura.saldo_inicial.help_text }}</small>
+                {% endif %}
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-unlock-fill"></i> Abrir Caja
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if es_gerente %}
+<!-- HISTORIAL DE CAJAS (SOLO GERENTE) -->
+<div class="card">
+    <div class="card-header bg-info text-white">
+        <h5 class="mb-0"><i class="bi bi-clock-history"></i> Historial de Cajas</h5>
+    </div>
+    <div class="card-body">
+        <!-- Filtros -->
+        <form id="filtroFormHistorialCaja" method="get" action="{% url 'caja:principal' %}" class="mb-3">
+            <div class="row g-2">
+                <div class="col-md-3">
+                    {{ form_filtro_historial.empleado.label_tag }}
+                    {{ form_filtro_historial.empleado }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_filtro_historial.fecha_desde.label_tag }}
+                    {{ form_filtro_historial.fecha_desde }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_filtro_historial.fecha_hasta.label_tag }}
+                    {{ form_filtro_historial.fecha_hasta }}
+                </div>
+                <div class="col-md-3 d-flex align-items-end gap-2">
+                    <button type="submit" class="btn btn-primary flex-grow-1">
+                        <i class="bi bi-funnel"></i> Filtrar
+                    </button>
+                    <button type="button" id="btnLimpiarHistorialCaja" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Limpiar
+                    </button>
+                </div>
+            </div>
+        </form>
+        {% if historial_cajas %}
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Empleado</th>
+                            <th>Apertura</th>
+                            <th>Cierre</th>
+                            <th>Saldo Inicial</th>
+                            <th>Saldo Final</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for caja in historial_cajas %}
+                        <tr>
+                            <td>{{ caja.id_caja }}</td>
+                            <td>{{ caja.id_emp_cj.nombre_emp }} {{ caja.id_emp_cj.apellido_emp }}</td>
+                            <td>{{ caja.fecha_apertura|date:"d/m/Y H:i" }}</td>
+                            <td>
+                                {% if caja.fecha_cierre %}
+                                    {{ caja.fecha_cierre|date:"d/m/Y H:i" }}
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                            <td>${{ caja.saldo_inicial|floatformat:2 }}</td>
+                            <td>
+                                {% if caja.saldo_final %}
+                                    ${{ caja.saldo_final|floatformat:2 }}
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if caja.estado_caja == 1 %}
+                                    <span class="badge bg-success">Abierta</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Cerrada</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-muted">No hay historial de cajas disponible.</p>
+        {% endif %}
+    </div>
+</div>
+{% endif %}

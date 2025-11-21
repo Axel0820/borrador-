@@ -1,0 +1,50 @@
+{% load static %}
+
+    <!--Link de CSS-->
+    <link rel="stylesheet" href="{% static 'CSS/navProd.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+
+<!--Nav de Productos--> <!--terminado-->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+        <a href="{% url 'index' %}" class="login-button" id="btn-home" aria-label="Home/Inicio">
+            <i class="bi bi-shop"></i>
+        </a>
+        <a class="navbar-brand" href="#">Forrajeria</a>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Productos</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'alimento' %}">Alimentos</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'accesorio' %}">Accesorios</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'juguete' %}">Juguetes</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'pipeta' %}">Pipetas</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'pesca' %}">Pesca</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+        <a href="{% url 'carrito' %}" class="iconos" aria-label="Carrito de Compras">
+            <i class="bi bi-cart3"></i>
+        </a>
+        <a href="{% url 'favorito' %}" class="iconos" aria-label="Favoritos">
+            <i class="bi bi-bookmark-heart"></i>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        </div>
+    </nav>
+    <!--Nav de Productos--> <!--terminado-->

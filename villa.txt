@@ -1,0 +1,1 @@
+En pos.js en la linea 356 es para el estilo del modal de venta exitosa

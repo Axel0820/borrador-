@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-image: url('../img/fondo huellita con colores del logo.png');  /* ya muestra la imagen de fondo*/
+    background-color: gold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    font-family: "PT Serif", serif;
+}
+.modal{
+    border-radius: 20px;
+}
+#container{ /* contenedor de reset_done*/
+    background-color: #fff;
+    flex-direction: column;
+    padding: 20px;
+    overflow: hidden;
+}
+.card{ /* contenedor de reset_form*/
+    background-color: #fff;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.card form::-webkit-scrollbar { /* para que no se vea el scroll */
+    display: none; 
+}
+.card h2{ /*titulo en el contenedor*/
+    color: #070e72;
+    font-weight: 500;
+}
+.card p{ /*texto*/
+    color: #03084b;
+    font-size: 13px;
+}
+.pregunta a{ /*color de pregunta no recuerdas su contrase;a*/
+    color: cornflowerblue;
+    text-decoration: none;
+    font-size: 13px;
+    text-align: center;
+}
+.card form{ /* Contenedor del form*/
+    width: 100%;
+    height: 100%;
+}
+.card button{ /*boton enviar enlace del form*/
+    background-color: rgb(174, 65, 228);
+    color: #fff;
+    font-size: 12px;
+    padding: 10px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin: 10px auto;
+    display: block;
+}
+.card button:hover{ /*hover boton enviar enlace*/
+    background-color: transparent;
+    color: rgb(174, 65, 228);
+    border-color: rgb(174, 65, 228);
+}
+.btn{
+    background-color: #fff;
+    color: rgb(174, 65, 228);
+    font-size: 12px;
+    padding: 10px 45px;
+    border: 1px solid rgb(174, 65, 228);
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin: 10px auto;
+    display: block;
+}
+.btn:hover{ /*hover boton enviar enlace*/
+    background-color: rgb(174, 65, 228);
+    color: #fff;
+    border-color: rgb(174, 65, 228);
+}
+.contenedor-input{ /*inputs de los form*/
+    background-color: #eee;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 13px;
+    margin: 8px 0;
+    border-radius: 8px;
+    width: 100%;
+    position: relative;
+    display: grid;
+    grid-template-columns: 30px auto;
+    overflow: visible;
+}
+input{ /*input de los form*/
+    background-color: inherit;
+    border: none;
+    border-radius: 8px;
+}
+.icon-wrapper{ /* contenedor de iconos */
+    left: 8px;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.toggle-lock, .toggle-unlock{
+    cursor: pointer;
+}
+.toggle-lock.d-none, .toggle-unlock.d-none{
+    display: none;
+}
+input:focus{  /* Quita el border del input */
+    outline: none;
+}
+.contenedor-input i{ /* Icono de inputs*/
+    color: #070e72;
+}
+.form-contenedor form{
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow-y: auto;
+}
+.form-contenedor form:has(.alert){
+    justify-content: flex-start;
+}

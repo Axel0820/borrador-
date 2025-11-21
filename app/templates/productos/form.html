@@ -1,0 +1,86 @@
+{% load static %}
+
+<!-- Meta tags para responsividad -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+
+<!-- CSS personalizado para botones de categoría -->
+<link rel="stylesheet" href="{% static 'css/productos/form.css' %}">
+
+
+<form method="POST" class="form-registro" id="formAgregarProducto" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-4">
+        
+        <div class="btn-group-categoria">
+            <input type="radio" class="btn-check" name="categoria_prod" id="catPerro" value="Perro" required>
+            <label class="btn" for="catPerro">Perro</label>
+
+            <input type="radio" class="btn-check" name="categoria_prod" id="catGato" value="Gato">
+            <label class="btn" for="catGato">Gato</label>
+
+            <input type="radio" class="btn-check" name="categoria_prod" id="catPez" value="Pez">
+            <label class="btn" for="catPez">Pez</label>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="id_nombre_prod" class="form-label fw-normal">Nombre del producto *</label>
+        {{ form.nombre_prod }}
+    </div>
+
+    <div class="mb-3">
+        <label for="id_precio_prod" class="form-label fw-normal">Precio *</label>
+        {{ form.precio_prod }}
+    </div>
+
+   
+    <div class="row mb-3 g-2">
+        <!-- stock actual -->
+        <div class="col-6 col-md-8">
+            <label for="id_stock_prod" class="form-label fw-normal">Stock *</label>
+            {{ form.stock_prod }}
+        </div>
+
+        <!-- minimo -->
+        <div class="col-6 col-md-4">
+            <label for="id_stock_minimo" class="form-label fw-normal">Stock Mínimo *</label>
+            {{ form.stock_minimo }}
+        </div>
+    </div>
+
+
+    <div class="row mb-3 g-2">
+        <!-- Unidad y empaque -->
+        <div class="col-6 col-md-7">
+            <label for="id_unidad" class="form-label fw-normal">Unidad / Empaque *</label>
+            {{ form.unidad }}
+        </div>
+
+        <!-- Cantidad -->
+        <div class="col-6 col-md-4">
+            <label for="id_cantidad_unidad" class="form-label fw-normal">Valor</label>
+            {{ form.cantidad_unidad }}
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="id_proveedor_prod" class="form-label fw-normal">Proveedor</label>
+        {{ form.proveedor_prod }}
+    </div>
+
+    <div class="mb-3">
+        <label for="id_estado_prod" class="form-label fw-normal">Estado</label>
+        {{ form.estado_prod }}
+    </div>
+
+    <div class="mb-3">
+        <label for="id_imagen_prod" class="form-label fw-normal">Imagen del producto</label>
+        {{ form.imagen_prod }}
+    </div>
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary btn-guardar">Guardar</button>
+    </div>
+</form>
+
+

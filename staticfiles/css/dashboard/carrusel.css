@@ -1,0 +1,614 @@
+.contenedor-carrusel{
+    background: linear-gradient(145deg, #fff 0%, #eee 100%);
+    border-radius: 1rem;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    padding: 1.8rem;
+    margin: 1.5rem auto;
+    max-width: 1100px;
+    transition: all 0.3s ease;
+}
+.encabezado{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid blueviolet;
+    padding-bottom: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+.encabezado h3{
+    color: blueviolet;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+/*--- Botones enlace ---*/
+a, .btn{
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    font-weight: 500;
+}
+/* Botón principal */
+.btn-primary{
+    background: blueviolet;
+    border: none;
+    color: #fff;
+    padding: 8px 15px;
+}
+
+.btn-primary:hover{
+    background: gold;
+    color: #000;
+    transform: translateY(-1px);
+}
+
+/* Botones de accion */
+.btn-outline-info{
+    color: blueviolet;
+    border-color: blueviolet;
+    padding: 8px 13px;
+}
+.btn-outline-info:hover{
+    background: blueviolet;
+    color: #fff;
+}
+.btn-outline-danger{
+    color: gold;
+    border-color: gold;
+    padding: 8px 13px;
+}
+.btn-outline-danger:hover{
+    background: gold;
+    color: #000;
+}
+/*--- Table ---*/
+.table{
+    background: #fff;
+    border-radius: 0.6rem;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+.table thead{
+    background: blueviolet;
+    color: #fff;
+}
+.table th{
+    font-weight: 600;
+    border: none !important;
+}
+.table td{
+    border-top: 1px solid #eee;
+    vertical-align: middle;
+}
+/*--- Scroll ---*/
+.table-content-scroll{
+    max-height: 500px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: blueviolet #eee;
+}
+.table-content-scroll::-webkit-scrollbar{
+    width: 8px;
+}
+.table-content-scroll::-webkit-scrollbar-thumb{
+    background: blueviolet;
+    border-radius: 4px;
+}
+/*--- Estados ---*/
+.badge{
+    padding: 0.5em 0.8em;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+.badge.bg-success{
+    background-color: #198754; 
+    color: #fff;
+}
+.badge.bg-danger{
+    background-color: #dc3545;
+    color: #fff;
+}
+/*--- Cuando no hay imagenes/Contenido ---*/
+.alert-info{
+    background: rgba(138, 43, 226, 0.05);
+    border: 1px solid blueviolet;
+    color: blueviolet;
+    border-radius: 1rem;
+}
+.alert-info h4{
+    color: blueviolet;
+    font-weight: 600;
+}
+/*--- Hover Cuerpo Table ---*/
+tr:hover{
+    background-color: #f7f3ff;
+    transition: 0.2s;
+}
+/*--- Imagen Table ---*/
+img{
+    border: 2px solid #eee;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+img:hover{
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(138, 43, 226, 0.25);
+}
+/*--- Table Cuerpo ---*/
+.cuerpo{
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.table-content-scroll{
+    flex: 3;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+/*--- Panel informativo ---*/
+.panel-lateral {
+    flex: 1;
+    min-width: 250px;
+}
+.panel-lateral .card{
+    background: #fff;
+    border-left: 4px solid blueviolet;
+    border-radius: 12px;
+    transition: 0.3s ease;
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0;
+}
+.panel-lateral .tip{
+    background: #f7f3ff;
+    margin-bottom: 5px;
+    padding: 8ps 15px;
+    border-radius: 8px;
+}
+.panel-lateral .card:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(138, 43, 226, 0.25);
+}
+.text-blueviolet{
+    color: blueviolet;
+}
+
+.id{
+    width: 5%;
+}
+.img{
+    width: 15%;
+}
+.accion, .titulo{
+    width: 30%;
+}
+.estado{
+    width: 25%;
+}
+.table td:nth-child(1), 
+.table td:nth-child(2),
+.table td:nth-child(4),
+.table td:nth-child(5)
+{
+    text-align: center;
+}
+
+/*--- Editar/Agregar Imagen a Carrusel*/ /*encabezado, son lo mismo que el anterior*/
+.contenedor-carrusel-form{
+    background: linear-gradient(145deg, #fff 0%, #eee 100%);
+    border-radius: 1rem;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem;
+    margin: 1.5rem auto;
+    max-width: 1100px;
+    transition: all 0.3s ease;
+}
+.formulario-carrusel{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.columna-izquierda, .photo-section{
+    width: auto;
+    min-width: unset;
+    flex: unset;
+}
+/* --- Agregar Informacion de Promo --- */
+.columna-izquierda{
+    display: grid;
+    grid-template-rows: auto auto auto;
+} 
+/*--- Estado (select) ---*/
+.campo{
+    padding-left: 2rem;
+}
+.form-select{
+    padding: 5px 15px;
+}
+.activo-group .form-select {
+    background-color: #f7f3ff;
+    border: 2px solid blueviolet;
+    border-radius: 8px;
+    padding: 9px 15px;
+    transition: all 0.2s ease-in-out;
+    -webkit-appearance: menulist;
+    -moz-appearance: menulist;
+    appearance: menulist;
+}
+.activo-group .form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(138, 43, 226, 0.25);
+    border-color: rebeccapurple; 
+    outline: none; 
+}
+/*--- Etiquetas ---*/
+.form-label.text-blueviolet{
+    color: blueviolet;
+    display: flex;
+    align-items: center;
+    font-size: 20;
+    font-weight: 200;
+}
+/*--- Iconos ---*/
+.form-label i{
+    padding-left: 1rem;
+    font-size: 20;
+    font-weight: 200;
+    color: blueviolet;
+    margin-right: 5px;
+}
+/*--- Campo texto (título) ---*/
+.campo input{
+    width: 100%;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 8px 15px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.campo input:focus{
+    border-color: blueviolet;
+    box-shadow: 0 0 0 0.25rem rgba(138, 43, 226, 0.25);
+    outline: none;
+}
+.campo input[type="url"],
+.campo input[type="text"] {
+    width: 100%;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 12px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.campo input[type="url"]:focus,
+.campo input[type="text"]:focus{
+    border-color: blueviolet;
+    box-shadow: 0 0 0 0.25rem rgba(138, 43, 226, 0.25);
+    outline: none;
+}
+.formulario-carrusel textarea{
+    width: 100%;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 12px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: vertical; 
+}
+.formulario-carrusel textarea:focus{
+    border-color: blueviolet;
+    box-shadow: 0 0 0 0.25rem rgba(138, 43, 226, 0.25);
+    outline: none;
+}
+/*--- Texto de ayuda ---*/
+.form-text{
+    padding-top: 0.3rem;
+    font-size: 0.9rem;
+    padding-left: 1rem;
+}
+.form-group.mb-4{
+    margin-bottom: 0.7rem; 
+}
+.form-group.activo-group{
+    margin-bottom: 0; 
+}
+/* --- Agregar Imagen --- */
+.photo-section{
+    display: grid;
+    grid-template-columns: auto auto;
+} 
+.titulo-seccion{
+    color: blueviolet;
+    font-weight: 200;
+    padding-left: 2rem;
+    font-size: 20;
+    grid-template-columns: 1 /-1;
+    grid-template-rows: 1 / 2
+}
+.photo-preview{
+    width: 200px;
+    height: 200px; 
+    border-radius: 50%; 
+    overflow: hidden; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    background-color: #e0e0e0; 
+    border: 2px dashed blueviolet;
+}
+.photo-info{
+    padding-left: 1rem;
+}
+/* --- Imagen de Previsualización --- */
+.photo-preview img{
+    width: 100%;
+    height: 100%; 
+    object-fit: cover; 
+    border-radius: 50%; 
+    border: none;
+    box-shadow: none; 
+}
+#carousel-img-preview{
+    width: 100%; 
+    height: auto; 
+    max-height: 200px; 
+    border-radius: 12px;
+    object-fit: contain;
+}
+/*--- Seleccionar la imagen ---*/
+.file-upload-wrapper{
+    padding-left: 2rem;
+}
+.file-upload-button{ 
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: blueviolet; /* Color del botón principal */
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.file-upload-button:hover{
+    background-color: rebeccapurple;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.file-upload-wrapper input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/*--- Footer Card/Form ---*/
+.botones-form-grid{
+    grid-column: 1 / 3; 
+    display: flex;
+    justify-content: center; 
+    padding-top: 0.5rem; 
+    gap: 20px;
+}
+.botones-form{
+    display: none; 
+}
+.btn-primary.primary{
+    background: blueviolet;
+    color: #fff;
+    border-radius: 10px;
+    padding: 8px 15px;
+}
+.btn-primary.primary:hover{
+    background: gold;
+    color: #000;
+}
+.btn-outline-danger.danger{
+    background-color: gold;
+    color: #000;
+    border-radius: 10px;
+    padding: 8px 15px;
+}
+.btn-outline-danger.danger:hover{
+    background: #1a1919;
+    color: gold;
+}
+
+/* --- Eliminar imagen del carrusel --- */
+.contenedor-carrusel-delete{
+    background: linear-gradient(145deg, #fff 0%, #eee 100%);
+    border-radius: 1rem;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    padding: 1rem 1rem;
+    margin: 1rem auto;
+    max-width: 650px;
+    transition: all 0.3s ease;
+}
+.encabezado-delete{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #dc3545;
+    padding-bottom: 0.4rem;
+    margin-bottom: 1.2rem;
+    color: #dc3545;
+    font-weight: 800;
+    font-size: 20;
+    gap: 0.5rem;
+}
+.encabezado-delete i{
+    color: #dc3545;
+}
+/*--- Card ---*/
+.card-eliminar{
+    background: #fff;
+    border-left: 5px solid #dc3545;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2); 
+    transition: all 0.3s ease;
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+    padding-bottom: 0.1rem;
+    padding-top: 0.1rem;
+}
+.card-eliminar:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.35);
+}
+/*--- Contenido de Alerta y Texto ---*/
+.card-eliminar .h4{
+    color: #dc3545;
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+.card-eliminar p.lead{
+    font-size: 1.1rem;
+    color: #333;
+}
+.card-eliminar strong{
+    color: #dc3545;
+    font-weight: 700;
+}
+/*--- Previsualización del Imagen ---*/
+.preview-eliminar {
+    background: #f7f3ff;
+    border: 1px solid rgba(138, 43, 226, 0.2);
+    border-radius: 0.75rem;
+    padding: 1rem;
+}
+.preview-eliminar .text-blueviolet {
+    color: blueviolet;
+}
+.img-eliminar {
+    width: 140px;
+    height: 90px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid #ddd; /* Borde más sutil */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.img-eliminar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(138, 43, 226, 0.3); 
+}
+/*--- Botones del Footer de Card ---*/
+.footer-card{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.card-eliminar .btn-outline-danger.delete{
+    border: 2px solid #1d1d1d;
+    background: gold;
+    color: #000;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+.card-eliminar .btn-outline-danger.delete:hover {
+    background: #1d1d1d;
+    border-color: #ffc900;
+    color: gold;
+    transform: translateY(-1px);
+}
+.card-eliminar .btn-primary.delete{
+    background: #dc3545;
+    color: #fff;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+.card-eliminar .btn-primary.delete:hover {
+    background: transparent;
+    transform: translateY(-1px);
+    color: #dc3545;
+    border: #dc3545 2px solid;
+}
+.btn.delete i {
+    margin-right: 5px;
+}
+/* --- Breadcrumb personalizado --- */
+.breadcrumb-custom {
+    background: rgba(138, 43, 226, 0.05);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+}
+.breadcrumb-custom a {
+    color: blueviolet;
+    text-decoration: none;
+}
+.breadcrumb-custom .breadcrumb-item.active {
+    color: #555;
+}
+
+/*--- Madia Query ---*/
+@media (max-width: 1148px) {
+    .titulo{
+        width: 40px;
+    }
+}
+@media (max-width: 992px) {
+    .cuerpo{
+        flex-direction: column;
+    }
+    .panel-lateral{
+        width: 100%;
+        min-width: unset;
+        margin-top: 1rem;
+    }
+}
+@media (max-width: 768px) {
+    .table tbody td:last-child a.btn{
+        display: block;
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 0.5rem; 
+        text-align: center;
+    }
+    .table tbody td:last-child a.btn:last-child{
+        margin-bottom: 0;
+    }
+    .table th.id, .table td:nth-child(1){
+        display: none;
+    }
+    .columna-izquierda, .photo-section {
+        flex: 1 1 100%; /* Ocupan el 100% y se apilan */
+        min-width: unset;
+        max-width: 100%;
+    }
+    .formulario-carrusel{
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    .photo-section{
+        max-width: 100%;
+        padding: 1rem;
+    }
+    .preview-eliminar {
+        text-align: center;
+    }
+    .preview-eliminar img {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        margin-bottom: 0.5rem;
+    }
+}
+@media (max-width: 576px) {
+    .table-content-scroll table{
+        font-size: 0.85rem;
+    }
+    .btn-outline-info, .btn-outline-danger{
+        padding: 6px 10px;
+        font-size: 0.85rem;
+    }
+}

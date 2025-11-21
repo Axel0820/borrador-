@@ -1,0 +1,79 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/clientes/form.css' %}">
+
+<form method="POST" class="form-registro-cliente" id="formEditarCliente" action="{% url 'clientes:editar' cliente.id_cliente %}">
+    {% csrf_token %}
+    
+    <div class="seccion-formulario">
+        <h6 class="titulo-seccion"><i class="bi bi-person-fill"></i> Información Personal</h6>
+        
+        <div class="row-formulario">
+            <div class="mb-3">
+                <label for="id_nombre_cliente" class="form-label">Nombre</label>
+                {{ form.nombre_cliente }}
+                <div class="invalid-feedback"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="id_apellido_cliente" class="form-label">Apellido</label>
+                {{ form.apellido_cliente }}
+                <div class="invalid-feedback"></div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_dni_cliente" class="form-label">DNI</label>
+            {{ form.dni_cliente }}
+            <small class="form-text">Ingrese 8 dígitos sin puntos ni guiones</small>
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+
+    <div class="seccion-formulario">
+        <h6 class="titulo-seccion"><i class="bi bi-envelope-fill"></i> Información de Contacto</h6>
+        
+        <div class="mb-3">
+            <label for="id_correo_clientes" class="form-label">Correo Electrónico</label>
+            {{ form.correo_clientes }}
+            <div class="invalid-feedback"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_telefono_cliente" class="form-label">Teléfono</label>
+            {{ form.telefono_cliente }}
+            <small class="form-text">Ej: 011-4567-8900 o 1145678900</small>
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+
+    <div class="seccion-formulario">
+        <h6 class="titulo-seccion"><i class="bi bi-geo-alt-fill"></i> Dirección (Opcional)</h6>
+        
+        <div class="mb-3">
+            <label for="id_direccion_cliente" class="form-label">Dirección Completa</label>
+            {{ form.direccion_cliente }}
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+
+    <div class="seccion-formulario">
+        <h6 class="titulo-seccion"><i class="bi bi-toggle-on"></i> Estado</h6>
+        
+        <div class="mb-3">
+            <label for="id_estado_cliente" class="form-label">Estado del Cliente</label>
+            {{ form.estado_cliente }}
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle"></i> Cancelar
+        </button>
+        <button type="submit" class="btn btn-guardar">
+            <i class="bi bi-save"></i> Actualizar Cliente
+        </button>
+    </div>
+</form>

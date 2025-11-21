@@ -1,0 +1,111 @@
+/* Estilos para botones de categoría - Versión simple */
+.btn-group-categoria {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 0 auto;
+}
+
+.btn-group-categoria .btn {
+    min-width: 120px;
+    width: 120px;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 2px solid #e0e0e0;
+    background-color: white;
+    color: #333;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.btn-group-categoria .btn:hover {
+    border-color: #6f00b5;
+    color: #6f00b5;
+    background-color: #f8f9fa;
+}
+
+.btn-group-categoria .btn-check:checked + .btn {
+    background-color: #6f00b5;
+    border-color: #6f00b5;
+    color: white;
+}
+
+.btn-group-categoria .btn-check:checked + .btn::after {
+    content: '✓';
+    position: absolute;
+    top: 0.25rem;
+    right: 0.5rem;
+    font-size: 0.8rem;
+    color: white;
+}
+
+/* Responsive para botones de categoría */
+@media (max-width: 768px) {
+    .btn-group-categoria {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    .btn-group-categoria .btn {
+        width: 200px;
+        border-radius: 6px !important;
+    }
+}
+
+/* Mejorar la apariencia general del formulario */
+.form-registro {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Asegurar que los campos de entrada tengan altura consistente */
+.form-control, .form-select {
+    height: 38px;
+    border-radius: 4px;
+}
+
+/* Ajustes responsivos para los campos de unidad y cantidad */
+@media (max-width: 576px) {
+    /* En móviles muy pequeños, apilar los campos */
+    .row.mb-3.g-2 .col-6 {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .row.mb-3.g-2 .col-6:last-child {
+        margin-bottom: 0;
+    }
+}
+
+/* Asegurar que las columnas del grid sumen correctamente */
+.row.mb-3.g-2 .col-6.col-md-8,
+.row.mb-3.g-2 .col-6.col-md-4 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.row.mb-3.g-2 .col-6.col-md-8:first-child,
+.row.mb-3.g-2 .col-6.col-md-4:first-child {
+    padding-left: 0;
+}
+
+.row.mb-3.g-2 .col-6.col-md-8:last-child,
+.row.mb-3.g-2 .col-6.col-md-4:last-child {
+    padding-right: 0;
+}
+
+/* Mejorar la responsividad en tablets */
+@media (min-width: 577px) and (max-width: 768px) {
+    .row.mb-3.g-2 .col-6.col-md-8,
+    .row.mb-3.g-2 .col-6.col-md-4 {
+        min-height: 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+}

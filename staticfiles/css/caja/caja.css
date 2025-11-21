@@ -1,0 +1,162 @@
+*{
+    box-sizing: border-box;
+}
+.contenedor{
+    background: #fff;
+    width: 100%;
+    border-radius: 15px;
+    padding: 20px;
+}
+.contenedor-caja{
+    display: grid;
+    grid-template-columns: minmax(150px, 220px) 1fr;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+.contenedor-button{ /* contenedor button apertura y cierre de caja */
+    display: flex;
+    align-items: stretch;
+    flex-direction: row;
+    gap: 10px;
+}
+button{
+    border-radius: 10px;
+    font-weight: 700;
+    text-align: center;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+.abrir{ /* boton de apertura*/
+    border: blueviolet solid 2px;
+    background: #fff;
+    color: blueviolet;
+}
+.cerrar{ /* boton de cierre*/
+    border: #fff;
+    background: blueviolet;
+    color: #fff;
+}
+.abrir:hover{ /* hover de boton de apertura */
+    background: blueviolet;
+    color: #fff;
+    border: #fff solid 2px;
+}
+.cerrar:hover{ /* hover de boton de cierre */
+    background: #fff;
+    color: blueviolet;
+    border: blueviolet solid 2px;
+}
+.contenedor-saludo{ /* contenedor de saludo*/
+    border-radius: 15px;
+    border: solid blueviolet 2px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+}
+.contenedor-saludo h3{
+    color: blueviolet;
+    margin: 0;
+}
+.contenedor-saludo p{ 
+    margin-left: 10px;
+    margin: 0;
+    font-size: 16px;
+}
+.contenedor-cajas-cerradas{ /* contenedor de table de las cajas cerradas y buscador */
+    background: #fff;
+    justify-content: center;
+    border-radius: 15px;
+    padding: 20px;
+}
+.tabla-scroll{ /*Table*/
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: 100%;
+}
+.tabla-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+.tabla-scroll::-webkit-scrollbar-thumb {
+    background-color: blueviolet;
+    border-radius: 4px;
+}
+table{
+    width: calc(100% - 20px);
+    justify-content: space-between;
+    border-collapse: collapse;
+    min-width: 800px;
+    gap: 10px;
+}
+thead, tr, th, td{ /* borde de todo el table*/
+    border: solid 3px blueviolet;
+}
+thead{
+    text-align: center;
+}
+/*Table*/
+/*Buscador*/
+.filtro {
+    width: calc(100% - 20px);
+    margin-bottom: 15px;
+    gap: 8px;
+}
+.filtro .form-control{ /*input de search*/
+    border: 2px solid blueviolet;
+}
+.form-control:focus{ /*focus de input de search*/
+    box-shadow: 0 0 0 0.20rem rgb(170, 127, 210);
+    color: #212529;
+    background-color: #fff;
+    border-color: rgb(170, 127, 210);
+    outline: 0; 
+}
+.search-button{ /*boton de buscar*/
+    background: #fff;
+    border: 2px blueviolet solid;
+    border-radius: 50px;
+    color: blueviolet;
+    padding: 8px 15px;
+    font-size: 15px;
+}
+.search-button:hover{ /*hover del boton de buscar*/
+    background: blueviolet;
+    color: #fff;
+    border: 2px #fff solid;
+}
+.in{ /*contenedor del input y button de search*/
+    padding: 8px 15px;
+    width: 50%;
+}
+/*Buscador*/
+/* Ventas */
+.contenedor-venta{
+    display: none;
+}
+/* Ventas */
+/* Apertura */
+
+/* Medias Query */
+@media (max-width: 768px) {
+    .contenedor-caja {
+        grid-template-columns: 1fr;
+    }
+    .contenedor-button {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .contenedor-saludo {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+    .contenedor-saludo p {
+        margin-left: 0;
+        margin-top: 5px;
+    }
+}

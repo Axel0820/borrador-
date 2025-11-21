@@ -1,0 +1,584 @@
+{% load static %}
+{% load humanize %}
+<link rel="stylesheet" href="{% static 'css/turnos/turnoAdm.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+<style>
+    /* ===== VARIABLES Y COLORES ===== */
+:root {
+    --color-principal: #6806a9;
+    --color-principal-hover: #530587;
+    --color-principal-light: #8b2bc2;
+    --color-fondo: #f8f9fa;
+    --color-blanco: #ffffff;
+    --color-texto: #2c3e50;
+    --color-texto-secundario: #6c757d;
+    --sombra-card: 0 2px 8px rgba(104, 6, 169, 0.1);
+    --sombra-hover: 0 4px 16px rgba(104, 6, 169, 0.2);
+    --border-radius: 12px;
+}
+
+/* ===== ESTILOS GENERALES ===== */
+.bg-light {
+    background-color: var(--color-fondo) !important;
+}
+
+.tutulo {
+    color: var(--color-principal);
+}
+
+/* ===== BADGES Y ETIQUETAS ===== */
+.badge.bg-primary {
+    background-color: var(--color-principal) !important;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+/* ===== BOTONES PRINCIPALES ===== */
+.btn-primary {
+    background-color: var(--color-principal) !important;
+    border-color: var(--color-principal) !important;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--color-principal-hover) !important;
+    border-color: var(--color-principal-hover) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(104, 6, 169, 0.3);
+}
+
+.btn-primary:active {
+    background-color: var(--color-principal-hover) !important;
+    transform: translateY(0);
+}
+
+/* ===== BOTONES OUTLINE ===== */
+.btn-outline-primary {
+    color: var(--color-principal);
+    border-color: var(--color-principal);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+    background-color: var(--color-principal) !important;
+    border-color: var(--color-principal) !important;
+    color: var(--color-blanco) !important;
+}
+
+.btn-outline-primary.active {
+    background-color: var(--color-principal) !important;
+    border-color: var(--color-principal) !important;
+    color: var(--color-blanco) !important;
+}
+
+/* ===== BOTONES SECUNDARIOS ===== */
+.btn-secondary {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+}
+
+.btn-outline-secondary {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+/* ===== BOTONES INFO ===== */
+.btn-outline-info {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-info:hover {
+    transform: translateY(-1px);
+}
+
+/* ===== CARDS PRINCIPALES ===== */
+.card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--sombra-card);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: var(--sombra-hover);
+}
+
+/* ===== CARDS DE TURNOS ===== */
+.card-turno {
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.card-turno:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--sombra-hover);
+}
+
+.card-turno .card-header {
+    border: none;
+    font-weight: 600;
+    padding: 12px 16px;
+}
+
+.card-turno .card-body {
+    padding: 16px;
+}
+
+.card-turno .card-title {
+    color: var(--color-principal);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.card-turno .card-footer {
+    background-color: var(--color-fondo);
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 12px 16px;
+}
+
+/* ===== BADGES DE SERVICIOS ===== */
+.badge.bg-info {
+    background-color: #17a2b8 !important;
+    border-radius: 6px;
+    font-weight: 500;
+    padding: 4px 8px;
+}
+
+/* ===== ESTADOS DE TURNO (colores de header) ===== */
+.bg-warning-subtle {
+    background-color: #fff3cd !important;
+    color: #856404 !important;
+}
+
+.bg-success-subtle {
+    background-color: #d1e7dd !important;
+    color: #0f5132 !important;
+}
+
+.bg-primary-subtle {
+    background-color: #e7d9f7 !important;
+    color: var(--color-principal) !important;
+}
+
+.bg-danger-subtle {
+    background-color: #f8d7da !important;
+    color: #842029 !important;
+}
+
+.bg-secondary-subtle {
+    background-color: #e2e3e5 !important;
+    color: #41464b !important;
+}
+
+/* ===== FORMULARIOS ===== */
+.form-control,
+.form-select {
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--color-principal);
+    box-shadow: 0 0 0 0.2rem rgba(104, 6, 169, 0.15);
+}
+
+.form-label {
+    font-weight: 500;
+    color: var(--color-texto);
+    margin-bottom: 8px;
+}
+
+/* ===== MODALES ===== */
+.modal-content {
+    border-radius: var(--border-radius);
+    border: none;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background-color: var(--color-principal);
+    color: var(--color-blanco);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    border-bottom: none;
+}
+
+.modal-header .modal-title {
+    font-weight: 600;
+}
+
+.modal-header .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+.modal-footer {
+    border-top: 1px solid #dee2e6;
+    background-color: var(--color-fondo);
+}
+
+/* ===== CALENDARIO FULLCALENDAR ===== */
+.fc {
+    font-family: inherit;
+}
+
+/* Botones del calendario */
+.fc .fc-button-primary {
+    background-color: var(--color-principal) !important;
+    border-color: var(--color-principal) !important;
+}
+
+.fc .fc-button-primary:hover {
+    background-color: var(--color-principal-hover) !important;
+    border-color: var(--color-principal-hover) !important;
+}
+
+.fc .fc-button-primary:disabled {
+    background-color: #c5a3e0 !important;
+    border-color: #c5a3e0 !important;
+}
+
+.fc .fc-button-primary:not(:disabled):active,
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+    background-color: var(--color-principal-hover) !important;
+    border-color: var(--color-principal-hover) !important;
+}
+
+/* Encabezado del calendario */
+.fc .fc-toolbar-title {
+    color: var(--color-principal);
+    font-weight: 600;
+}
+
+/* Eventos del calendario */
+.fc-event {
+    border-radius: 4px !important;
+    border: none !important;
+    padding: 2px 4px !important;
+}
+
+.fc-event-main {
+    color: var(--color-blanco) !important;
+}
+
+/* Día actual */
+.fc .fc-day-today {
+    background-color: rgba(104, 6, 169, 0.1) !important;
+}
+
+/* ===== CONTENEDOR DE TURNOS ===== */
+.contenedor-turnos {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== ICONOS ===== */
+.bi {
+    vertical-align: middle;
+}
+
+/* ===== SPINNERS ===== */
+.spinner-border.text-primary {
+    color: var(--color-principal) !important;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .card-turno .card-title {
+        font-size: 1rem;
+    }
+    
+    .btn {
+        font-size: 0.875rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-turno .card-body {
+        padding: 12px;
+    }
+    
+    .card-turno .card-footer {
+        padding: 10px 12px;
+    }
+}
+
+/* ===== UTILIDADES ADICIONALES ===== */
+.text-muted {
+    color: var(--color-texto-secundario) !important;
+}
+
+.shadow-sm {
+    box-shadow: var(--sombra-card) !important;
+}
+
+/* ===== ESTADOS HOVER GENERALES ===== */
+button:hover {
+    cursor: pointer;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+/* ===== TRANSICIONES SUAVES ===== */
+* {
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+</style>
+
+
+<div class="bg-light min-vh-100 pt-0 py-4">
+    <div class="container mt-0 my-4">
+        <!-- Header -->
+        <div class="mt-0 mb-4">
+            <h2 class="text-start mb-3">
+                <i class="bi bi-calendar-check tutulo"></i> Administración de Turnos
+            </h2>
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="badge bg-primary fs-6 px-3 py-2">
+                    <i class="bi bi-calendar-day"></i> Turnos {{ fecha_actual|date:"d/m/Y" }}: {{ turnos_fecha_count }}
+                </span>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-primary active" id="btnVistaLista">
+                        <i class="bi bi-list-ul"></i> <span class="d-none d-sm-inline">Lista</span>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" id="btnVistaCalendario">
+                        <i class="bi bi-calendar3"></i> <span class="d-none d-sm-inline">Calendario</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <form method="GET" id="filtroFormTurnos" action="{% url 'turnosadm' %}" class="row g-3">
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <label for="busqueda" class="form-label">
+                            <i class="bi bi-search"></i> Buscar por nombre o correo
+                        </label>
+                        <input type="text" name="busqueda" id="busqueda" class="form-control"
+                               value="{{ request.GET.busqueda }}" placeholder="Nombre o correo del cliente" autocomplete="off">
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <label for="estado" class="form-label">
+                            <i class="bi bi-filter"></i> Estado
+                        </label>
+                        <select name="estado" id="estado" class="form-select">
+                            <option value="">Todos los estados</option>
+                            {% for estado in estados_turno %}
+                            <option value="{{ estado }}" {% if request.GET.estado == estado %}selected{% endif %}>
+                                {{ estado }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <label for="fecha" class="form-label">
+                            <i class="bi bi-calendar-event"></i> Fecha
+                        </label>
+                        <input type="date" name="fecha" id="fecha" class="form-control"
+                               value="{{ request.GET.fecha }}">
+                    </div>
+                    <div class="col-12 col-md-3 d-flex align-items-end justify-content-start justify-content-md-end gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-search"></i> Filtrar
+                        </button>
+                        <a href="#" id="btnLimpiarTurnos" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Limpiar
+                        </a>
+                        <a href="{% url 'exportar_turnos_pdf' %}?{{ request.GET.urlencode }}" class="btn btn-outline-danger" target="_blank">
+                            <i class="bi bi-file-earmark-pdf"></i> PDF
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Vista Lista (por defecto) -->
+        <div id="vistaLista">
+            {% if turnos %}
+            <div class="contenedor-turnos">
+                <div class="row g-3 justify-content-start">
+                    {% for turno in turnos %}
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                        <div class="card shadow-sm h-100 card-turno">
+                            <div class="card-header
+                                {% if turno.estado_turno == 'Pendiente' %}bg-warning-subtle
+                                {% elif turno.estado_turno == 'Confirmado' %}bg-success-subtle
+                                {% elif turno.estado_turno == 'En curso' %}bg-primary-subtle
+                                {% elif turno.estado_turno == 'Completado' %}bg-success-subtle
+                                {% elif turno.estado_turno == 'Cancelado' %}bg-danger-subtle
+                                {% elif turno.estado_turno == 'No asistió' %}bg-secondary-subtle
+                                {% endif %}">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <span>{{ turno.estado_turno }}</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="bi bi-person-circle"></i>
+                                    {{ turno.id_cliente.nombre_cliente }} {{ turno.id_cliente.apellido_cliente }}
+                                </h5>
+                                <p class="text-muted small mb-2">
+                                    <i class="bi bi-envelope"></i> {{ turno.id_cliente.correo_clientes }}
+                                </p>
+                                
+                                <div class="mb-2">
+                                    <p class="mb-1">
+                                        <i class="bi bi-heart"></i> <strong>Mascota:</strong> {{ turno.nombre }}
+                                    </p>
+                                    <small class="text-muted">{{ turno.tipo_turno }} - {{ turno.tamaño_turno }}</small>
+                                </div>
+
+                                <div class="mb-2">
+                                    <p class="mb-1">
+                                        <i class="bi bi-calendar3"></i> <strong>Fecha:</strong> {{ turno.fecha_turno|date:"d/m/Y" }}
+                                    </p>
+                                    <p class="mb-0">
+                                        <i class="bi bi-clock"></i> <strong>Hora:</strong> {{ turno.hora_turno|time:"H:i" }}
+                                    </p>
+                                </div>
+
+                                <div class="mt-2">
+                                    <small class="text-muted d-block mb-1">
+                                        <i class="bi bi-scissors"></i> Servicios:
+                                    </small>
+                                    {% for servicio in turno.servicios.all %}
+                                    <span class="badge bg-info me-1 mb-1">{{ servicio.nombre_servicio }}</span>
+                                    {% empty %}
+                                    <span class="text-muted small">Sin servicios</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between gap-2">
+                                <button class="btn btn-sm btn-outline-primary cambiar-estado flex-fill"
+                                        data-turno-id="{{ turno.id_turno }}"
+                                        data-estado-actual="{{ turno.estado_turno }}">
+                                    <i class="bi bi-pencil-square"></i> Estado
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary ver-detalles flex-fill"
+                                        data-turno-id="{{ turno.id_turno }}">
+                                    <i class="bi bi-eye"></i> Ver
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            <div class="text-center py-5">
+                <i class="bi bi-calendar-x display-1 text-muted mb-3"></i>
+                <h5 class="text-muted">No hay turnos registrados</h5>
+                <p class="text-muted">Los turnos aparecerán aquí cuando se registren</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Vista Calendario (oculta por defecto) -->
+        <div id="vistaCalendario" style="display: none;">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div id="calendarAdm"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Cambiar Estado -->
+    <div class="modal fade" id="modalCambiarEstado" tabindex="-1" aria-labelledby="modalCambiarEstadoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCambiarEstadoLabel">
+                        <i class="bi bi-pencil-square"></i> Cambiar Estado del Turno
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formCambiarEstado">
+                        <input type="hidden" id="turnoId" name="turno_id">
+                        <div class="mb-3">
+                            <label for="nuevoEstado" class="form-label">
+                                <i class="bi bi-check-circle"></i> Nuevo Estado
+                            </label>
+                            <select class="form-select" id="nuevoEstado" name="estado" required>
+                                {% for estado in estados_turno %}
+                                <option value="{{ estado }}">{{ estado }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="observaciones" class="form-label">
+                                <i class="bi bi-chat-left-text"></i> Observaciones (opcional)
+                            </label>
+                            <textarea class="form-control" id="observaciones" name="observaciones" rows="3" 
+                                      placeholder="Ingrese observaciones adicionales..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnGuardarEstado">
+                        <i class="bi bi-check-circle"></i> Guardar Cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ver Detalles -->
+    <div class="modal fade" id="modalDetalles" tabindex="-1" aria-labelledby="modalDetallesLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDetallesLabel">
+                        <i class="bi bi-info-circle"></i> Detalles del Turno
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="detallesTurno">
+                    <!-- Los detalles se cargan dinámicamente -->
+                    <div class="text-center py-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/turnos/turnosAdm.js' %}"></script>

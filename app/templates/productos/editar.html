@@ -1,0 +1,102 @@
+{% load static %}
+
+<!-- Meta tags para responsividad -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+
+<!-- CSS personalizado para botones de categoría -->
+<link rel="stylesheet" href="{% static 'css/productos/form.css' %}">
+
+
+
+<form method="POST" id="formEditarProducto"
+      action="{% url 'editarProducto' form.instance.id_prod %}"
+      enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-4">
+
+        <div class="btn-group-categoria">
+            <input type="radio" class="btn-check" name="categoria_prod" id="editCatPerro" value="Perro" {% if form.instance.categoria_prod == "Perro" %}checked{% endif %}>
+            <label class="btn" for="editCatPerro">Perro</label>
+
+            <input type="radio" class="btn-check" name="categoria_prod" id="editCatGato" value="Gato" {% if form.instance.categoria_prod == "Gato" %}checked{% endif %}>
+            <label class="btn" for="editCatGato">Gato</label>
+
+            <input type="radio" class="btn-check" name="categoria_prod" id="editCatPez" value="Pez" {% if form.instance.categoria_prod == "Pez" %}checked{% endif %}>
+            <label class="btn" for="editCatPez">Pez</label>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="id_nombre_prod" class="form-label fw-normal">Nombre del producto</label>
+        {{ form.nombre_prod }}
+    </div>
+
+    <div class="mb-3">
+        <label for="id_precio_prod" class="form-label fw-normal">Precio</label>
+        {{ form.precio_prod }}
+    </div>
+
+    <div class="row mb-3 g-2">
+        <!-- Stock actual -->
+        <div class="col-6 col-md-8">
+            <label for="id_stock_prod" class="form-label fw-normal">Stock</label>
+            {{ form.stock_prod }}
+        </div>
+
+        <!-- Stock mínimo -->
+        <div class="col-6 col-md-4">
+            <label for="id_stock_minimo" class="form-label fw-normal">Stock Mínimo</label>
+            {{ form.stock_minimo }}
+        </div>
+    </div>
+    
+
+
+    <div class="row mb-3 g-2">
+        <!-- Unidad y empaque -->
+        <div class="col-6 col-md-7">
+            <label for="id_unidad" class="form-label fw-normal">Unidad / Empaque</label>
+            {{ form.unidad }}
+        </div>
+
+        <!-- Cantidad -->
+        <div class="col-6 col-md-4">
+            <label for="id_cantidad_unidad" class="form-label fw-normal">Valor</label>
+            {{ form.cantidad_unidad }}
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="id_proveedor_prod" class="form-label fw-normal">Proveedor</label>
+        {{ form.proveedor_prod }}
+    </div>
+
+    
+
+    <div class="mb-3">
+        <label for="id_estado_prod" class="form-label fw-normal">Estado</label>
+        {{ form.estado_prod }}
+    </div>
+
+    <div class="mb-3">
+        <label for="id_imagen_prod" class="form-label fw-normal">Imagen del producto</label>
+        {{ form.imagen_prod }}
+    </div>
+
+    {% if form.instance.imagen_prod and form.instance.imagen_prod.url %}
+        <div class="mb-3">
+            <label class="form-label">Imagen actual:</label><br>
+            <img src="{{ form.instance.imagen_prod.url }}"
+                 alt="Imagen actual"
+                 style="max-width: 150px; border-radius: 5px; border: 1px solid #ddd;">
+        </div>
+    {% else %}
+        <p class="text-muted">Este producto no tiene imagen cargada.</p>
+    {% endif %}
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    </div>
+</form>

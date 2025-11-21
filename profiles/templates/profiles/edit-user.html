@@ -1,0 +1,42 @@
+{% load static %}
+{% load widget_tweaks %}
+    <!--Link CSS-->
+    <link rel="stylesheet" href="{% static 'css/profiles/perfil.css' %}">
+
+<form method="post" id="user-edit-form" action="{% if object.cargo %}{% url 'perfil_empleado' %}{% else %}{% url 'perfil_cliente' %}{% endif %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="modal-body">
+        <div class="row">
+            <div class="{% if object.cargo %}col-md-12{% else %}col-md-6{% endif %}">
+                <h6 class="titulo-seccion"><i class="bi bi-person-fill"></i> Información de Perfil</h6>
+                <div class="mb-3">
+                    <label for="{{ form.username.id_for_label }}" class="form-label">Nombre de Usuario</label>
+                    {{ form.username }}
+                    {% for error in form.username.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="{% if object.cargo %}col-md-12{% else %}col-md-6{% endif %}">
+                {% if not object.cargo %}
+                <h6 class="titulo-seccion"><i class="bi bi-envelope-fill"></i> Información de Contacto</h6>
+                <div class="mb-3">
+                    <label for="{{ form.correo.id_for_label }}" class="form-label">Correo Electrónico</label>
+                    {{ form.correo }}
+                </div>
+                {% endif %}
+                <input type="hidden" name="{{ form.nombre.name }}" value="{{ form.nombre.value|default:form.nombre.initial }}">
+                <input type="hidden" name="{{ form.apellido.name }}" value="{{ form.apellido.value|default:form.apellido.initial }}">
+                <input type="hidden" name="{{ form.direccion.name }}" value="{{ form.direccion.value|default:form.direccion.initial }}">
+                <input type="hidden" name="{{ form.telefono.name }}" value="{{ form.telefono.value|default:form.telefono.initial }}">
+                {% if not object.cargo %}
+                {# Para clientes, el campo correo está visible arriba, no como hidden #}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="edit-button-form edit" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="edit-button-form">Guardar Cambios</button>
+    </div>
+</form>

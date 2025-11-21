@@ -1,0 +1,485 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+
+<div class="container py-4">
+    <div class="row mb-4 g-4">
+        <div class="col-12 col-sm-6"> 
+            <div class="saludo-header p-4 rounded-3 shadow-sm bg-light h-100 d-flex align-items-center">
+                <div>
+                    <h3 class="h4 fw-bold mb-1">¡Bienvenido, {{ request.user.first_name }}!</h3> 
+                    <span class="text-muted small d-block">{{ cargo|capfirst }}</span>
+                </div>
+            </div>
+        </div>
+        {% if permisos.ver_empleados %}
+        <!-- <div class="col-12 col-sm-6">
+            <a href="{% url 'dashboard:lista_carrusel' %}" class="text-decoration-none h-100 d-block" id="btnCarouselManager" style="cursor: pointer;"> 
+                <div class="card card-metric h-100 bg-warning shadow-sm border-0">
+                    <div class="card-body d-flex align-items-center justify-content-between">
+                        <div>
+                            <p class="metric-label mb-1 text-dark fw-bold">Gestión de Carrusel</p>
+                            <h2 class="h3 text-dark mb-0">Imágenes</h2> 
+                            <span class="badge bg-dark text-white small mt-1">Administrar Contenido</span>
+                        </div>
+                        <i class="bi bi-images metric-icon text-dark fs-1 opacity-75"></i>
+                    </div>
+                </div>
+            </a> 
+        </div> -->
+        <div class="col-12 col-sm-6">
+            <div id="btnCarouselManager" class="text-decoration-none h-100 d-block" 
+                style="cursor: pointer;"
+                data-bs-toggle="modal" 
+                data-bs-target="#carrusel-imagen"
+                data-url="{% url 'dashboard:lista_carrusel' %}"> 
+                <div class="card card-metric h-100 bg-warning shadow-sm border-0">
+                    <div class="card-body d-flex align-items-center justify-content-between">
+                        <div>
+                            <p class="metric-label mb-1 text-dark fw-bold">Gestión de Carrusel</p>
+                            <h2 class="h3 text-dark mb-0">Imágenes</h2> 
+                            <span class="badge bg-dark text-white small mt-1">Administrar Contenido</span>
+                        </div>
+                        <i class="bi bi-images metric-icon text-dark fs-1 opacity-75"></i>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        {% endif %}
+    </div>
+    <div class="row g-4 mb-4 dashboard-metrics">
+        {% if permisos.ver_graficos_ventas %}
+        <div class="col-6 col-md-3">
+            <div class="card card-metric h-100 bg-white">
+                <div class="card-body">
+                    <i class="bi bi-cash-stack metric-icon text-info"></i>
+                    <p class="metric-label mb-1">Ingreso (30 días)</p>
+                    <h2 class="metric-value">${{ total_ingreso }}</h2>
+                    <span class="badge {{ ingreso_clase_color }}">
+                        {{ ingreso_indicador }} {{ ingreso_porcentaje_cambio }}%
+                    </span>      
+                    <span class="metric-time text-muted small">vs mes pasado</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if permisos.ver_turnos_pendientes %}
+        <div class="col-6 col-md-3">
+            <div class="card card-metric h-100 bg-white">
+                <div class="card-body">
+                    <i class="bi bi-calendar-event metric-icon text-warning"></i>
+                    <p class="metric-label mb-1">Turnos Pendientes</p>
+                    <h2 class="metric-value">{{ turnos_pendientes }}</h2>
+                    <span class="badge bg-danger-subtle text-danger small">Cancelados: {{ turnos_cancelados }}</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if permisos.ver_clientes %}
+        <div class="col-6 col-md-3">
+            <div class="card card-metric h-100 bg-white">
+                <div class="card-body">
+                    <i class="bi bi-people-fill metric-icon text-success"></i>
+                    <p class="metric-label mb-1">Clientes Registrados</p>
+                    <h2 class="metric-value">{{ total_clientes }}</h2>
+                    <span class="metric-time text-muted badge bg-light">Total</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if permisos.ver_stock %}
+        <div class="col-6 col-md-3">
+            <div class="card card-metric h-100 bg-white">
+                <div class="card-body">
+                    <i class="bi bi-box-fill metric-icon text-danger"></i>
+                    <p class="metric-label mb-1">Productos Bajo Stock</p>
+                    <h2 class="metric-value">{{ stock_bajo_count }}</h2>
+                    <span class="badge bg-danger-subtle text-danger small">¡Revisar!</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="row g-4">
+        {% with show_ventas=permisos.ver_graficos_ventas %}
+        {% with show_turnos=permisos.ver_graficos_turnos %}
+        {% if show_ventas %}
+        <div class="
+            {% if show_turnos %}
+                col-lg-8 
+            {% else %}
+                col-12 
+            {% endif %}
+        ">
+            <div class="card shadow-lg h-100 p-4 bg-white">
+                <div class="card-header bg-white border-0 p-0 mb-3 d-flex justify-content-between align-items-center">
+                    <h4 class="card-title mb-0"><i class="bi bi-bar-chart-line-fill icon"></i>Análisis de Ventas</h4>
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Filtro de Ventas">
+                        <button type="button" class="btn" data-periodo="dia" id="btn-ventas-dia">Día</button>
+                        <button type="button" class="btn" data-periodo="semana" id="btn-ventas-semana">Semana</button>
+                        <button type="button" class="btn" data-periodo="mes" id="btn-ventas-mes">Mes</button>
+                    </div>
+                </div>
+                <div class="row mb-3 gx-2">
+                    <div class="col-4">
+                        <div class="p-2 border rounded text-center bg-light">
+                            <p class="mb-0 small text-muted">Ingresos Activos (<span id="ingreso-periodo">30d</span>)</p> 
+                            <h5 class="mb-0 text-success" 
+                                id="ingreso-actual-valor" 
+                                data-dia="{{ ingreso_dia }}" 
+                                data-semana="{{ ingreso_semana }}" 
+                                data-mes="{{ ingreso_mes }}"
+                            >
+                                ${{ ingreso_mes }} 
+                            </h5>
+                        </div>
+                    </div>
+                    {% if cargo == 'gerente' %}
+                    <div class="col-4">
+                        <div class="p-2 border rounded text-center bg-light">
+                            <p class="mb-0 small text-muted">Empleados Activos</p>
+                            <h5 class="mb-0 text-primary">{{ empleados_activos }}</h5>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="p-2 border rounded text-center bg-light">
+                            <p class="mb-0 small text-muted">Empleados Inactivos</p>
+                            <h5 class="mb-0 text-danger">{{ empleados_inactivos }}</h5>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="col-8">
+                        <div class="text-center p-3 rounded-3 bg-light text-muted small">
+                            <i class="bi bi-info-circle me-1"></i> Gráfico de ventas por <span id="info-periodo">mes</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="grafico-ventas flex-grow-1" style="min-height: 250px; height: 350px !important; position: relative;">
+                    <canvas id="ventasChart"></canvas>
+                </div>
+                <script type="application/json" id="ventas-data-json-dia">
+                    {{ chart_ventas_json_dia | default:'{"labels": [], "data": [], "label_chart": "Ingresos Diarios"}' | safe }}
+                </script>
+                <script type="application/json" id="ventas-data-json-semana">
+                    {{ chart_ventas_json_semana | default:'{"labels": [], "data": [], "label_chart": "Ingresos Semanales"}' | safe }}
+                </script>
+                <script type="application/json" id="ventas-data-json-mes">
+                    {{ chart_ventas_json_mes | default:'{"labels": [], "data": [], "label_chart": "Ingresos Mensuales"}' | safe }}
+                </script>
+            </div>
+        </div>
+        {% endif %}
+        {% if show_turnos %}
+        <div class="
+            {% if show_ventas %}
+                col-lg-4
+            {% else %}
+                col-12 
+            {% endif %}
+        ">
+            <div class="card shadow-lg p-4 bg-white mb-4" style="min-height: 400px;">
+                <div class="card-header bg-white border-0 p-0 mb-3">
+                    <h4 class="card-title mb-0"><i class="bi bi-tools icon"></i>Productividad de Turnos</h4> 
+                </div>
+                <div class="text-center mb-4">
+                    <div class="grafico-donut-target mx-auto" style="max-width: 200px; height: 200px;">
+                        <canvas id="turnosTargetChart"></canvas>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush small">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Turnos Completados:
+                        <span class="fw-bold text-success" id="turnos-completados-count">--</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total de Turnos (30d):
+                        <span class="fw-bold text-primary" id="turnos-total-count">--</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Porcentaje de Éxito:
+                        <span class="fw-bold text-info h5 mb-0" id="turnos-porcentaje-exito">--%</span>
+                    </li>
+                </ul>
+                <script type="application/json" id="turnos-target-data">
+                    {{ chart_turnos_data | default:'{"completado": 0, "pendiente": 0, "completados_count": 0, "total_count": 0}' | safe }}
+                </script>
+                </div>
+            <div class="card shadow-lg p-4 bg-white" style="min-height: 250px;">
+                <div class="card-header bg-white border-0 p-0 mb-3">
+                    <h4 class="card-title mb-0"><i class="bi bi-bell-fill icon text-warning"></i>Notificaciones de Turnos</h4> 
+                </div>
+                <ul class="list-group list-group-flush small" id="notificationList">
+                    {% for notificacion in ultimas_notificaciones %}
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="me-auto">
+                            <div class="fw-bold">{{ notificacion.titulo }}</div>
+                            <span class="text-muted small">{{ notificacion.mensaje }}</span>
+                        </div>
+                        <span class="badge bg-secondary rounded-pill text-white">{{ notificacion.fecha|date:"H:i" }}</span>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item text-center text-muted">No hay notificaciones recientes.</li>
+                    {% endfor %}
+                </ul>
+                <div class="text-end mt-2"><a href="#" class="small">Ver todas</a></div>
+            </div>
+            </div>
+        {% endif %}
+        {% endwith %}
+        {% endwith %}
+    </div>
+    <div class="row g-4 mt-4">
+        
+        {% if permisos.ver_graficos_turnos_dias %}
+        <div class="col-lg-6">
+            <div class="card shadow-lg h-100 p-4 bg-white">
+                <div class="card-header bg-white border-0 p-0 mb-3">
+                    <h4 class="card-title mb-0"><i class="bi bi-calendar2-week-fill icon"></i>Días del Mes con Más Turnos</h4>
+                </div>
+                <div class="grafico-turnos-dias flex-grow-1" style="min-height: 250px; height: 350px !important; position: relative;">
+                    <canvas id="turnosDiaChart"></canvas>
+                </div>
+            </div>
+            <script type="application/json" id="turnos-dia-data-json">
+                {{ chart_turnos_dia_json | default:'{"labels": [], "data": []}' | safe }}
+            </script>
+        </div> 
+        {% endif %}
+        {% with show_top_products=permisos.ver_stock_top %}
+        {% with show_critical_stock=permisos.ver_stock_critico %}
+        {% if show_top_products or show_critical_stock %}
+        <div class="col-lg-6">
+            {% if show_top_products %}
+            <div class="card shadow-lg p-4 bg-white mb-4">
+                <h4 class="mb-3 card-title"><i class="bi bi-trophy-fill icon text-warning"></i>Productos Más Vendidos (Top 5)</h4>
+                {% if productos_top_5 %}
+                    <div class="top-selling-products d-flex overflow-auto pb-2">
+                        {% for producto in productos_top_5 %}
+                        <div class="text-center me-3 p-2 rounded-3 bg-light" style="min-width: 150px;">
+                            <img src="/media/{{ producto.imagen_url }}" class="img-fluid rounded-circle mb-2 border border-secondary" alt="{{ producto.nombre }}" style="object-fit: cover; width: 80px; height: 80px;" onerror="this.onerror=null"; this.src="'https://placehold.co/80x80/8A2BE2/FFFFFF?text={{ producto.nombre|slice:':1'}}'">
+                            <p class="mb-0 fw-bold small text-truncate" title="{{ producto.nombre }}">{{ producto.nombre }}</p>
+                            <p class="small text-success mb-1 fw-bold">Monto: ${{ producto.monto }}</p>
+                            <p class="small text-muted mb-0">{{ producto.unidades }} unidades</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info text-center" role="alert">
+                        <i class="bi bi-info-circle me-2"></i> No hay datos de ventas recientes para calcular el Top 5 de productos.
+                    </div>
+                {% endif %}
+            </div>
+            {% endif %}
+            {% if show_critical_stock %}
+            <div class="card shadow-lg p-4 bg-white {% if show_top_products %}mt-4{% endif %}">
+                <h4 class="mb-3 card-title"><i class="bi bi-exclamation-triangle-fill icon text-danger"></i>Stock y Alertas Críticas</h4>
+                {% if stock_bajo_count > 0 %}
+                    <p class="small text-danger fw-bold">Tienes {{ stock_bajo_count }} productos con stock bajo. ¡Actúa rápido!</p>
+                    <div class="critical-stock-products d-flex overflow-auto pb-2 border-top pt-3">
+                        {% for producto in productos_stock_critico %}
+                        <div class="text-center me-3" style="min-width: 100px;">
+                            <img src="/media/{{ producto.imagen_url }}" class="img-fluid rounded mb-1 border border-danger" alt="{{ producto.nombre }}" style="object-fit: cover; width: 60px; height: 60px;" onerror="this.onerror=null"; this.src="'https://placehold.co/60x60/dc3545/FFFFFF?text={{ producto.nombre|slice:':1'}}'">
+                            <p class="mb-0 fw-bold small text-truncate" title="{{ producto.nombre }}" style="max-width: 100px;">{{ producto.nombre }}</p>
+                            <span class="badge bg-danger">Stock: {{ producto.stock }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-success text-center" role="alert">
+                        <i class="bi bi-check-circle-fill me-2"></i> ¡Stock OK! No hay productos en nivel crítico.
+                    </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% endwith %}
+        {% endwith %}
+    </div>
+</div>
+
+<!--Modals Carrusel-->
+<div class="modal fade" id="carrusel-imagen" tabindex="-1" aria-labelledby="imagen-carrusel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-start modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-body" id="carrusel-content">
+                <!--Contenido del Modal para mostrar las imagenes en carrusel-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--MOdals Carrusel-->
+<!--Modals Editar/Guardar-->
+<div class="modal fade" id="carrusel-editar-guardar" tabindex="-1" aria-labelledby="editar-guardar-carrusel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-start modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-body" id="carrusel-editar-agregar-content">
+                <!--Contenido del Modal para agregar o eliminar la imagen del carrusel-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modals Editar-->
+<!--Modals Eliminar-->
+<div class="modal fade" id="carrusel-eliminar" tabindex="-1" aria-labelledby="eliminar-carrusel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-start">
+        <div class="modal-content">
+            <div class="modal-body" id="carrusel-eliminar-content">
+                <!--Contenido del Modal para eliminar imagen del carrusel-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modals Eliminar-->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<!-- <script src="{% static 'js/carrusel-edit-delete.js' %}"></script> -->
+
+<!-- <script src="{% static 'js/carrusel-dashboard.js' %}"></script> -->
+
+<script src="{% static 'js/dashboard.js' %}"></script>
+
+<script>
+const ctxVentas = document.getElementById('ventasChart');
+if (ctxVentas) {
+    const dataDia = JSON.parse(document.getElementById('ventas-data-json-dia').textContent);
+    const dataSemana = JSON.parse(document.getElementById('ventas-data-json-semana').textContent);
+    const dataMes = JSON.parse(document.getElementById('ventas-data-json-mes').textContent);
+
+    const dataSources = {
+        'dia': dataDia,
+        'semana': dataSemana,
+        'mes': dataMes
+    };
+
+    let currentChart = null;
+
+    function updateVentasChart(periodo) {
+        const data = dataSources[periodo];
+
+        if (currentChart) {
+            currentChart.destroy();
+        }
+
+        currentChart = new Chart(ctxVentas, {
+            type: 'line',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: data.label_chart,
+                    data: data.data,
+                    borderColor: '#0dcaf0',
+                    backgroundColor: 'rgba(13, 202, 240, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true } },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) { label += ': '; }
+                                if (context.parsed.y !== null) {
+                                    label += '$' + context.parsed.y.toLocaleString('es-CL', { minimumFractionDigits: 2 });
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        document.getElementById('ingreso-periodo').textContent = (periodo === 'dia' ? '24h' : (periodo === 'semana' ? '7d' : '30d'));
+        const infoPeriodo = document.getElementById('info-periodo');
+        if (infoPeriodo) { infoPeriodo.textContent = (periodo === 'dia' ? 'día' : (periodo === 'semana' ? 'semana' : 'mes')); }
+
+        const valorElement = document.getElementById('ingreso-actual-valor');
+        if (valorElement) {
+            const nuevoMonto = valorElement.getAttribute(`data-${periodo}`); 
+            valorElement.textContent = `$${nuevoMonto}`;
+        }
+
+        document.querySelectorAll('.btn-group-sm button').forEach(btn => {
+            btn.classList.remove('btn-primary');
+            btn.classList.add('btn-outline-primary');
+        });
+        document.getElementById(`btn-ventas-${periodo}`).classList.add('btn-primary');
+        document.getElementById(`btn-ventas-${periodo}`).classList.remove('btn-outline-primary');
+    }
+
+    $(document).off('click.ventas', '#btn-ventas-dia').on('click.ventas', '#btn-ventas-dia', () => updateVentasChart('dia'));
+    $(document).off('click.ventas', '#btn-ventas-semana').on('click.ventas', '#btn-ventas-semana', () => updateVentasChart('semana'));
+    $(document).off('click.ventas', '#btn-ventas-mes').on('click.ventas', '#btn-ventas-mes', () => updateVentasChart('mes'));
+
+    updateVentasChart('mes');
+
+    const ctxTurnosTarget = document.getElementById('turnosTargetChart');
+    if (ctxTurnosTarget) {
+        const turnosData = JSON.parse(document.getElementById('turnos-target-data').textContent);
+
+        document.getElementById('turnos-completados-count').textContent = turnosData.completados_count;
+        document.getElementById('turnos-total-count').textContent = turnosData.total_count;
+
+        let porcentajeExito = 0;
+        if (turnosData.total_count > 0) {
+            porcentajeExito = (turnosData.completados_count / turnosData.total_count) * 100;
+        }
+        document.getElementById('turnos-porcentaje-exito').textContent = `${porcentajeExito.toFixed(1)}%`;
+
+        new Chart(ctxTurnosTarget, {
+            type: 'doughnut',
+            data: {
+                labels: ['Completado', 'Pendiente/Cancelado'],
+                datasets: [{
+                    data: [turnosData.completado, turnosData.pendiente],
+                    backgroundColor: ['#198754', '#ffc107'],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+    }
+
+    const ctxTurnosDia = document.getElementById('turnosDiaChart');
+    if (ctxTurnosDia) {
+        const turnosDiaData = JSON.parse(document.getElementById('turnos-dia-data-json').textContent);
+
+        new Chart(ctxTurnosDia, {
+            type: 'bar',
+            data: {
+                labels: turnosDiaData.labels,
+                datasets: [{
+                    label: 'Número de Turnos',
+                    data: turnosDiaData.data,
+                    backgroundColor: '#0d6efd',
+                    borderColor: '#0d6efd',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { 
+                    x: { title: { display: true, text: 'Día del Mes' } },
+                    y: { beginAtZero: true, title: { display: true, text: 'Total de Turnos' } }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+    }
+
+}
+</script>

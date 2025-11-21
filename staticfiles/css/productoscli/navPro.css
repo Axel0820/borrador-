@@ -1,0 +1,84 @@
+/*En General*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/*En General*/
+/*Navbar y sidebar*/
+.logo{ /*logo de la empresa*/
+    width: 28px;
+    height: 28px;
+}
+.navbar{
+    background-color: #fff;
+    height: 60px;
+    margin: 10px 10px;
+    border-radius: 10px; 
+    padding: 0.3rem;
+    border: 1px solid blueviolet;
+}
+.navbar-brand{ /*nombre de la empresa*/
+    font-weight: 700;
+    color: blueviolet;
+    font-size: 15px;
+    padding-left: 5px;
+    transition: 0.3s color;
+}
+.login-button{ /*boton de iniciar secion y de cerras sesion, y de volver a inicio*/
+    background: blueviolet;
+    border: 2px #fff solid;
+    border-radius: 50px;
+    text-decoration: none;
+    color: #fff;
+    padding: 8px 15px;
+    font-size: 15px;
+}
+.login-button:hover{ /*hover de boton de iniciar sesion*/
+    background: transparent;
+    color: blueviolet;
+    border: solid 2px blueviolet;
+}
+.navbar-toggler{ /*simbolo del nav desplegable*/
+    border: none;
+    font-size: 1.20rem;
+}
+.navbar-toggler:focus, .btn-close:focus{ /*focus del simbolo del nav desplegable y X de cerrar nav dsplegable*/
+    box-shadow: none;
+    outline: none;
+}
+.nav-link{ /*opciones del menu*/
+    color: #666777;
+    font-weight: 500;
+    position: relative;
+}
+.nav-link:hover, nav-link.active{ /*hover de opciones del menu y active como class*/
+    color: blueviolet;
+}
+/*Navbar y Sidebar de Productos*/   /*el resto esta en otro css*/
+.iconos{    
+    color: blueviolet;
+    font-size: 20px;
+    padding: 8px 15px;
+}   
+/*Navbar y Sidebar de Productos*/
+
+@media (min-width: 993px){
+    .nav-link::before{ /*before para agregar lineas en la parte baja de las opciones del menu, no visibles*/
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 3px;
+        background-color: blueviolet;
+        visibility: hidden;
+        transition: 0.3s ease-in-out;
+    }
+    .nav-link:hover:before, .nav-link.active:before{ /*hover, before y active que hacen que sean visibles las lineas en la parte baja de la opcion del menu*/
+        width: 100%;
+        visibility: visible;
+    }
+}
+/*Navbar y sidebar*/ /*Terminado*/

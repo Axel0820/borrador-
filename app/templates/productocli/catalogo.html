@@ -1,0 +1,333 @@
+{% load static %}
+  <!--Link de Boostrap-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <!--Link de Wripper-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css">
+  <!--Link de CSS-->
+  <link rel="stylesheet" href="{% static 'CSS/productoscli/catalogo.css' %}">
+  <title>Alma Canina</title>
+
+  <!--Buscador-->
+  <section> 
+      <form class="d-flex mt-3 in" role="search">
+        <input class="form-control me-2" type="search" placeholder="Buscar: gato, correa, collar..." aria-label="Search"/>
+        <button class="btn search-button" type="submit">Buscar</button>
+      </form>
+  </section> 
+  <!--Buscador-->
+  <!--Parte de productos-->
+  
+    <!--Carrusel card productos-->
+    <section class="categories containers">
+      <h3 class="section__title h3">Mas Populares</h3>
+      <div class="categories__container swiper">
+        <div class="swiper-wrapper">
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pesca/pesca18.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Reel</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/alimento/ali2.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">CatNit</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/accesorio/acc3.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Collar</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pipeta/pi4.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Osspret</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/accesorio/acc6.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Plato</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/alimento/ali9.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Push</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pesca/pesca17.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Cocina</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pipeta/pi5.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Levamisol</h3>
+          </a>
+        </div>
+        <div class="swiper-button-next">
+          <i class="bi bi-chevron-compact-left"></i>
+        </div>
+        <div class="swiper-button-prev">
+          <i class="bi bi-chevron-compact-right"></i>
+        </div>
+      </div>
+    </section >
+    <!--Carrusel card productos-->
+  <!--Categoria productos; Carrusel-->
+    <!--Alimentos-->
+    <section class="categories containers pro">
+      <h3 class="section__title h3">
+        <a href="{% url 'alimento' %}">Alimentos
+          <i class="bi bi-chevron-right" id="icono"></i>
+        </a>
+      </h3>
+      <div class="categories__container swiper">
+        <div class="swiper-wrapper">
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/alimento/ali10.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Pedigree</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/alimento/ali2.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">CatNit</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/alimento/ali12.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Whiskas</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/alimento/ali3.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Sustituto</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/alimento/ali9.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Whiskas</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/alimento/ali13.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Pedigree</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/alimento/ali8.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Whiskas</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/alimento/ali3.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Sustituto</h3>
+          </a>
+        </div>
+        <div class="swiper-button-next">
+          <i class="bi bi-chevron-compact-left"></i>
+        </div>
+        <div class="swiper-button-prev">
+          <i class="bi bi-chevron-compact-right"></i>
+        </div>
+      </div>
+    </section> 
+    <!--Alimentos-->
+    <!--Accesorios-->
+    <section class="categories containers pro">
+      <h3 class="section__title h3">
+        <a href="{% url 'accesorio' %}">Accesorios
+          <i class="bi bi-chevron-right" id="icono"></i>
+        </a>
+      </h3>
+      <div class="categories__container swiper">
+        <div class="swiper-wrapper">
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/accesorio/acc1.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Collar</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/accesorio/acc2.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Cartel</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/accesorio/acc3.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Collar</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/accesorio/acc10.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Cucha</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/accesorio/acc5.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Plato</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/accesorio/acc6.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Plato</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/accesorio/acc2.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Cartel</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/accesorio/acc9.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Bolsitas</h3>
+          </a>
+        </div>
+        <div class="swiper-button-next">
+          <i class="bi bi-chevron-compact-left"></i>
+        </div>
+        <div class="swiper-button-prev">
+          <i class="bi bi-chevron-compact-right"></i>
+        </div>
+      </div>
+    </section>
+    <!--Accesorios-->
+    <!--Juguetes-->
+    <section class="categories containers pro">
+      <h3 class="section__title h3">
+        <a href="{% url 'juguete' %}">Juguetes
+          <i class="bi bi-chevron-right" id="icono"></i>
+        </a>
+      </h3>
+      <div class="categories__container swiper">
+        <div class="swiper-wrapper">
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/juguete/juguete1.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Hueso</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/juguete/juguete2.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Hueso</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/juguete/juguete3.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Pelota</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/juguete/juguete2.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Hueso</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/juguete/juguete1.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Hueso</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/juguete/juguete3.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Pelota</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/juguete/juguete2.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Hueso</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/juguete/juguete1.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Hueso</h3>
+          </a>
+        </div>
+        <div class="swiper-button-next">
+          <i class="bi bi-chevron-compact-left"></i>
+        </div>
+        <div class="swiper-button-prev">
+          <i class="bi bi-chevron-compact-right"></i>
+        </div>
+      </div>
+    </section>
+    <!--Juguetes-->
+    <!--Pipetas-->
+    <section class="categories containers pro">
+      <h3 class="section__title h3">
+        <a href="{% url 'pipeta' %}">Pipetas
+          <i class="bi bi-chevron-right" id="icono"></i>
+        </a>
+      </h3>
+      <div class="categories__container swiper">
+        <div class="swiper-wrapper">
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pipeta/pi1.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Shampoo</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pipeta/pi2.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Collar</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pipeta/pi3.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Osspret</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pipeta/pi4.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Osspret</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pipeta/pi5.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Levamisol</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pipeta/pi6.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Osspret</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pipeta/pi7.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Osspret</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pipeta/pi4.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Osspret</h3>
+          </a>
+        </div>
+        <div class="swiper-button-next">
+          <i class="bi bi-chevron-compact-left"></i>
+        </div>
+        <div class="swiper-button-prev">
+          <i class="bi bi-chevron-compact-right"></i>
+        </div>
+      </div>
+    </section>
+    <!--Pipetas-->
+    <!--Pesca-->
+    <section class="categories containers pro">
+      <h3 class="section__title h3">
+        <a href="{% url 'pesca' %}">Pesca
+          <i class="bi bi-chevron-right" id="icono"></i>
+        </a>
+      </h3>
+      <div class="categories__container swiper">
+        <div class="swiper-wrapper">
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pesca/pesca1.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Collar</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pesca/pesca2.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Anzuelo</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pesca/pesca3.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Boya</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pesca/pesca10.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Cucha</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pesca/pesca5.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Linterna</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pesca/pesca6.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Anzuelo</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pesca/pesca20.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Cartel</h3>
+          </a>
+          <a href="#" class="category__item swiper-slide">
+            <img src="{% static 'img/procli/pesca/pesca19.jpg' %}" alt="" class="category__img">
+          <h3 class="category__title">Bolsitas</h3>
+          </a>
+        </div>
+        <div class="swiper-button-next">
+          <i class="bi bi-chevron-compact-left"></i>
+        </div>
+        <div class="swiper-button-prev">
+          <i class="bi bi-chevron-compact-right"></i>
+        </div>
+      </div>
+    </section>
+    <!--Pesca-->
+  <!--Categoria productos; Carrusel-->
+  
+  <!--Parte de productos-->
+
+  <!-- Link de Bootstrap-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!--Link de Wripper-->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+  <!--Link de Js-->
+  <script src="{% static 'js/productoscli/catalogo.js' %}"></script>

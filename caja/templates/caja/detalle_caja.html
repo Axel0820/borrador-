@@ -1,0 +1,69 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/caja/caja.css' %}">
+
+<div class="container py-5">
+    <h2 class="text-center mb-4 fw-bold text-primary">
+        <i class="bi bi-clipboard-data me-2"></i>Detalle de Caja #{{ caja.id_caja }}
+    </h2>
+
+    <div class="card shadow-sm mb-4 border-start border-primary border-4">
+        <div class="card-body">
+            <h4 class="text-primary mb-3"><i class="bi bi-info-circle me-2"></i>Datos de la Caja</h4>
+            <ul class="list-unstyled mb-0">
+                <li><strong>👤 Empleado:</strong> {{ caja.id_emp_cj.nombre_emp }}</li>
+                <li><strong>📅 Fecha Apertura:</strong> {{ caja.fecha_apertura|date:"d/m/Y H:i" }}</li>
+                <li><strong>📅 Fecha Cierre:</strong> {{ caja.fecha_cierre|date:"d/m/Y H:i" }}</li>
+                <li><strong>💰 Saldo Inicial:</strong> ${{ caja.saldo_inicial|floatformat:2 }}</li>
+                <li><strong>💵 Saldo Final:</strong> ${{ caja.saldo_final|floatformat:2 }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ==============================
+         TABLA DE VENTAS ASOCIADAS A ESTA CAJA
+    =============================== -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title text-primary mb-3">
+                <i class="bi bi-receipt-cutoff me-2"></i>Ventas Registradas
+            </h5>
+            {% if ventas %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-primary text-center">
+                            <tr>
+                                <th>ID Venta</th>
+                                <th>Cliente</th>
+                                <th>Monto</th>
+                                <th>Método de Pago</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for venta in ventas %}
+                                <tr>
+                                    <td>{{ venta.id_compra }}</td>
+                                    <td>{{ venta.id_cliente_fk.nombre_cli }}</td>
+                                    <td>${{ venta.precio_compra|floatformat:2 }}</td>
+                                    <td>{{ venta.metodo_pago }}</td>
+                                    <td>{{ venta.fecha_compra|date:"d/m/Y" }}</td>
+                                    <td>{{ venta.hora_compra|time:"H:i" }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted">No hubo ventas registradas durante esta caja.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- BOTÓN VOLVER -->
+    <div class="text-center mt-4">
+        <a href="{% url 'caja:principal' %}" class="btn btn-outline-primary px-4 fw-semibold">
+            <i class="bi bi-arrow-left me-2"></i>Volver al historial
+        </a>
+    </div>
+</div>

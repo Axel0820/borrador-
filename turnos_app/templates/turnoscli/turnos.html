@@ -1,0 +1,134 @@
+{% load static %}
+{% load humanize %}
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<link rel="stylesheet" href="{% static 'css/turnos/turnosCli.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+<script src="{% static 'js/turnos/turnosCli.js' %}"></script>
+
+<div class="container">
+  <div class="contenedor">
+
+    <!-- CALENDARIO - Se muestra primero en móviles -->
+    <div class="calendario">
+      <h4>Calendario</h4>
+      <div id="calendar"></div>
+    </div>
+
+    <!-- Separador visible solo en móviles -->
+    <div class="d-block d-md-none" style="height: 10px;"></div>
+
+    <!-- FORMULARIO -->
+    <div class="formulario">
+      <h4>Registrar Mascota</h4>
+      <form id="formularioTurno">
+        
+        <!-- Nombre -->
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre *</label>
+          <input type="text" class="form-control" id="nombre" placeholder="Nombre de la mascota" required>
+        </div>
+
+        <!-- Tipo -->
+        <div class="mb-3">
+          <label for="tipo" class="form-label">Tipo *</label>
+          <select class="form-select" id="tipo" required>
+            <option value="">Seleccionar</option>
+            <option value="perro">🐶 Perro</option>
+            <option value="gato">🐱 Gato</option>
+            <option value="otro">🐾 Otro</option>
+          </select>
+        </div>
+
+        <!-- Género -->
+        <div class="mb-3">
+          <label class="form-label d-block">Género *</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="genero" id="macho" value="macho" required>
+            <label class="form-check-label" for="macho">Macho</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="genero" id="hembra" value="hembra">
+            <label class="form-check-label" for="hembra">Hembra</label>
+          </div>
+        </div>
+
+        <!-- Tamaño -->
+        <div class="mb-3">
+          <label for="tamano" class="form-label">Tamaño *</label>
+          <select class="form-select" id="tamano" required>
+            <option value="">Seleccionar</option>
+            <option value="pequeño">Pequeño</option>
+            <option value="mediano">Mediano</option>
+            <option value="grande">Grande</option>
+          </select>
+        </div>
+
+        <!-- Edad -->
+        <div class="mb-3">
+          <label for="edad" class="form-label">Edad</label>
+          <input type="number" class="form-control" id="edad" placeholder="En años" min="0" max="30">
+        </div>
+
+        <!-- Observaciones -->
+        <div class="mb-3">
+          <label for="observaciones" class="form-label">Observaciones</label>
+          <textarea class="form-control" id="observaciones" rows="3" placeholder="Observaciones adicionales (opcional)"></textarea>
+        </div>
+
+        <!-- Servicios -->
+        <div class="mb-3">
+          <label class="form-label">¿Qué servicio necesita? *</label>
+          <div class="caja">
+            <div class="caja1">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="Corte de pelo" id="servicio1">
+                <label class="form-check-label" for="servicio1">Corte de pelo</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="Baño" id="servicio2">
+                <label class="form-check-label" for="servicio2">Baño</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="Limpieza de orejas" id="servicio3">
+                <label class="form-check-label" for="servicio3">Limpieza de orejas</label>
+              </div>
+            </div>
+            <div class="caja2">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="Corte de uñas" id="servicio4">
+                <label class="form-check-label" for="servicio4">Corte de uñas</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="Corte sanitario" id="servicio5">
+                <label class="form-check-label" for="servicio5">Corte sanitario</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="Corte de raza" id="servicio6">
+                <label class="form-check-label" for="servicio6">Corte de raza</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fecha y Hora -->
+        <div class="mb-3">
+          <label for="fechaSeleccionada" class="form-label">Selecciona Fecha y Hora *</label>
+          <div class="fila-fecha-hora">
+            <input type="text" id="fechaSeleccionada" class="form-control" placeholder="Selecciona en el calendario" readonly required>
+            <input type="time" class="form-control" id="horaSeleccionada" min="10:00" max="21:00" required>
+          </div>
+        </div>
+
+        <!-- Botón -->
+        <div class="botonsito">
+          <button type="submit" class="btn btn-custom">Guardar Turno</button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</div>

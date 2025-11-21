@@ -1,0 +1,251 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Link Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!--Link Iconos de Bootstrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!--Link AJAX-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!--Link CSS-->
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <title>Iniciar Sesión</title>
+</head>
+<body>
+    <div class="contenedor" id="contenedor">
+        <div class="form-contenedor sign-in"> <!--fin contenedor de login, redirige al password-reset-->
+            <form method="POST"  id="loginForm" class="login-form" action="{% url 'login' %}"> <!--inicio sesion-->
+                <a href="{% url 'index' %}"><i class="bi bi-chevron-compact-left volver"></i></a>
+                {% csrf_token %}
+                <h2>Iniciar Sesion</h2>
+                <div class="icons"> <!--iconos de redes sociales-->
+                    <a href="#">
+                        <i class="bi bi-google"></i>
+                    </a>
+                    <a href="#">
+                        <i class="bi bi-apple"></i>
+                    </a>
+                    <a href="#">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                </div> <!--fin iconos-->
+                <div class="contenedor-input"> <!--inicio del login form-->
+                    <div class="icon-wrapper">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    {{ form.username|add_class:"form"|attr:"placeholder=Usuario"|attr:"required"|attr:"autocomplete=username" }}
+                </div>
+                <div class="contenedor-input">
+                    <span class="icon-wrapper">
+                        <i class="bi bi-lock toggle-lock" data-target="id_password"></i>
+                        <i class="bi bi-unlock toggle-unlock d-none" data-target="id_password"></i>
+                    </span>
+                    {{ form.password|add_class:"form"|attr:"placeholder=Contraseña"|attr:"required"|attr:"autocomplete=new-password" }}
+                </div>
+                <!--mensaje error general-->
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <i class="bi bi-exclamation-triangle-fill me-2" style="font-size: 1.2rem;"></i>
+                        Credenciales invalidas.
+                    </div>
+                {% endfor %}
+                <!--mensaje error general-->
+                <div class="form-check"> <!--pregunta de reccordar-->
+                    <input type="checkbox" class="form-check-input" id="formCheck">
+                    <label for="formCheck" class="form-check-label"><small>Recuerdame</small></label>
+                </div> <!--fin de pregunta de reccordar-->
+                <div class="pregunta"> <!--pregunta de contraseña-->
+                    <a href="#" data-url="{% url 'password_reset' %}" id="passwordResetLink">¿No recuerda su contraseña?</a>
+                </div> <!--fin de pregunta de contraseña-->
+                <button>Iniciar Sesion
+                    <a href="{% url 'index' %}"></a>
+                </button>
+            </form> <!--fin login form-->
+        </div> <!--fin contenedor de login, redirige al password-reset-->
+        <div class="cambiar-contenedor"> <!--contenedor de color, redirige al register-->
+            <div class="cambiar">
+                <div class="cambiar-panel cambiar-right">
+                    <h2>¡Bienvenido de nuevo!</h2>
+                    <p>Regístrese con sus datos personales para utilizar todas las funciones del sitio.</p>
+                    <button class="hidden" id="register">
+                        <a href="{% url 'registro' %}" class="link">Registrarse</a>
+                    </button>
+                </div>
+            </div>
+        </div> <!--fin contenedor de color, redirige al register-->
+    </div>
+    <!--Modal-->
+    <div class="modal fade" id="passwordModal" style="border-radius: 20px;" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ModalPassword" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" id="modalContent">
+                <!--Contenido de Model: en AJAX-->
+            </div>
+        </div>
+    </div>
+    <!--Modal-->
+    <!--Link Jquery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+    <!--Link Js de Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <!--AJAX-->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    // --- FUNCION PARA TOGGLE DE CONTRASEÑA ---
+    function setupPasswordToggles(container = document) {
+        container.querySelectorAll(".toggle-lock, .toggle-unlock").forEach(icon => {
+            if (icon.dataset.listenerAttached) return; // evitar múltiples listeners
+            icon.dataset.listenerAttached = true;
+
+            icon.addEventListener("click", () => {
+                const targetId = icon.getAttribute("data-target");
+                const input = document.getElementById(targetId);
+                if (!input) return;
+
+                const iconWrapper = icon.closest(".icon-wrapper");
+                const lockIcon = iconWrapper.querySelector(".toggle-lock");
+                const unlockIcon = iconWrapper.querySelector(".toggle-unlock");
+
+                if (input.type === "password") {
+                    input.type = "text";
+                    lockIcon.classList.add("d-none");
+                    unlockIcon.classList.remove("d-none");
+                } else {
+                    input.type = "password";
+                    unlockIcon.classList.add("d-none");
+                    lockIcon.classList.remove("d-none");
+                }
+            });
+        });
+    }
+
+    // Inicializar toggles del login al cargar la página
+    setupPasswordToggles();
+
+    // --- MODAL DE RESET DE CONTRASEÑA ---
+    const passwordResetLink = document.getElementById('passwordResetLink');
+    if(passwordResetLink){
+        passwordResetLink.addEventListener('click', function(e){
+            e.preventDefault();
+            let modal = new bootstrap.Modal(document.getElementById('passwordModal'));
+            modal.show();
+
+            fetch("{% url 'password_reset' %}")
+                .then(resp => resp.text())
+                .then(html => {
+                    const modalContent = document.getElementById('modalContent');
+                    modalContent.innerHTML = html;
+                    setupPasswordToggles(modalContent); // activar toggle dentro del modal
+                    attachResetFormSubmit();
+                });
+        });
+    }
+
+    function attachResetFormSubmit(){
+        const form = document.querySelector('#passwordResetForm');
+        if(!form) return;
+
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
+            let formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                const modalContent = document.getElementById('modalContent');
+                if(data.success){
+                    fetch("{% url 'password_reset_done' %}")
+                        .then(resp => resp.text())
+                        .then(html => {
+                            modalContent.innerHTML = html;
+                            setupPasswordToggles(modalContent); // por si hay inputs de password
+                            attachResetDoneNext();
+                        });
+                } else {
+                    modalContent.innerHTML = data.html;
+                    setupPasswordToggles(modalContent); 
+                    attachResetFormSubmit();
+                }
+            });
+        });
+    }
+
+    function attachResetDoneNext(){
+        const nextLink = document.querySelector('#confirmLink');
+        if(!nextLink) return;
+
+        nextLink.addEventListener('click', function(e){
+            e.preventDefault();
+            const url = nextLink.getAttribute('href');
+            fetch(url)
+                .then(resp => resp.text())
+                .then(html => {
+                    const modalContent = document.getElementById('modalContent');
+                    modalContent.innerHTML = html;
+                    setupPasswordToggles(modalContent);
+                    attachResetConfirmForm();
+                });
+        });
+    }
+
+    function attachResetConfirmForm(){
+        const form = document.querySelector('#passwordResetConfirmForm');
+        if(!form) return;
+
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
+            let formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                const modalContent = document.getElementById('modalContent');
+                if(data.success){
+                    fetch("{% url 'password_reset_complete' %}")
+                        .then(resp => resp.text())
+                        .then(html => {
+                            modalContent.innerHTML = html;
+                        });
+                } else {
+                    modalContent.innerHTML = data.html;
+                    setupPasswordToggles(modalContent);
+                    attachResetConfirmForm();
+                }
+            });
+        });
+    }
+
+    function attachResetInvalidLink(){
+        const link = document.querySelector('#resetAgainLink');
+        if(!link) return;
+
+        link.addEventListener('click', function(e){
+            e.preventDefault();
+            fetch("{% url 'password_reset' %}")
+                .then(resp => resp.text())
+                .then(html => {
+                    const modalContent = document.getElementById('modalContent');
+                    modalContent.innerHTML = html;
+                    setupPasswordToggles(modalContent);
+                    attachResetFormSubmit();
+                });
+        });
+    }
+
+});
+</script>
+
+</body>
+</html>

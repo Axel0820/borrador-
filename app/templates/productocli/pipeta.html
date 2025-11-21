@@ -1,0 +1,207 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Link de Boostrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!--Link Icons de Boostrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!--Link de CSS-->
+    <link rel="stylesheet" href="{% static 'css/productoscli/catalogo.css' %}">
+    <title>Alma Canina</title>
+</head>
+<body>
+    <!--Pipetas-->
+    <section class="categories containers pro">
+        <h3 class="section__title h3">
+            <a href="{% url 'catalogo' %}"> Pipetas
+                <i class="bi bi-chevron-left" id="icono2"></i>
+                <i class="bi bi-shop-window" id="icono3"></i>
+            </a>
+        </h3>
+        <div class="grid-container">
+            <div class="card">
+                <img src="{% static 'img/procli/pipeta/pi1.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Shampoo Osspret</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Shampoo antiparasitario externo. <br>
+                    Para perros.
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/pipeta/pi2.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Collar TEA</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Contra pulgas y garrapatas. <br>
+                    Para gatos.
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/pipeta/pi3.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Pipeta Osspret</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Para gatos pequeños. <br>
+                    Peso: Hasta 4kg
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/pipeta/pi4.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Pipeta Osspret Ultra</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Pulguisida, garrapatacida para perros. <br>
+                    Peso: 41kg a 60kg
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/pipeta/pi5.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Levamisol Oral</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Antiparasitario interno. <br>
+                    Para perros.
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/pipeta/pi6.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Pipeta Osspret</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Para perros. <br>
+                    Peso: Mas de 40kg
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{% static 'img/procli/pipeta/pi7.jpg' %}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h2 class="card-title">Pipeta Osspret</h2>
+                    <h6 class="card-price">Precio:<span> $5000</span></h6>
+                    <p class="card-text">Descripcion: <br>
+                    Para perros. <br>
+                    Peso: 21kg a 40kg
+                    </p>
+                </div>
+                <div class="botones">
+                    <a href="#">
+                        <button type="button" class="shop-button button">
+                            <i class="bi bi-cart-plus"></i> 
+                            Carrito
+                        </button>
+                    </a>
+                    <a href="#">
+                        <button type="button" class="shop-button">
+                            <i class="bi bi-bookmark-heart"></i>
+                            Favoritos
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Pipetas-->
+    <!--Link de Js-->
+    <script src="{% static 'js/productoscli/carrito.js' %}"></script>
+</body>
+</html>
